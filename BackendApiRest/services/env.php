@@ -1,0 +1,5 @@
+; <?php exit; ?>
+MYSQL_DATABASE_NAME = "Demo"
+MYSQL_USER = "developer"
+MYSQL_PASSWORD = "Webmaster2024@"
+ID_CARPETA_PADRE_DRIVE = "1X6xV8cz0YEkiuwE6YfIFEZFsuw9fL6zx"
