@@ -5,10 +5,10 @@ FROM node:18 AS build
 WORKDIR /app
 
 # Copiamos los archivos necesarios y las dependencias de Node.js
-COPY package*.json ./
+COPY package.json package-lock.json ./
 
 # Instalamos las dependencias
-RUN npm install
+RUN npm ci
 
 # Copiamos el resto del código fuente del frontend
 COPY . .
