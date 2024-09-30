@@ -1,5 +1,47 @@
 import React, { useState, useEffect, useRef } from "react";
 import Swal from "sweetalert2";
+import Select from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "23px",
+    minHeight: "24px",
+    height: "18px",
+    fontSize: "14px",
+    borderRadius: "5px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "12px",
+    margin: "6px 0",
+    padding: "2px 0px",
+  }),
+
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0px 20px 1px 1px",
+    marginTop: "0px",
+  }),
+
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //  display: "none", Oculta el indicador
+    marginTop: "-5px",
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 export function ModalInstancia2({
   modalInstancia2,
   setModalInstancia2,
@@ -195,6 +237,20 @@ export function ModalInstancia2({
     }
   };
 
+  const optionsEstadoMercancia =
+    formValues.proceso_estado_guia === "motivado"
+      ? [
+          { value: "direccion incorrecta", label: "Direccion Incorrecta" },
+          { value: "telefono apagado", label: "Telefono Apagado" },
+          { value: "zona no accesible", label: "Zona no Accesible" },
+          { value: "cliente de viaje", label: "Cliente de Viaje" },
+        ]
+      : [{ value: "entrega exitosa", label: "Entrega Exitosa" }];
+
+  const optionsProceso = [
+    { value: "motivado", label: "Motivo" },
+    { value: "entregado", label: "Entrega" },
+  ];
   return (
     <>
       <div
@@ -230,7 +286,7 @@ export function ModalInstancia2({
                           <label htmlFor="proceso" className="text-black">
                             Proceso
                           </label>
-                          <select
+                          {/* <select
                             name="proceso_estado_guia"
                             id="proceso_estado_guia"
                             className="w-[100%] text-center border bg-gray-100 px-1 border-gray-300 rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
@@ -241,7 +297,32 @@ export function ModalInstancia2({
                             <option value="">Elegir Proceso...</option>
                             <option value="motivado">Motivo</option>
                             <option value="entregado">Entrega</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            name="proceso_estado_guia"
+                            styles={customStyles}
+                            id="proceso_estado_guia"
+                            options={optionsProceso}
+                            value={
+                              optionsProceso.find(
+                                (option) =>
+                                  option.value ===
+                                  formValues.proceso_estado_guia
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "proceso_estado_guia",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            placeholder="Seleccione un Proceso"
+                            required
+                            className="w-[100%] text-center border bg-gray-100 border-gray-300 rounded-sm focus:outline-none focus:ring-0 focus:border-blue-500 focus:shadow-md"
+                          />
                         </div>
                         <div className="text-center">
                           <label
@@ -251,7 +332,7 @@ export function ModalInstancia2({
                             Estado Mercancia
                           </label>
                           <br />
-                          <select
+                          {/* <select
                             name="estado_mercancia_estado_guia"
                             id="estado_mercancia_estado_guia"
                             className="w-[100%] text-center border bg-gray-100 px-1 border-gray-300 rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
@@ -282,7 +363,33 @@ export function ModalInstancia2({
                                 Entrega Exitosa
                               </option>
                             )}
-                          </select>
+                          </select> */}
+                          <Select
+                            name="estado_mercancia_estado_guia"
+                            styles={customStyles}
+                            id="estado_mercancia_estado_guia"
+                            options={optionsEstadoMercancia}
+                            value={
+                              optionsEstadoMercancia.find(
+                                (option) =>
+                                  option.value ===
+                                  formValues.estado_mercancia_estado_guia
+                              ) || null
+                            }
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "estado_mercancia_estado_guia",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            placeholder="Seleccione un Estado"
+                            isDisabled={!formValues.proceso_estado_guia}
+                            required
+                            className="bg-gray-100 border rounded-sm"
+                          />
                         </div>
                         <div className="text-center">
                           <label htmlFor="fechaproceso" className="">

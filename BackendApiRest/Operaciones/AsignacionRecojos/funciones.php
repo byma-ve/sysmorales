@@ -47,7 +47,8 @@ function guardarAsignacion($data)
                 dni_auxiliar_recojo = :dni_auxiliar_recojo,
                 nombre_auxiliar_recojo = :nombre_auxiliar_recojo,
                 id_conductor_recojo = null,
-                id_auxiliar_recojo = null
+                id_auxiliar_recojo = null,
+                id_vehiculo_recojo = null
             WHERE id_orden_servicio_recojo = :id_orden_servicio_recojo";
 
             $stmt = $bd->prepare($sql);
@@ -67,6 +68,7 @@ function guardarAsignacion($data)
     } else {
         if (
             empty($data['id_conductor_recojo']) || empty($data['id_auxiliar_recojo']) || empty($data['id_orden_servicio_recojo'])
+            || empty($data['id_vehiculo_recojo'])
         ) {
             return ['success' => false, 'message' => 'Error: ¡Debe llenar todos los campos!', 'datos' => $data];
         }
@@ -78,14 +80,15 @@ function guardarAsignacion($data)
 
         if (!$existe) {
 
-            $sql = "INSERT INTO asignacion_recojos(fecha_creado, id_orden_servicio_recojo, id_conductor_recojo, id_auxiliar_recojo) 
-            VALUES (:fecha_creado, :id_orden_servicio_recojo, :id_conductor_recojo, :id_auxiliar_recojo)";
+            $sql = "INSERT INTO asignacion_recojos(fecha_creado, id_orden_servicio_recojo, id_conductor_recojo, id_auxiliar_recojo, id_vehiculo_recojo) 
+            VALUES (:fecha_creado, :id_orden_servicio_recojo, :id_conductor_recojo, :id_auxiliar_recojo, :id_vehiculo_recojo)";
 
             $stmt = $bd->prepare($sql);
             $stmt->bindParam(':fecha_creado', $fecha_actual);
             $stmt->bindParam(':id_orden_servicio_recojo', $data['id_orden_servicio_recojo']);
             $stmt->bindParam(':id_conductor_recojo', $data['id_conductor_recojo']);
             $stmt->bindParam(':id_auxiliar_recojo', $data['id_auxiliar_recojo']);
+            $stmt->bindParam(':id_vehiculo_recojo', $data['id_vehiculo_recojo']);
             if ($stmt->execute()) {
                 return ['success' => true, 'message' => '¡Asignado Correctamente!', 'datos' => $data];
             } else {
@@ -100,13 +103,15 @@ function guardarAsignacion($data)
                 dni_auxiliar_recojo = null,
                 nombre_auxiliar_recojo = null,
                 id_conductor_recojo = :id_conductor_recojo,
-                id_auxiliar_recojo = :id_auxiliar_recojo
+                id_auxiliar_recojo = :id_auxiliar_recojo,
+                id_vehiculo_recojo = :id_vehiculo_recojo
             WHERE id_orden_servicio_recojo = :id_orden_servicio_recojo";
 
             $stmt = $bd->prepare($sql);
             $stmt->bindParam(':id_orden_servicio_recojo', $data['id_orden_servicio_recojo']);
             $stmt->bindParam(':id_conductor_recojo', $data['id_conductor_recojo']);
             $stmt->bindParam(':id_auxiliar_recojo', $data['id_auxiliar_recojo']);
+            $stmt->bindParam(':id_vehiculo_recojo', $data['id_vehiculo_recojo']);
 
             if ($stmt->execute()) {
                 return ['success' => true, 'message' => '¡Actualizado Correctamente!', 'datos' => $data];
@@ -122,7 +127,7 @@ function obtenerAsignaciones()
     $bd = obtenerConexion();
     $stmt = $bd->query("SELECT 
     p.*, a.*, c.razon_social_cliente, u.DEPARTAMENTO AS departamento, u.PROVINCIA AS provincia, u.DESTINO AS distrito,
-    usu_conductor.colaborador_usuario AS nombre_conductor, usu_auxiliar.colaborador_usuario AS nombre_auxiliar
+    usu_conductor.colaborador_usuario AS nombre_conductor, usu_auxiliar.colaborador_usuario AS nombre_auxiliar, v.placa_vehiculo AS nombre_placa
 FROM 
     programaciones p
 LEFT JOIN 
@@ -135,6 +140,8 @@ LEFT JOIN
     usuarios usu_conductor ON usu_conductor.id = a.id_conductor_recojo
 LEFT JOIN 
     usuarios usu_auxiliar ON usu_auxiliar.id = a.id_auxiliar_recojo
+LEFT JOIN 
+    vehiculos v ON a.id_vehiculo_recojo = v.id
     ORDER BY p.id DESC;
     ");
     $data = $stmt->fetchAll(PDO::FETCH_ASSOC);

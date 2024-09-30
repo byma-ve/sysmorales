@@ -21,6 +21,7 @@ function FormDatos({
   const [distritos, setDistritos] = useState([]);
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState("");
+  const [distritoSeleccionada, setDistritoSeleccionada] = useState("");
 
   useEffect(() => {
     // Obtener departamentos
@@ -28,7 +29,13 @@ function FormDatos({
       "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
-      .then((data) => setDepartamentos(data))
+      .then((data) => {
+        const transformedDepartamentos = data.map((departamento) => ({
+          value: departamento.id,
+          label: departamento.nombre_dep,
+        }));
+        setDepartamentos(transformedDepartamentos);
+      })
       .catch((error) => console.error("Error fetching departamentos:", error));
   }, []);
 
@@ -39,7 +46,13 @@ function FormDatos({
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
-        .then((data) => setProvincias(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.id,
+            label: provincia.nombre_prov,
+          }));
+          setProvincias(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching provincias:", error));
     }
   }, [departamentoSeleccionado]);
@@ -51,7 +64,13 @@ function FormDatos({
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
-        .then((data) => setDistritos(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.ubigeo,
+            label: provincia.nombre_dist,
+          }));
+          setDistritos(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching distritos:", error));
     }
   }, [provinciaSeleccionada]);
@@ -59,11 +78,26 @@ function FormDatos({
   const handleDepartamentoChange = (event) => {
     setDepartamentoSeleccionado(event.target.value);
     setProvinciaSeleccionada("");
+    setDistritoSeleccionada("");
     setDistritos([]);
+    setFormData({
+      ...formData,
+      ubigeo_programacion: "",
+    });
   };
 
   const handleProvinciaChange = (event) => {
     setProvinciaSeleccionada(event.target.value);
+    setDistritoSeleccionada("");
+    setFormData({
+      ...formData,
+      ubigeo_programacion: "",
+    });
+  };
+
+  const handleDistritoChange = (event) => {
+    const distritoSeleccionado = event.target.value;
+    setDistritoSeleccionada(distritoSeleccionado);
   };
 
   // DEPARTAMENTO - PROVINCIA - DISTRITO
@@ -107,13 +141,6 @@ function FormDatos({
     }
   }, [totalesProgramacion]);
 
-  // const handleInputChange = (selectedOption) => {
-  //   setFormData({
-  //     ...formData,
-  //     id_orden_servicio: selectedOption ? selectedOption.value : "",
-  //   });
-  // };
-
   const handleInputChange = (event) => {
     console.log(formData);
     setFormData({
@@ -127,6 +154,7 @@ function FormDatos({
     setFormData({
       ...formData,
       id_orden_servicio: selectedOption ? selectedOption.value : "",
+      ubigeo_programacion: "",
     });
   };
 
@@ -134,12 +162,14 @@ function FormDatos({
     setTotalesProgramacion(null);
     setDepartamentoSeleccionado(0);
     setProvinciaSeleccionada(0);
+    setDistritoSeleccionada(0);
   }, [resetForm]);
 
   useEffect(() => {
     if (formData.id_orden_servicio) {
       setDepartamentoSeleccionado(formData.departamento_id);
       setProvinciaSeleccionada(formData.provincia_id);
+      setDistritoSeleccionada(formData.ubigeo_programacion)
       cargarTotales(formData.id_orden_servicio);
       setClickEditar(false);
     }
@@ -224,55 +254,56 @@ function FormDatos({
     }),
   };
 
-     const customStyles3 = {
-       control: (provided, state) => ({
-         ...provided,
-         maxHeight: "23px",
-         minHeight: "20px",
-         height: "2px",
-         fontSize: "12px",
-         borderRadius: "5px",
-         backgroundColor: "transparent",
-         border: "none",
-         marginTop: "0",
-       }),
-       menuList: (provided) => ({
-         ...provided,
-         maxHeight: "190px",
-         overflowY: "auto",
-       }),
-       menu: (provided) => ({
-         ...provided,
-         borderRadius: "5px",
-         fontSize: "12px",
-         margin: "6px 0",
-         padding: "2px 0px",
-       }),
-       option: (provided, state) => ({
-         ...provided,
-         borderRadius: "5px",
-         padding: "2px 4px",
-         maxHeight: "20px",
-       }),
-       valueContainer: (provided) => ({
-         ...provided,
-         padding: "0px 20px 1px 2px",
-         marginTop: "-2px",
-       }),
+  const customStyles3 = {
+    control: (provided, state) => ({
+      ...provided,
+      maxHeight: "23px",
+      minHeight: "20px",
+      height: "2px",
+      fontSize: "12px",
+      borderRadius: "5px",
+      backgroundColor: "transparent",
+      border: "none",
+      marginTop: "0",
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: "120px",
+      overflowY: "auto",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: "5px",
+      fontSize: "12px",
+      margin: "6px 0",
+      padding: "2px 0px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      borderRadius: "5px",
+      padding: "2px 4px",
+      maxHeight: "20px",
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      padding: "0px 20px 1px 2px",
+      marginTop: "-2px",
+    }),
 
-       dropdownIndicator: (provided, state) => ({
-         ...provided,
-         display: "none", // Oculta el indicador
-       }),
-       indicatorSeparator: (provided, state) => ({
-         ...provided,
-         display: "none", // Oculta la barrita al lado del indicador
-       }),
-     };
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      display: "none", // Oculta el indicador
+    }),
+    indicatorSeparator: (provided, state) => ({
+      ...provided,
+      display: "none", // Oculta la barrita al lado del indicador
+    }),
+  };
   const handleChangePrueba = (selectedOption) => {
     setSeleccionOrdenServicio(selectedOption.value);
     setSelectedValue(selectedOption);
     handleSelectChange(selectedOption);
+    
   };
   return (
     <>
@@ -307,7 +338,7 @@ function FormDatos({
                         styles={customStyles}
                         placeholder="Elegir guia madre"
                         onChange={handleChangePrueba}
-                        className="react-select-container border  bg-gray-100  rounded-md focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
+                        className="react-select-container border  bg-gray-100  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
                         classNamePrefix="react-select"
                       />
                     </div>
@@ -392,10 +423,7 @@ function FormDatos({
                           styles={customStyles3}
                           className="text-xs text-start w-full "
                           placeholder="Elegir Departamento"
-                          options={departamentos.map((departamento) => ({
-                            value: departamento.id,
-                            label: departamento.nombre_dep,
-                          }))}
+                          options={departamentos}
                           onChange={(selectedOption) =>
                             handleDepartamentoChange({
                               target: {
@@ -405,6 +433,14 @@ function FormDatos({
                             })
                           }
                           required
+                          value={
+                            departamentoSeleccionado
+                              ? departamentos.find(
+                                  (option) =>
+                                    option.value === departamentoSeleccionado
+                                )
+                              : null
+                          }
                         />
                       </div>
                     </div>
@@ -439,7 +475,7 @@ function FormDatos({
                       </label>
                     </div>
                     <div>
-                      <select
+                      {/* <select
                         className="w-[90%] ml-[-5%] lg:ml-[-20%] xl:ml-[-25%] 2xl:ml-[-40%] pl-1 text-gray-600 font-semibold border rounded text-xs -md h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
                         onChange={handleProvinciaChange}
                         disabled={!departamentoSeleccionado}
@@ -454,7 +490,35 @@ function FormDatos({
                             {provincia.nombre_prov}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
+                      <div className="w-[90%]  z-10 mt-[3px] lg:ml-[-20%] xl:ml-[-25%] 2xl:ml-[-40%]   text-gray-600  text-xs -md  focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md  border">
+                        <Select
+                          styles={customStyles3}
+                          options={provincias}
+                          placeholder="Elegir Provincia"
+                          onChange={(selectedOption) =>
+                            handleProvinciaChange({
+                              target: {
+                                name: "provincia",
+                                value: selectedOption.value,
+                              },
+                            })
+                          }
+                          name="provincia"
+                          id="provincia"
+                          isDisabled={!departamentoSeleccionado}
+                          className="text-xs text-start w-full "
+                          value={
+                            provinciaSeleccionada
+                              ? provincias.find(
+                                  (option) =>
+                                    option.value === provinciaSeleccionada
+                                )
+                              : null
+                          }
+                          required
+                        ></Select>
+                      </div>
                     </div>
                     <div className="">
                       <label
@@ -488,7 +552,7 @@ function FormDatos({
                       </label>
                     </div>
                     <div>
-                      <select
+                      {/* <select
                         className="w-[90%] ml-[-5%] lg:ml-[-20%] xl:ml-[-25%] 2xl:ml-[-40%] pl-1 text-gray-600 font-semibold border rounded text-xs -md h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
                         name="ubigeo_programacion"
                         id="ubigeo_programacion"
@@ -503,7 +567,37 @@ function FormDatos({
                             {distrito.nombre_dist}
                           </option>
                         ))}
-                      </select>
+                      </select> */}
+                      <div className="w-[90%]  z-10 mt-[3px] lg:ml-[-20%] xl:ml-[-25%] 2xl:ml-[-40%]   text-gray-600  text-xs -md  focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md  border">
+                        <Select
+                          name="ubigeo_programacion"
+                          id="ubigeo_programacion"
+                          styles={customStyles3}
+                          className="text-xs text-start w-full "
+                          isDisabled={!provinciaSeleccionada}
+                          options={distritos}
+                          placeholder="Elegir Distrito"
+                          onChange={(selectedOption) => {
+                            const event = {
+                              target: {
+                                name: "ubigeo_programacion",
+                                value: selectedOption.value,
+                              },
+                            };
+                            handleInputChange(event);
+                            handleDistritoChange(event);
+                          }}
+                          value={
+                            distritoSeleccionada
+                              ? distritos.find(
+                                  (option) =>
+                                    option.value === distritoSeleccionada
+                                )
+                              : null
+                          }
+                          required
+                        ></Select>
+                      </div>
                     </div>
                     <div className="">
                       <label

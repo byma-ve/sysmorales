@@ -1,13 +1,28 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext, useState } from "react";
 import Select from "react-select";
 import { IconoCheck } from "../../Iconos/Iconos-NavBar";
-import LogoBlanco from "../../Static/Img_Pred/LogoBlanco.webp"
+import LogoBlanco from "../../Static/Img_Pred/LogoBlanco.webp";
 import LogoOscuro from "../../Static/Img_Pred/LogoOscuro.webp";
+import { BlockPicker } from "react-color";
+
+import { ColorContext } from "../../Context/ColorProvider";
+
 const options = [
   { value: "RUC", label: "RUC" },
   { value: "DNI", label: "DNI" },
 ];
+
 const Configuracion = ({ modalConfiguracion, setModalConfiguracion }) => {
+  const { setColor } = useContext(ColorContext); // Obtiene la función para actualizar el color global
+  const [localColor, setLocalColor] = useState("#60a5fa"); // Estado local para manejar cambios antes de guardarlos
+  const handleColorChange = (color) => {
+    setLocalColor(color.hex); // Actualiza el color localmente antes de guardar
+  };
+
+  const handleSaveColor = () => {
+    setColor(localColor); // Guarda el color al contexto
+    setModalConfiguracion(false);
+  };
   const CerraModal = () => {
     setModalConfiguracion(false);
   };
@@ -138,6 +153,26 @@ const Configuracion = ({ modalConfiguracion, setModalConfiguracion }) => {
                     </div>
                     <div className=" text-xs px-2 text-gray-500 text-semibold">
                       Recomendaciones: Webp, Logo oscuro, tamaño máximo de 100KB
+                      y 300 x 140 pixeles.
+                    </div>
+                    <div className="w-full">
+                      <BlockPicker
+                        color={localColor}
+                        onChange={handleColorChange}
+                        width="100%"
+                      />
+
+                      {/* <p>Color PDF seleccionado: {color}</p> */}
+                      {/* <div
+                        style={{
+                          backgroundColor: color,
+                          width: "100px",
+                          height: "100px",
+                        }}
+                      ></div> */}
+                    </div>
+                    <div className=" text-xs px-2 text-gray-500 text-semibold">
+                      Recomendaciones: Webp, Logo blanco, tamaño máximo de 100KB
                       y 300 x 140 pixeles.
                     </div>
                   </div>
@@ -633,7 +668,10 @@ const Configuracion = ({ modalConfiguracion, setModalConfiguracion }) => {
                           >
                             Cancelar
                           </button>
-                          <button className="px-6 py-2 text-white bg-gradient-to-t   from-blue-400 via-blue-500 to-blue-500 hover:bg-gradient-to-br rounded-md">
+                          <button
+                            onClick={handleSaveColor}
+                            className="px-6 py-2 text-white bg-gradient-to-t   from-blue-400 via-blue-500 to-blue-500 hover:bg-gradient-to-br rounded-md"
+                          >
                             Guardar
                           </button>
                         </div>

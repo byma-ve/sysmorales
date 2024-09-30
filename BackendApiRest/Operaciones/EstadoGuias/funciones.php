@@ -3,7 +3,7 @@ function guardarPDFDrive($pdf, $nombreArchivo, $cliente, $fechaCreado, $Intento)
 
 {
     require_once('../../services/api_google_drive/api-google/vendor/autoload.php');
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=../../services/api_google_drive/bymavearchivos-f8c2d3d5790f.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=/etc/google/bymavearchivos-79d38d06a262.json');
     $idCarpetaPadre = obtenerVariableDelEntorno("ID_CARPETA_PADRE_DRIVE");
     $client = new Google_Client();
     $client->useApplicationDefaultCredentials();
@@ -48,17 +48,16 @@ function crearEstructuraCarpetas($servicio, $idCarpetaRaiz, $anio, $mes, $client
 
     $idCarpetaIntento = crearCarpetaSinoExiste($servicio, $idCarpetaImagenes, $Intento);
 
-    if ($tipo == 'PDF') {
+    if($tipo == 'PDF'){
         $idCarpetaGuia = crearCarpetaSinoExiste($servicio, $idCarpetaIntento, 'Cargos');
-    } else {
+    }else{
         $idCarpetaGuia = crearCarpetaSinoExiste($servicio, $idCarpetaIntento, 'Imágenes');
     }
 
     return $idCarpetaGuia;
 }
 
-function obtenerNombreMes($numeroMes)
-{
+function obtenerNombreMes($numeroMes) {
     $meses = array(
         1 => 'Enero',
         2 => 'Febrero',
@@ -77,8 +76,7 @@ function obtenerNombreMes($numeroMes)
     return $meses[$numeroMes];
 }
 
-function crearCarpetaSinoExiste($service, $idCarpetaPadre, $nombreCarpeta)
-{
+function crearCarpetaSinoExiste($service, $idCarpetaPadre, $nombreCarpeta) {
     $carpetasExistentes = $service->files->listFiles(array(
         'q' => "name='" . $nombreCarpeta . "' and '" . $idCarpetaPadre . "' in parents",
         'fields' => 'files(id, name)'
@@ -98,8 +96,7 @@ function crearCarpetaSinoExiste($service, $idCarpetaPadre, $nombreCarpeta)
     }
 }
 
-function reemplazarArchivoSiExiste($service, $idCarpeta, $nombreArchivo)
-{
+function reemplazarArchivoSiExiste($service, $idCarpeta, $nombreArchivo) {
     // Buscar archivos existentes con el mismo nombre en la carpeta
     $archivosExistentes = $service->files->listFiles(array(
         'q' => "name='{$nombreArchivo}' and '{$idCarpeta}' in parents and trashed=false",
@@ -117,7 +114,7 @@ function reemplazarArchivoSiExiste($service, $idCarpeta, $nombreArchivo)
 function guardarImagen($imagen_guia, $id_num_guia, $cliente, $numeroImagen, $fechaCreado, $Intento)
 {
     require_once('../../services/api_google_drive/api-google/vendor/autoload.php');
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=../../services/api_google_drive/bymavearchivos-f8c2d3d5790f.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=/etc/google/bymavearchivos-79d38d06a262.json');
     $idCarpetaPadre = obtenerVariableDelEntorno("ID_CARPETA_PADRE_DRIVE");
     $imagen_temporal = $imagen_guia['tmp_name'];
     $imagen = imagecreatefromstring(file_get_contents($imagen_temporal));
@@ -133,7 +130,7 @@ function guardarImagen($imagen_guia, $id_num_guia, $cliente, $numeroImagen, $fec
     $anioActual = date('Y', $timestamp);
     $mesActual = date('n', $timestamp);
     $IdCarpeta = crearEstructuraCarpetas($service, $idCarpetaPadre, $anioActual, $mesActual, $cliente, $Intento, 'Imagenes');
-    $nombreArchivo = "$id_num_guia / $numeroImagen";
+    $nombreArchivo = "$id_num_guia / $cliente / $numeroImagen";
     reemplazarArchivoSiExiste($service, $IdCarpeta, $nombreArchivo);
     $file = new Google_Service_Drive_DriveFile();
     $file->setName($nombreArchivo); // Nombre del Archivo
@@ -226,9 +223,9 @@ function guardarIntento3($data)
         $imagen1 = !empty($data->imagen_1_estado_guia) ? guardarImagen($data->imagen_1_estado_guia, $data->id_num_guia_estado_guia, $cliente, 1, $data->fecha_proceso_estado_guia, 'Tercer Intento') : null;
         $imagen2 = !empty($data->imagen_2_estado_guia) ? guardarImagen($data->imagen_2_estado_guia, $data->id_num_guia_estado_guia, $cliente, 2, $data->fecha_proceso_estado_guia, 'Tercer Intento') : null;
         $imagen3 = !empty($data->imagen_3_estado_guia) ? guardarImagen($data->imagen_3_estado_guia, $data->id_num_guia_estado_guia, $cliente, 3, $data->fecha_proceso_estado_guia, 'Tercer Intento') : null;
-        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, 4, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
-        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, 5, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
-        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, 6, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
+        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
+        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
+        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, $data->fecha_proceso_estado_guia, "Tercer Intento") : null;
 
         $sql = "INSERT INTO estados_guias (id_num_guia_estado_guia, num_intento_estado_guia, proceso_estado_guia, estado_mercancia_estado_guia, fecha_proceso_estado_guia, comentario_estado_guia, imagen_1_estado_guia, imagen_2_estado_guia, imagen_3_estado_guia, imagen_4_estado_guia, imagen_5_estado_guia, imagen_6_estado_guia, id_creador_estado_guia, fecha_creado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $params = [
@@ -330,9 +327,9 @@ function guardarIntento2($data)
         $imagen1 = !empty($data->imagen_1_estado_guia) ? guardarImagen($data->imagen_1_estado_guia, $data->id_num_guia_estado_guia, $cliente, 1, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
         $imagen2 = !empty($data->imagen_2_estado_guia) ? guardarImagen($data->imagen_2_estado_guia, $data->id_num_guia_estado_guia, $cliente, 2, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
         $imagen3 = !empty($data->imagen_3_estado_guia) ? guardarImagen($data->imagen_3_estado_guia, $data->id_num_guia_estado_guia, $cliente, 3, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
-        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, 4, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
-        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, 5, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
-        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, 6, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
+        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
+        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
+        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, $data->fecha_proceso_estado_guia, "Segundo Intento") : null;
 
         $sql = "INSERT INTO estados_guias (id_num_guia_estado_guia, num_intento_estado_guia, proceso_estado_guia, estado_mercancia_estado_guia, fecha_proceso_estado_guia, comentario_estado_guia, imagen_1_estado_guia, imagen_2_estado_guia, imagen_3_estado_guia, imagen_4_estado_guia, imagen_5_estado_guia, imagen_6_estado_guia, id_creador_estado_guia, fecha_creado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $params = [
@@ -434,9 +431,9 @@ function guardarIntento1($data)
         $imagen1 = !empty($data->imagen_1_estado_guia) ? guardarImagen($data->imagen_1_estado_guia, $data->id_num_guia_estado_guia, $cliente, 1, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
         $imagen2 = !empty($data->imagen_2_estado_guia) ? guardarImagen($data->imagen_2_estado_guia, $data->id_num_guia_estado_guia, $cliente, 2, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
         $imagen3 = !empty($data->imagen_3_estado_guia) ? guardarImagen($data->imagen_3_estado_guia, $data->id_num_guia_estado_guia, $cliente, 3, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
-        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, 4, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
-        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, 5, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
-        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, 6, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
+        $imagen4 = !empty($data->imagen_4_estado_guia) ? guardarPDFDrive($data->imagen_4_estado_guia, "$data->id_num_guia_estado_guia / Global", $cliente, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
+        $imagen5 = !empty($data->imagen_5_estado_guia) ? guardarPDFDrive($data->imagen_5_estado_guia, "$data->id_num_guia_estado_guia / Remitente", $cliente, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
+        $imagen6 = !empty($data->imagen_6_estado_guia) ? guardarPDFDrive($data->imagen_6_estado_guia, "$data->id_num_guia_estado_guia / Factura", $cliente, $data->fecha_proceso_estado_guia, "Primer Intento") : null;
 
         $sql = "INSERT INTO estados_guias (id_num_guia_estado_guia, num_intento_estado_guia, proceso_estado_guia, estado_mercancia_estado_guia, fecha_proceso_estado_guia, comentario_estado_guia, imagen_1_estado_guia, imagen_2_estado_guia, imagen_3_estado_guia, imagen_4_estado_guia, imagen_5_estado_guia, imagen_6_estado_guia, id_creador_estado_guia, fecha_creado) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $params = [
@@ -527,6 +524,7 @@ function obtenerVariableDelEntorno($key)
         throw new Exception("La clave especificada (" . $key . ") no existe en el archivo de las variables de entorno");
     }
 }
+
 
 function obtenerConexion()
 {

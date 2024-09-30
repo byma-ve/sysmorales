@@ -130,13 +130,13 @@ function AgregarMasivo({ modalMasivo, setModalMasivo, id_cliente, id_area, carga
         }
 
         const V1 = worksheet.getRow(1).getCell(22).value;
-        if (String(V1).toUpperCase() !== "DOC-ADICIONAL(1)") {
-          throw new Error('La columna V1 no contiene DOC-ADICIONAL(1)');
+        if (String(V1).toUpperCase() !== "NRO. PEDIDO") {
+          throw new Error('La columna V1 no contiene NRO. PEDIDO');
         }
 
         const W1 = worksheet.getRow(1).getCell(23).value;
-        if (String(W1).toUpperCase() !== "DOC-ADICIONAL(2)") {
-          throw new Error('La columna W1 no contiene DOC-ADICIONAL(2)');
+        if (String(W1).toUpperCase() !== "DOC-ADICIONAL") {
+          throw new Error('La columna W1 no contiene DOC-ADICIONAL');
         }
 
         const parsedData = [];

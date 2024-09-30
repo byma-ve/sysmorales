@@ -1,9 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import Swal from 'sweetalert2';
+import React, { useState, useEffect } from "react";
+import Swal from "sweetalert2";
 import Select from "react-select";
 
-function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarListaEnvios }) {
-
+function AgregarEnvio({
+  modalEnvio,
+  setModalEnvio,
+  id_cliente,
+  id_area,
+  cargarListaEnvios,
+}) {
   // Estado para guardar el tipo de tarifario
   const [tipoTarifario, setTipoTarifario] = useState("");
 
@@ -18,53 +23,78 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
     setModalEnvio(false);
   };
 
-
   //BACKEND
 
   // Departamento - Provincia - Distrito / Select
   const [departamentos, setDepartamentos] = useState([]);
   const [provincias, setProvincias] = useState([]);
   const [distritos, setDistritos] = useState([]);
-  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState('');
-  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState('');
-  const [distritoSeleccionada, setDistritoSeleccionada] = useState('');
+  const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
+  const [provinciaSeleccionada, setProvinciaSeleccionada] = useState("");
+  const [distritoSeleccionada, setDistritoSeleccionada] = useState("");
 
   useEffect(() => {
     // Obtener departamentos
-    fetch('https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos')
-      .then(response => response.json())
-      .then(data => setDepartamentos(data))
-      .catch(error => console.error('Error fetching departamentos:', error));
+    fetch(
+      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        const transformedDepartamentos = data.map((departamento) => ({
+          value: departamento.id,
+          label: departamento.nombre_dep,
+        }));
+        setDepartamentos(transformedDepartamentos);
+      })
+      .catch((error) => console.error("Error fetching departamentos:", error));
   }, []);
 
   useEffect(() => {
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
-      fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`)
-        .then(response => response.json())
-        .then(data => setProvincias(data))
-        .catch(error => console.error('Error fetching provincias:', error));
+      fetch(
+        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.id,
+            label: provincia.nombre_prov,
+          }));
+          setProvincias(transformedDepartamentos);
+        })
+        .catch((error) => console.error("Error fetching provincias:", error));
     }
   }, [departamentoSeleccionado]);
 
   useEffect(() => {
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
-      fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`)
-        .then(response => response.json())
-        .then(data => setDistritos(data))
-        .catch(error => console.error('Error fetching distritos:', error));
+      fetch(
+        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.ubigeo,
+            label: provincia.nombre_dist,
+          }));
+          setDistritos(transformedDepartamentos);
+        })
+        .catch((error) => console.error("Error fetching distritos:", error));
     }
   }, [provinciaSeleccionada]);
 
   const handleDepartamentoChange = (event) => {
     setDepartamentoSeleccionado(event.target.value);
-    setProvinciaSeleccionada('');
+    setProvinciaSeleccionada("");
+    setDistritoSeleccionada("");
     setDistritos([]);
   };
 
   const handleProvinciaChange = (event) => {
     setProvinciaSeleccionada(event.target.value);
+    setDistritoSeleccionada("");
   };
 
   const handleDistritoChange = (event) => {
@@ -73,15 +103,17 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
   };
 
   // Tmin - Tmax Entrega
-  const [datosTarifario, setDatosTarifario] = useState('');
+  const [datosTarifario, setDatosTarifario] = useState("");
 
   useEffect(() => {
-    setDatosTarifario('');
-    setValorSeleccionado('');
+    setDatosTarifario("");
+    setValorSeleccionado("");
     if (distritoSeleccionada || tipoTarifario) {
-      fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`)
-        .then(response => response.json())
-        .then(data => {
+      fetch(
+        `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
           setDatosTarifario(data);
         });
     }
@@ -89,98 +121,120 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   // Total Tarifa
 
-  const [cantidadMerc, setCantidadMerc] = useState('');
-  const [pesoMerc, setPesoMerc] = useState('');
-  const [largo, setLargo] = useState('');
-  const [ancho, setAncho] = useState('');
-  const [alto, setAlto] = useState('');
-  const [totalTarifa, setTotalTarifa] = useState('');
-  const [pesoVolumen, setPesoVolumen] = useState('');
-  const [metrosCubicos, setMetrosCubicos] = useState('');
-  const [valorSeleccionado, setValorSeleccionado] = useState('');
+  const [cantidadMerc, setCantidadMerc] = useState("");
+  const [pesoMerc, setPesoMerc] = useState("");
+  const [largo, setLargo] = useState("");
+  const [ancho, setAncho] = useState("");
+  const [alto, setAlto] = useState("");
+  const [totalTarifa, setTotalTarifa] = useState("");
+  const [pesoVolumen, setPesoVolumen] = useState("");
+  const [metrosCubicos, setMetrosCubicos] = useState("");
+  const [valorSeleccionado, setValorSeleccionado] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/totalTarifa.php`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            cantidadMerc,
-            pesoMerc,
-            largo,
-            ancho,
-            alto,
-            distritoSeleccionada,
-            id_cliente,
-            id_area,
-            tipoTarifario,
-            valorSeleccionado
-          }),
-        });
+        const response = await fetch(
+          `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/totalTarifa.php`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              cantidadMerc,
+              pesoMerc,
+              largo,
+              ancho,
+              alto,
+              distritoSeleccionada,
+              id_cliente,
+              id_area,
+              tipoTarifario,
+              valorSeleccionado,
+            }),
+          }
+        );
 
         const data = await response.json();
         setTotalTarifa(data.result);
-        setPesoVolumen(data.pesoVolumen)
-        setMetrosCubicos(data.metrosCubicos)
+        setPesoVolumen(data.pesoVolumen);
+        setMetrosCubicos(data.metrosCubicos);
       } catch (error) {
-        console.error('Error al hacer la solicitud a la API:', error);
+        console.error("Error al hacer la solicitud a la API:", error);
       }
     };
 
-    if (cantidadMerc !== '' && pesoMerc !== '') {
+    if (cantidadMerc !== "" && pesoMerc !== "") {
       fetchData();
     }
-  }, [cantidadMerc, pesoMerc, largo, ancho, alto, distritoSeleccionada, tipoTarifario, valorSeleccionado]);
+  }, [
+    cantidadMerc,
+    pesoMerc,
+    largo,
+    ancho,
+    alto,
+    distritoSeleccionada,
+    tipoTarifario,
+    valorSeleccionado,
+  ]);
 
   // Cargos Adicionales
-  const [valorMercancia, setValorMercancia] = useState('');
-  const [packing, setPacking] = useState('');
-  const [costoRetorno, setCostoRetorno] = useState('');
-  const [estibaDesestiba, setEstibaDesestiba] = useState('');
-  const [montaCarga, setMontaCarga] = useState('');
-  const [transporteExtra, setTransporteExtra] = useState('');
-  const [totalAdicional, setTotalAdicional] = useState('');
-  const [seguroAdicional, setSeguroAdicional] = useState('');
+  const [valorMercancia, setValorMercancia] = useState("");
+  const [packing, setPacking] = useState("");
+  const [costoRetorno, setCostoRetorno] = useState("");
+  const [estibaDesestiba, setEstibaDesestiba] = useState("");
+  const [montaCarga, setMontaCarga] = useState("");
+  const [transporteExtra, setTransporteExtra] = useState("");
+  const [totalAdicional, setTotalAdicional] = useState("");
+  const [seguroAdicional, setSeguroAdicional] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/cargosAdicionales.php`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            valorMercancia,
-            packing,
-            costoRetorno,
-            estibaDesestiba,
-            montaCarga,
-            transporteExtra
-          }),
-        });
+        const response = await fetch(
+          `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/cargosAdicionales.php`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              valorMercancia,
+              packing,
+              costoRetorno,
+              estibaDesestiba,
+              montaCarga,
+              transporteExtra,
+            }),
+          }
+        );
 
         const data = await response.json();
         setTotalAdicional(data.result);
         setSeguroAdicional(data.seguroAdicional);
       } catch (error) {
-        console.error('Error al hacer la solicitud a la API:', error);
+        console.error("Error al hacer la solicitud a la API:", error);
       }
     };
 
-    if (valorMercancia !== '') {
+    if (valorMercancia !== "") {
       fetchData();
     }
-  }, [valorMercancia, packing, costoRetorno, estibaDesestiba, montaCarga, transporteExtra]);
+  }, [
+    valorMercancia,
+    packing,
+    costoRetorno,
+    estibaDesestiba,
+    montaCarga,
+    transporteExtra,
+  ]);
 
   // Peso Merc * Cant Merc
 
   const handleCantMercChange = (event) => {
     let cantidadMercancia = event.target.value;
-    if (cantidadMercancia === '') {
+    if (cantidadMercancia === "") {
       cantidadMercancia = 0;
     }
     setCantidadMerc(cantidadMercancia);
@@ -188,7 +242,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handlePesoMercChange = (event) => {
     let pesoMercancia = event.target.value;
-    if (pesoMercancia === '') {
+    if (pesoMercancia === "") {
       pesoMercancia = 0;
     }
     setPesoMerc(pesoMercancia);
@@ -198,7 +252,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleLargoChange = (event) => {
     let largoValue = event.target.value;
-    if (largoValue === '') {
+    if (largoValue === "") {
       largoValue = 0;
     }
     setLargo(largoValue);
@@ -206,7 +260,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleAnchoChange = (event) => {
     let anchoValue = event.target.value;
-    if (anchoValue === '') {
+    if (anchoValue === "") {
       anchoValue = 0;
     }
     setAncho(anchoValue);
@@ -214,7 +268,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleAltoChange = (event) => {
     let altoValue = event.target.value;
-    if (altoValue === '') {
+    if (altoValue === "") {
       altoValue = 0;
     }
     setAlto(altoValue);
@@ -224,7 +278,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleValorMercanciaChange = (event) => {
     let valorMercanciaValue = event.target.value;
-    if (valorMercanciaValue === '') {
+    if (valorMercanciaValue === "") {
       valorMercanciaValue = 0;
     }
     setValorMercancia(valorMercanciaValue);
@@ -232,7 +286,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handlePackingChange = (event) => {
     let packingValue = event.target.value;
-    if (packingValue === '') {
+    if (packingValue === "") {
       packingValue = 0;
     }
     setPacking(packingValue);
@@ -240,7 +294,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleCostoRetornoChange = (event) => {
     let costoRetornoValue = event.target.value;
-    if (costoRetornoValue === '') {
+    if (costoRetornoValue === "") {
       costoRetornoValue = 0;
     }
     setCostoRetorno(costoRetornoValue);
@@ -248,7 +302,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleEstibaDesestibaChange = (event) => {
     let estibaDesestibaValue = event.target.value;
-    if (estibaDesestibaValue === '') {
+    if (estibaDesestibaValue === "") {
       estibaDesestibaValue = 0;
     }
     setEstibaDesestiba(estibaDesestibaValue);
@@ -256,7 +310,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleMontaCargaChange = (event) => {
     let montaCargaVAlue = event.target.value;
-    if (montaCargaVAlue === '') {
+    if (montaCargaVAlue === "") {
       montaCargaVAlue = 0;
     }
     setMontaCarga(montaCargaVAlue);
@@ -264,7 +318,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
 
   const handleTransporteExtraChange = (event) => {
     let transporteExtraValue = event.target.value;
-    if (transporteExtraValue === '') {
+    if (transporteExtraValue === "") {
       transporteExtraValue = 0;
     }
     setTransporteExtra(transporteExtraValue);
@@ -276,39 +330,41 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
   const [optionsValorizado, setOptionsValorizado] = useState([]);
 
   useEffect(() => {
-    if (tipoTarifario === 'Valorizada') {
-      fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`)
-      .then((response) => response.json())
-      // .then((data) => setDatosValorizado(data));
-      .then((data) => {
-        const formattedOptions = data.map((option) => ({
-          value: option.producto_tarifario_cliente_valorizado,
-          label: option.producto_tarifario_cliente_valorizado,
-        }));
-        setOptionsValorizado(formattedOptions);
-      });
-  }
+    if (tipoTarifario === "Valorizada") {
+      fetch(
+        `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
+      )
+        .then((response) => response.json())
+        // .then((data) => setDatosValorizado(data));
+        .then((data) => {
+          const formattedOptions = data.map((option) => ({
+            value: option.producto_tarifario_cliente_valorizado,
+            label: option.producto_tarifario_cliente_valorizado,
+          }));
+          setOptionsValorizado(formattedOptions);
+        });
+    }
   }, [tipoTarifario, distritoSeleccionada]);
 
   // GUARDAR
 
-  const [formulario, setFormulario] = useState({
-    consignado_cotizacion_destino: '',
-    dni_ruc_cotizacion_destino: '',
-    telefono_cotizacion_destino: '',
-    telefono_exc_cotizacion_destino: '',
-    direccion_cotizacion_destino: '',
-    referencias_cotizacion_destino: '',
-    tarifario_cotizacion_destino: '',
-    ubigeo_cotizacion_destino: '',
+  const initialFormState = {
+    consignado_cotizacion_destino: "",
+    dni_ruc_cotizacion_destino: "",
+    telefono_cotizacion_destino: "",
+    telefono_exc_cotizacion_destino: "",
+    direccion_cotizacion_destino: "",
+    referencias_cotizacion_destino: "",
+    tarifario_cotizacion_destino: "",
+    ubigeo_cotizacion_destino: "",
     tmin_entrega_cotizacion_destino: 0,
     tmax_entrega_cotizacion_destino: 0,
-    tipo_envio_cotizacion_destino: '',
-    contenido_mercancia_cotizacion_destino: '',
+    tipo_envio_cotizacion_destino: "",
+    contenido_mercancia_cotizacion_destino: "",
     peso_mercancia_cotizacion_destino: 0.0,
     total_metros_cubicos_cotizacion_destino: 0.0,
     total_tarifa_cotizacion_destino: 0.0,
-    tipo_logistica_cotizacion_destino: '',
+    tipo_logistica_cotizacion_destino: "",
     cantidad_mercancia_cotizacion_destino: 0,
     largo_cotizacion_destino: 0.0,
     ancho_cotizacion_destino: 0.0,
@@ -322,12 +378,18 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
     retorno_cotizacion_destino: 0.0,
     estiba_desestiba_cotizacion_destino: 0.0,
     transporte_extra_cotizacion_destino: 0.0,
-    id_creador: localStorage.getItem('id_usuario'),
-  });
+    id_creador: localStorage.getItem("id_usuario"),
+  };
+
+  const [formulario, setFormulario] = useState(initialFormState);
+
+  const handleReset = () => {
+    setFormulario(initialFormState);
+  };
 
   useEffect(() => {
     if (datosTarifario.length > 0) {
-      setFormulario(formularioPrevio => ({
+      setFormulario((formularioPrevio) => ({
         ...formularioPrevio,
         tmin_entrega_cotizacion_destino: datosTarifario[0].tmin,
         tmax_entrega_cotizacion_destino: datosTarifario[0].tmax,
@@ -335,59 +397,68 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
         total_metros_cubicos_cotizacion_destino: metrosCubicos,
         total_tarifa_cotizacion_destino: totalTarifa,
         seguro_cotizacion_destino: seguroAdicional,
-        total_adicional_cotizacion_destino: totalAdicional
+        total_adicional_cotizacion_destino: totalAdicional,
       }));
     }
-
-  }, [distritoSeleccionada, tipoTarifario, datosTarifario, pesoVolumen, metrosCubicos, totalTarifa, seguroAdicional, totalAdicional]);
+  }, [
+    distritoSeleccionada,
+    tipoTarifario,
+    datosTarifario,
+    pesoVolumen,
+    metrosCubicos,
+    totalTarifa,
+    seguroAdicional,
+    totalAdicional,
+  ]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormulario({
       ...formulario,
-      [name]: value
+      [name]: value,
     });
   };
 
   const [resetForm, setResetForm] = useState(false);
   const resetFormState = () => {
     // Cambia el estado de resetForm para reiniciar el formulario
-    setResetForm((prevResetForm) => !prevResetForm);
-    setDatosTarifario('');
-    setPesoVolumen('');
-    setMetrosCubicos('');
-    setValorSeleccionado('');
-    setTotalTarifa('');
-    setSeguroAdicional('');
-    setTotalAdicional('');
-    setDistritoSeleccionada('');
-    setTipoTarifario('');
-    setCantidadMerc('');
-    setPesoMerc('');
-    setLargo('');
-    setAncho('');
-    setAlto('');
-    setValorMercancia('');
-    setPacking('');
-    setCostoRetorno('');
-    setEstibaDesestiba('');
-    setMontaCarga('');
-    setTransporteExtra('');
-    setDatosValorizado('');
-
+    setDatosTarifario("");
+    setPesoVolumen("");
+    setMetrosCubicos("");
+    setValorSeleccionado("");
+    setTotalTarifa("");
+    setSeguroAdicional("");
+    setTotalAdicional("");
+    setDistritoSeleccionada("");
+    setTipoTarifario("");
+    setCantidadMerc("");
+    setPesoMerc("");
+    setLargo("");
+    setAncho("");
+    setAlto("");
+    setValorMercancia("");
+    setPacking("");
+    setCostoRetorno("");
+    setEstibaDesestiba("");
+    setMontaCarga("");
+    setTransporteExtra("");
+    setDatosValorizado("");
     setOptionSelect("");
-
+    setDepartamentoSeleccionado("");
+    setProvinciaSeleccionada("");
+    setResetForm((prevResetForm) => !prevResetForm);
+    handleReset();
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (id_cliente && id_area) {
-          // ESTILOS DE PRECARGADO
-    Swal.fire({
-      allowOutsideClick: false,
-      showConfirmButton: false,
-      background: "transparent",
-      html: `
+      // ESTILOS DE PRECARGADO
+      Swal.fire({
+        allowOutsideClick: false,
+        showConfirmButton: false,
+        background: "transparent",
+        html: `
       <div class="papapa"> 
         <div class="loader1"> 
         <h1 class="guardado" >Guardando...</h1>
@@ -398,24 +469,27 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
         </div>
       </div>
     `,
-      onBeforeOpen: () => {
-        // Función que se ejecuta antes de que se abra la ventana modal
-        Swal.showLoading(); // Muestra una animación de carga dentro de la ventana modal
-      },
-    });
+        onBeforeOpen: () => {
+          // Función que se ejecuta antes de que se abra la ventana modal
+          Swal.showLoading(); // Muestra una animación de carga dentro de la ventana modal
+        },
+      });
       try {
-        const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/guardarDestino.php', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ ...formulario, id_cliente, id_area })
-        });
+        const response = await fetch(
+          "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/guardarDestino.php",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...formulario, id_cliente, id_area }),
+          }
+        );
 
         const responseData = await response.json();
         if (responseData.success) {
           Swal.fire({
-            icon: 'success',
+            icon: "success",
             title: responseData.mensaje,
           });
           cargarListaEnvios();
@@ -423,20 +497,20 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
           ocultarModalAgregar();
         } else {
           Swal.fire({
-            icon: 'error',
+            icon: "error",
             title: responseData.mensaje,
           });
         }
       } catch (error) {
         Swal.fire({
-          icon: 'error',
-          title: 'Error en la solicitud de Red',
+          icon: "error",
+          title: "Error en la solicitud de Red",
         });
       }
     } else {
       Swal.fire({
-        icon: 'error',
-        title: 'Error en la solicitud de Importar',
+        icon: "error",
+        title: "Error en la solicitud de Importar",
       });
     }
   };
@@ -496,8 +570,8 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
     }),
     menuList: (provided) => ({
       ...provided,
-      maxHeight: "200px", 
-      overflowY: "auto", 
+      maxHeight: "200px",
+      overflowY: "auto",
     }),
     menu: (provided) => ({
       ...provided,
@@ -508,10 +582,12 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
     }),
     option: (provided, state) => ({
       ...provided,
-      borderRadius: "5px",
-      padding: "4px 4px",
+      padding: "2px 4px",
       maxHeight: "20px",
-    
+
+      overflow: "hidden", // Evita que el texto se desborde
+      textOverflow: "ellipsis", // Añade los puntos suspensivos
+      whiteSpace: "nowrap",
     }),
     valueContainer: (provided) => ({
       ...provided,
@@ -528,6 +604,27 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
       display: "none", // Oculta la barrita al lado del indicador
     }),
   };
+
+  const optionsenvio = [
+    { value: "Elegir Envio", label: "Elegir Envio" },
+    { value: "Courrier", label: "Courrier" },
+    { value: "Aerea", label: "Aerea" },
+    { value: "Carga", label: "Carga" },
+    { value: "Valorizada", label: "Valorizada" },
+  ];
+  const optionsmovimiento = [
+    { value: "Elegir Movimiento", label: "Elegir Movimiento" },
+    { value: "Terrestre", label: "Terrestre" },
+    { value: "Aereo", label: "Aereo" },
+    { value: "Fluvial", label: "Fluvial" },
+  ];
+  const optionslogistica = [
+    { value: "Elegir Logistica", label: "Elegir Logistica" },
+    { value: "Nacional", label: "Nacional" },
+    { value: "Local", label: "Local" },
+    { value: "Inversa", label: "Inversa" },
+    { value: "Transito", label: "Transito" },
+  ];
 
   const [optionSelect, setOptionSelect] = useState("");
 
@@ -604,7 +701,7 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                           </label>
                         </div>
                         <div className="ml-[-25px] mr-[20px]">
-                          <select
+                          {/* <select
                             name="tarifario_cotizacion_destino"
                             id="tarifario_cotizacion_destino"
                             onChange={(e) => {
@@ -619,7 +716,35 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                             <option value="Aerea">Aerea</option>
                             <option value="Carga">Carga</option>
                             <option value="Valorizada">Valorizada</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            name="tarifario_cotizacion_destino"
+                            id="tarifario_cotizacion_destino"
+                            options={optionsenvio}
+                            styles={customStyles3}
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tarifario_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                              handleTipoTarifarioChange(event);
+                            }}
+                            placeholder="Elegir Envio"
+                            className="border rounded-sm"
+                            required
+                            value={
+                              formulario.tarifario_cotizacion_destino
+                                ? optionsenvio.find(
+                                    (option) =>
+                                      option.value ===
+                                      formulario.tarifario_cotizacion_destino
+                                  )
+                                : null
+                            }
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">RUC/DNI</label>
@@ -642,14 +767,11 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                           </label>
                         </div>
                         <div className="ml-[-25px] mr-[20px] border mt-1 ">
-                          <Select
+                        <Select
                             styles={customStyles3}
                             className="text-xs ScrollTableVertical "
                             placeholder="Elegir Departamento"
-                            options={departamentos.map((departamento) => ({
-                              value: departamento.id,
-                              label: departamento.nombre_dep,
-                            }))}
+                            options={departamentos}
                             onChange={(selectedOption) =>
                               handleDepartamentoChange({
                                 target: {
@@ -659,6 +781,14 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                               })
                             }
                             required
+                            value={
+                              departamentoSeleccionado
+                                ? departamentos.find(
+                                    (option) =>
+                                      option.value === departamentoSeleccionado
+                                  )
+                                : null
+                            }
                           />
                         </div>
                         <div className="">
@@ -681,8 +811,8 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                             Provincia
                           </label>
                         </div>
-                        <div className="ml-[-25px] mr-[20px]">
-                          <select
+                        <div className="ml-[-25px] mr-[20px] mt-1">
+                          {/* <select
                             className="w-[100%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
                             name="provincia"
                             id="provincia"
@@ -700,7 +830,33 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                                 {provincia.nombre_prov}
                               </option>
                             ))}
-                          </select>
+                          </select> */}
+                           <Select
+                            styles={customStyles3}
+                            options={provincias}
+                            placeholder="Elegir Provincia"
+                            onChange={(selectedOption) =>
+                              handleProvinciaChange({
+                                target: {
+                                  name: "provincia",
+                                  value: selectedOption.value,
+                                },
+                              })
+                            }
+                            name="provincia"
+                            id="provincia"
+                            isDisabled={!departamentoSeleccionado}
+                            className="border rounded-sm"
+                            value={
+                              provinciaSeleccionada
+                                ? provincias.find(
+                                    (option) =>
+                                      option.value === provinciaSeleccionada
+                                  )
+                                : null
+                            }
+                            required
+                          ></Select>
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
@@ -722,8 +878,8 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                         <div className="">
                           <label className="text-black text-xs">Distrito</label>
                         </div>
-                        <div className="ml-[-25px] mr-[20px]">
-                          <select
+                        <div className="ml-[-25px] mr-[20px] mt-1">
+                          {/* <select
                             className="w-[100%] text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
                             name="ubigeo_cotizacion_destino"
                             id="ubigeo_cotizacion_destino"
@@ -744,7 +900,35 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                                 {distrito.nombre_dist}
                               </option>
                             ))}
-                          </select>
+                          </select> */}
+                         <Select
+                            name="ubigeo_cotizacion_destino"
+                            id="ubigeo_cotizacion_destino"
+                            styles={customStyles3}
+                            className="border rounded-sm"
+                            isDisabled={!provinciaSeleccionada}
+                            options={distritos}
+                            placeholder="Elegir Distrito"
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "ubigeo_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                              handleDistritoChange(event);
+                            }}
+                            value={
+                              distritoSeleccionada
+                                ? distritos.find(
+                                    (option) =>
+                                      option.value === distritoSeleccionada
+                                  )
+                                : null
+                            }
+                            required
+                          ></Select>
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
@@ -837,8 +1021,8 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                             Tipo-Movimiento
                           </label>
                         </div>
-                        <div className="ml-[-25px]">
-                          <select
+                        <div className="ml-[-25px] mr-[17.5px]">
+                          {/* <select
                             name="tipo_envio_cotizacion_destino"
                             id="tipo_envio_cotizacion_destino"
                             required
@@ -849,15 +1033,41 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                             <option value="Terrestre">Terrestre</option>
                             <option value="Aereo">Aereo</option>
                             <option value="Fluvial">Fluvial</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            options={optionsmovimiento}
+                            styles={customStyles3}
+                            placeholder="Elegir Movimiento"
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tipo_envio_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            className="border rounded-sm "
+                            name="tipo_envio_cotizacion_destino"
+                            id="tipo_envio_cotizacion_destino"
+                            value={
+                              formulario.tipo_envio_cotizacion_destino
+                                ? optionsmovimiento.find(
+                                    (option) =>
+                                      option.value === formulario.tipo_envio_cotizacion_destino
+                                  )
+                                : null
+                            }
+                            required
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
                             Tipo-Logística
                           </label>
                         </div>
-                        <div className="ml-[-25px]">
-                          <select
+                        <div className="ml-[-25px] mr-[17px]">
+                          {/* <select
                             name="tipo_logistica_cotizacion_destino"
                             id="tipo_logistica_cotizacion_destino"
                             required
@@ -869,7 +1079,33 @@ function AgregarEnvio({ modalEnvio, setModalEnvio, id_cliente, id_area, cargarLi
                             <option value="Local">Local</option>
                             <option value="Inversa">Inversa</option>
                             <option value="Transito">Transito</option>
-                          </select>
+                          </select> */}
+                         <Select
+                            name="tipo_logistica_cotizacion_destino"
+                            id="tipo_logistica_cotizacion_destino"
+                            options={optionslogistica}
+                            styles={customStyles3}
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tipo_logistica_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            placeholder="Elegir Logistica"
+                            className="border rounded-sm "
+                            required
+                            value={
+                              formulario.tipo_logistica_cotizacion_destino
+                                ? optionslogistica.find(
+                                    (option) =>
+                                      option.value === formulario.tipo_logistica_cotizacion_destino
+                                  )
+                                : null
+                            }
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">

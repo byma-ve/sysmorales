@@ -3,6 +3,43 @@ import { IconoExcel, Calendario } from "../../../../Iconos/Iconos-NavBar";
 import Fechas from "../Modals/Fechas";
 import SearchTransporte from "./SearchTransporte";
 import ExcelJS from "exceljs";
+import Select from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "30px",
+    minHeight: "37px",
+    height: "10px",
+    fontSize: "16px",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "14px",
+    margin: "6px 0",
+    padding: "8px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //display: "none", Oculta el indicador
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 function Filtrado({ onSearch }) {
   // Estados para controlar la habilitación de los botones
   const [calendarioButtonDisabled, setCalendarioButtonDisabled] =
@@ -66,12 +103,18 @@ function Filtrado({ onSearch }) {
       "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
     )
       .then((response) => response.json())
-      .then((data) => setAgentes(data));
+      .then((data) => {
+        const transformedAgentes = data.map((agente) => ({
+          value: agente.id,
+          label: agente.razon_social_proveedor,
+        }));
+        setAgentes(transformedAgentes);
+      });
   }, []);
 
-  const [idAgente, setIdAgente] = useState('');
-  const [nombreAgente, setNombreAgente] = useState('');
-  const [nombreContacto, setNombreContacto] = useState('');
+  const [idAgente, setIdAgente] = useState("");
+  const [nombreAgente, setNombreAgente] = useState("");
+  const [nombreContacto, setNombreContacto] = useState("");
   const handleSelectAgente = (selectedAgente) => {
     if (selectedAgente) {
       setIdAgente(selectedAgente.id);
@@ -82,7 +125,7 @@ function Filtrado({ onSearch }) {
       setNombreAgente(selectedAgente.razon_social_proveedor);
       setNombreContacto(selectedAgente.contacto_proveedor);
     } else {
-      setIdAgente('');
+      setIdAgente("");
       setCalendarioButtonDisabled(false);
       setFechaHasta("");
       setFechaDesde("");
@@ -117,8 +160,9 @@ function Filtrado({ onSearch }) {
       minutos = minutos < 10 ? "0" + minutos : minutos;
       segundos = segundos < 10 ? "0" + segundos : segundos;
 
-      const fechaHoraActual = `${ahora.getDate()}/${ahora.getMonth() + 1
-        }/${ahora.getFullYear()} - ${horas}:${minutos}:${segundos} ${ampm}`;
+      const fechaHoraActual = `${ahora.getDate()}/${
+        ahora.getMonth() + 1
+      }/${ahora.getFullYear()} - ${horas}:${minutos}:${segundos} ${ampm}`;
 
       worksheet.getCell("D6").value = fechaHoraActual;
       worksheet.getCell("D7").value = nombreAgente;
@@ -148,15 +192,19 @@ function Filtrado({ onSearch }) {
           worksheet.getCell(`D${rowNumber}`).style = cellStyle;
           worksheet.getCell(`E${rowNumber}`).value = rowData.fecha_creado;
           worksheet.getCell(`E${rowNumber}`).style = cellStyle;
-          worksheet.getCell(`F${rowNumber}`).value = rowData.id_num_manifiesto_despacho;
+          worksheet.getCell(`F${rowNumber}`).value =
+            rowData.id_num_manifiesto_despacho;
           worksheet.getCell(`F${rowNumber}`).style = cellStyle;
-          worksheet.getCell(`G${rowNumber}`).value = rowData.razon_social_proveedor;
+          worksheet.getCell(`G${rowNumber}`).value =
+            rowData.razon_social_proveedor;
           worksheet.getCell(`G${rowNumber}`).style = cellStyle;
           worksheet.getCell(`H${rowNumber}`).value = rowData.destino_llegada;
           worksheet.getCell(`H${rowNumber}`).style = cellStyle;
-          worksheet.getCell(`I${rowNumber}`).value = rowData.cantidad_bultos_despacho;
+          worksheet.getCell(`I${rowNumber}`).value =
+            rowData.cantidad_bultos_despacho;
           worksheet.getCell(`I${rowNumber}`).style = cellStyle;
-          worksheet.getCell(`J${rowNumber}`).value = rowData.peso_total_despacho;
+          worksheet.getCell(`J${rowNumber}`).value =
+            rowData.peso_total_despacho;
           worksheet.getCell(`J${rowNumber}`).style = cellStyle;
           worksheet.getCell(`K${rowNumber}`).value = rowData.costo_envio;
           worksheet.getCell(`K${rowNumber}`).style = cellStyle;
@@ -182,7 +230,6 @@ function Filtrado({ onSearch }) {
     }
   }
 
-
   return (
     <>
       <div className="pb-4 cont-filtrar relative ml-3 mt-4 z-1">
@@ -196,15 +243,31 @@ function Filtrado({ onSearch }) {
               onChange={handleSearchChange}
             />
           </div>
-          <div className="cont-fecha flex justify-between">
+          <div className="cont-fecha flex justify-between ">
             <div className="w-[100%]  ">
-              <SearchTransporte agentes={agentes} handleSelectAgente={handleSelectAgente} />
+              {/* <SearchTransporte
+                agentes={agentes}
+                handleSelectAgente={handleSelectAgente}
+              /> */}
+              <Select
+                options={agentes}
+                styles={customStyles}
+                placeholder="Filtrar Transporte"
+                onChange={(selectedOption) =>
+                  handleSelectAgente({
+                    id: selectedOption.value,
+                    razon_social_proveedor: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                  })
+                }
+                className="w-[350px] h-[38px] bg-white rounded-lg mr-4"
+              />
             </div>
             <div className="cont-fecha flex">
               <button
                 onClick={handleCalendarioClick}
-                className={`calendario  px-[10px] mx-2  p-[5px] text-lg  text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.5)] border-none rounded-xl ${!calendarioButtonDisabled ? "" : "cursor-not-allowed"
-                  }`}
+                className={`calendario  px-[10px] mx-2  p-[5px] text-lg  text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.5)] border-none rounded-xl ${
+                  !calendarioButtonDisabled ? "" : "cursor-not-allowed"
+                }`}
                 disabled={calendarioButtonDisabled}
               >
                 <Calendario />
@@ -213,8 +276,9 @@ function Filtrado({ onSearch }) {
             <div className="btn-exportar flex text-[25px] justify-center">
               <button
                 className={`exportar px-[10px] mx-2  p-[5px] text-lg text-white bg-[rgba(255,255,255,0.2)] hover:bg-[rgba(255,255,255,0.5)] 
-              border-none rounded-xl mr-4 ${!exportarButtonDisabled ? "" : "cursor-not-allowed"
-                  }`}
+              border-none rounded-xl mr-4 ${
+                !exportarButtonDisabled ? "" : "cursor-not-allowed"
+              }`}
                 disabled={exportarButtonDisabled}
                 onClick={descargarExcel}
               >

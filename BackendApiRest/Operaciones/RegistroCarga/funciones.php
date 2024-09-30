@@ -1,4 +1,27 @@
 <?php
+function guardarPiezas($data)
+{
+
+    $bd = obtenerConexion();
+    $actualizaciones = 0;
+    foreach ($data as $pieza) {
+        $id_num_guia_registro_carga = $pieza['id'];
+        $piezas = $pieza['value'];
+
+        $sql = "UPDATE registros_cargas SET piezas_registro_carga = :piezas WHERE id_num_guia_registro_carga = :id_num_guia_registro_carga";
+        $stmt = $bd->prepare($sql);
+        $stmt->bindParam(':id_num_guia_registro_carga', $id_num_guia_registro_carga);
+        $stmt->bindParam(':piezas', $piezas);
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            $actualizaciones++;
+        }
+    }
+
+    return ['success' => true, 'message' => "Piezas de los registros actualizados $actualizaciones", 'datos' => $data];
+}
+
 function obtenerRegistrosImprimir($fecha)
 {
     $bd = obtenerConexion();

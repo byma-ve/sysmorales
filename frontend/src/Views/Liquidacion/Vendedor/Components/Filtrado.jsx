@@ -3,6 +3,44 @@ import { IconoExcel, Calendario } from "../../../../Iconos/Iconos-NavBar";
 import Fechas from "../Modals/Fechas";
 import SearchVendedor from "./SearchVendedor";
 import ExcelJS from "exceljs";
+import Select from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "30px",
+    minHeight: "37px",
+    height: "10px",
+    fontSize: "16px",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "14px",
+    margin: "6px 0",
+    padding: "8px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //display: "none", Oculta el indicador
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
+
 function Filtrado({ onSearch }) {
   // Estados para controlar la habilitación de los botones
   const [calendarioButtonDisabled, setCalendarioButtonDisabled] =
@@ -66,7 +104,13 @@ function Filtrado({ onSearch }) {
       "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_vendedores.php"
     )
       .then((response) => response.json())
-      .then((data) => setAgentes(data));
+      .then((data) => {
+        const transformedAgentes = data.map((agente) => ({
+          value: agente.id,
+          label: agente.colaborador_usuario,
+        }));
+        setAgentes(transformedAgentes);
+      });
   }, []);
 
   const [idAgente, setIdAgente] = useState("");
@@ -190,9 +234,22 @@ function Filtrado({ onSearch }) {
           </div>
           <div className="cont-fecha flex justify-between">
             <div className="w-[100%]  ">
-              <SearchVendedor
+              {/* <SearchVendedor
                 agentes={agentes}
                 handleSelectAgente={handleSelectAgente}
+              /> */}
+              <Select
+                options={agentes}
+                styles={customStyles}
+                placeholder="Filtrar Vendedor"
+                isClearable
+                onChange={(selectedOption) =>
+                  handleSelectAgente({
+                    id: selectedOption.value,
+                    colaborador_usuario: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                  })
+                }
+                className="w-[350px] h-[38px] bg-white rounded-lg mr-4"
               />
             </div>
             <div className="cont-fecha flex ">

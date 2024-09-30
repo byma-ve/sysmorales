@@ -36,8 +36,8 @@ function ListaDestinos({ clienteElegido, areaElegida, onFetchData, opcionesSelec
       });
 
       if (response.ok) {
-        cargarListaEnvios();
         setDestinoSeleccionado(null);
+        cargarListaEnvios();
         onFetchData();
         Swal.fire({
           icon: 'success',

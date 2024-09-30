@@ -18,55 +18,103 @@ function obtenerInstancia($id_num_guia)
     $obtenerDespacho->execute();
     $datosDespacho = $obtenerDespacho->fetch(PDO::FETCH_ASSOC);
 
-    $query_estado = 'SELECT * FROM estados_guias WHERE id_num_guia_estado_guia = :id_num_guia ORDER BY num_intento_estado_guia DESC
+    $query_estado1 = 'SELECT * FROM estados_guias WHERE id_num_guia_estado_guia = :id_num_guia AND num_intento_estado_guia = "intento 1" ORDER BY num_intento_estado_guia DESC
     LIMIT 1';
-    $obtenerEstado = $bd->prepare($query_estado);
-    $obtenerEstado->bindParam(':id_num_guia', $id_num_guia);
-    $obtenerEstado->execute();
-    $datosEstado = $obtenerEstado->fetch(PDO::FETCH_ASSOC);
+    $obtenerEstado1 = $bd->prepare($query_estado1);
+    $obtenerEstado1->bindParam(':id_num_guia', $id_num_guia);
+    $obtenerEstado1->execute();
+    $datosEstado1 = $obtenerEstado1->fetch(PDO::FETCH_ASSOC);
 
-    if (!$datosDespacho) {
-        $datosConAdicional = array(
-            'info' => array(
-                'instancia' => 'Registrado',
-                'estado_mercancia' => 'En registro',
-                'fecha_estado' => $datosRegistro['fecha_creado'],
-                'comentario' => 'Mercancia Registrada',
-            )
+    $query_estado2 = 'SELECT * FROM estados_guias WHERE id_num_guia_estado_guia = :id_num_guia AND num_intento_estado_guia = "intento 2" ORDER BY num_intento_estado_guia DESC
+    LIMIT 1';
+    $obtenerEstado2 = $bd->prepare($query_estado2);
+    $obtenerEstado2->bindParam(':id_num_guia', $id_num_guia);
+    $obtenerEstado2->execute();
+    $datosEstado2 = $obtenerEstado2->fetch(PDO::FETCH_ASSOC);
+
+    $query_estado3 = 'SELECT * FROM estados_guias WHERE id_num_guia_estado_guia = :id_num_guia AND num_intento_estado_guia = "intento 3" ORDER BY num_intento_estado_guia DESC
+    LIMIT 1';
+    $obtenerEstado3 = $bd->prepare($query_estado3);
+    $obtenerEstado3->bindParam(':id_num_guia', $id_num_guia);
+    $obtenerEstado3->execute();
+    $datosEstado3 = $obtenerEstado3->fetch(PDO::FETCH_ASSOC);
+
+    $resultados = [];
+
+    if ($datosDespacho) {
+        $resultados['Registro'] = array(
+            'instancia' => 'Registrado',
+            'estado_mercancia' => 'En registro',
+            'fecha_estado' => $datosRegistro['fecha_creado'],
+            'comentario' => 'Mercancía Registrada',
         );
-        return $datosConAdicional;
-    } elseif ($datosDespacho && !$datosEstado) {
-        $datosConAdicional = array(
-            'info' => array(
-                'agente' => $datosDespacho['razon_social_proveedor'],
-                'manifiesto' => $datosDespacho['id_num_manifiesto_despacho_envio'],
-                'instancia' => 'Despacho',
-                'estado_mercancia' => 'En Ruta',
-                'fecha_estado' => $datosDespacho['fecha_creado'],
-                'comentario' => 'Se encuentra en ruta',
-            )
-        );
-        return $datosConAdicional;
-    } else {
-        $datosConAdicional = array(
-            'info' => array(
-                'agente' => $datosDespacho['razon_social_proveedor'],
-                'manifiesto' => $datosDespacho['id_num_manifiesto_despacho_envio'],
-                'instancia' => ucfirst($datosEstado['num_intento_estado_guia']),
-                'estado_mercancia' => ucfirst($datosEstado['estado_mercancia_estado_guia']),
-                'fecha_estado' => $datosEstado['fecha_proceso_estado_guia'],
-                'comentario' => ucfirst($datosEstado['comentario_estado_guia']),
-                'imagen_1' => ucfirst($datosEstado['imagen_1_estado_guia']),
-                'imagen_2' => ucfirst($datosEstado['imagen_2_estado_guia']),
-                'imagen_3' => ucfirst($datosEstado['imagen_3_estado_guia']),
-                'imagen_4' => ucfirst($datosEstado['imagen_4_estado_guia']),
-                'imagen_5' => ucfirst($datosEstado['imagen_5_estado_guia']),
-                'imagen_6' => ucfirst($datosEstado['imagen_6_estado_guia']),
-            )
-        );
-        return $datosConAdicional;
     }
+
+    if ($datosDespacho) {
+        $resultados['Despacho'] = array(
+            'agente' => $datosDespacho['razon_social_proveedor'],
+            'manifiesto' => $datosDespacho['id_num_manifiesto_despacho_envio'],
+            'instancia' => 'Despacho',
+            'estado_mercancia' => 'En Ruta',
+            'fecha_estado' => $datosDespacho['fecha_creado'],
+            'comentario' => 'Se encuentra en ruta',
+        );
+    }
+
+    if ($datosEstado1) {
+        $resultados['Intento1'] = array(
+            'agente' => $datosDespacho ? $datosDespacho['razon_social_proveedor'] : null,
+            'manifiesto' => $datosDespacho ? $datosDespacho['id_num_manifiesto_despacho_envio'] : null,
+            'instancia' => ucfirst($datosEstado1['num_intento_estado_guia']),
+            'estado_mercancia' => ucfirst($datosEstado1['estado_mercancia_estado_guia']),
+            'fecha_estado' => $datosEstado1['fecha_proceso_estado_guia'],
+            'comentario' => ucfirst($datosEstado1['comentario_estado_guia']),
+            'imagen_1' => ($datosEstado1['imagen_1_estado_guia']),
+            'imagen_2' => ($datosEstado1['imagen_2_estado_guia']),
+            'imagen_3' => ($datosEstado1['imagen_3_estado_guia']),
+            'imagen_4' => ($datosEstado1['imagen_4_estado_guia']),
+            'imagen_5' => ($datosEstado1['imagen_5_estado_guia']),
+            'imagen_6' => ($datosEstado1['imagen_6_estado_guia']),
+        );
+    }
+
+    if ($datosEstado2) {
+        $resultados['Intento2'] = array(
+            'agente' => $datosDespacho ? $datosDespacho['razon_social_proveedor'] : null,
+            'manifiesto' => $datosDespacho ? $datosDespacho['id_num_manifiesto_despacho_envio'] : null,
+            'instancia' => ucfirst($datosEstado2['num_intento_estado_guia']),
+            'estado_mercancia' => ucfirst($datosEstado2['estado_mercancia_estado_guia']),
+            'fecha_estado' => $datosEstado2['fecha_proceso_estado_guia'],
+            'comentario' => ucfirst($datosEstado2['comentario_estado_guia']),
+            'imagen_1' => ($datosEstado2['imagen_1_estado_guia']),
+            'imagen_2' => ($datosEstado2['imagen_2_estado_guia']),
+            'imagen_3' => ($datosEstado2['imagen_3_estado_guia']),
+            'imagen_4' => ($datosEstado2['imagen_4_estado_guia']),
+            'imagen_5' => ($datosEstado2['imagen_5_estado_guia']),
+            'imagen_6' => ($datosEstado2['imagen_6_estado_guia']),
+        );
+    }
+
+    if ($datosEstado3) {
+        $resultados['Intento3'] = array(
+            'agente' => $datosDespacho ? $datosDespacho['razon_social_proveedor'] : null,
+            'manifiesto' => $datosDespacho ? $datosDespacho['id_num_manifiesto_despacho_envio'] : null,
+            'instancia' => ucfirst($datosEstado3['num_intento_estado_guia']),
+            'estado_mercancia' => ucfirst($datosEstado3['estado_mercancia_estado_guia']),
+            'fecha_estado' => $datosEstado3['fecha_proceso_estado_guia'],
+            'comentario' => ucfirst($datosEstado3['comentario_estado_guia']),
+            'imagen_1' => ($datosEstado3['imagen_1_estado_guia']),
+            'imagen_2' => ($datosEstado3['imagen_2_estado_guia']),
+            'imagen_3' => ($datosEstado3['imagen_3_estado_guia']),
+            'imagen_4' => ($datosEstado3['imagen_4_estado_guia']),
+            'imagen_5' => ($datosEstado3['imagen_5_estado_guia']),
+            'imagen_6' => ($datosEstado3['imagen_6_estado_guia']),
+        );
+    }
+
+    return $resultados;
 }
+
 function obtenerConsulta($id_num_guia)
 {
     $bd = obtenerConexion();

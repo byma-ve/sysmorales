@@ -26,6 +26,7 @@ function Asignar({ modalAsignar, setModalAsignar, datosAsignacion, actualizarTab
     nombre_auxiliar_recojo: '',
     id_conductor_recojo: '',
     id_auxiliar_recojo: '',
+    id_vehiculo_recojo: '',
     opcionSeleccionada: opcionSeleccionada
   });
 
@@ -39,6 +40,7 @@ function Asignar({ modalAsignar, setModalAsignar, datosAsignacion, actualizarTab
       nombre_auxiliar_recojo: datosAsignacion?.nombre_auxiliar_recojo || '',
       id_conductor_recojo: datosAsignacion?.id_conductor_recojo || '',
       id_auxiliar_recojo: datosAsignacion?.id_auxiliar_recojo || '',
+      id_vehiculo_recojo: datosAsignacion?.id_vehiculo_recojo || '',
       opcionSeleccionada: opcionSeleccionada
     });
   }, [datosAsignacion, modalAsignar, opcionSeleccionada]);

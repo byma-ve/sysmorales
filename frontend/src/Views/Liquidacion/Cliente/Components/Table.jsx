@@ -89,7 +89,7 @@ export const Table = ({
                         {liquidacion.estado_documento}
                       </td>
                       <td className="px-8 py-4 w-1/12">
-                        {liquidacion.tipo_documento}
+                        {(liquidacion.tipo_documento ?? "").toUpperCase()}
                       </td>
                       <td className="px-8 py-4 w-1/12">
                         {liquidacion.numero_documento}

@@ -102,7 +102,7 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
   });
   for (let i = 0; i < cantidadPdf9x21; i++) {
     doc.addImage(LogoHorizontal, "PNG", 1, 0.2, 3.5, 1.5);
-    
+
     doc.setFontSize(6);
     doc.text(`Fecha: ${fechaSeleccionada}`, 12.1, 1.5);
     doc.setFontSize(8);
@@ -131,38 +131,38 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
     const m4 = `<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 24 24"><path fill="none" stroke="#000000" stroke-linecap="round" stroke-width="1.5" d="M21.984 10c-.037-1.311-.161-2.147-.581-2.86c-.598-1.015-1.674-1.58-3.825-2.708l-2-1.05C13.822 2.461 12.944 2 12 2s-1.822.46-3.578 1.382l-2 1.05C4.271 5.56 3.195 6.125 2.597 7.14C2 8.154 2 9.417 2 11.942v.117c0 2.524 0 3.787.597 4.801c.598 1.015 1.674 1.58 3.825 2.709l2 1.049C10.178 21.539 11.056 22 12 22s1.822-.46 3.578-1.382l2-1.05c2.151-1.129 3.227-1.693 3.825-2.708c.42-.713.544-1.549.581-2.86M21 7.5l-4 2M12 12L3 7.5m9 4.5v9.5m0-9.5l4.5-2.25l.5-.25m0 0V13m0-3.5l-9.5-5"/></svg>`;
     const svgToDataURL = (svg) => {
       return new Promise((resolve) => {
-        const svgBlob = new Blob([svg], { type: 'image/svg+xml' });
+        const svgBlob = new Blob([svg], { type: "image/svg+xml" });
         const url = URL.createObjectURL(svgBlob);
         const img = new Image();
         img.onload = () => {
           URL.revokeObjectURL(url);
-          const canvas = document.createElement('canvas');
+          const canvas = document.createElement("canvas");
           canvas.width = img.width;
           canvas.height = img.height;
-          const ctx = canvas.getContext('2d');
+          const ctx = canvas.getContext("2d");
           ctx.drawImage(img, 0, 0);
-          resolve(canvas.toDataURL('image/png'));
+          resolve(canvas.toDataURL("image/png"));
         };
         img.src = url;
       });
     };
 
-    const  caja2_despacho = await svgToDataURL(m4);
+    const caja2_despacho = await svgToDataURL(m4);
 
-    doc.addImage('/caja1_despacho.png', 'PNG', 9.3, 3.8, 1.5, 1.5);
+    doc.addImage("/caja1_despacho.png", "PNG", 9.3, 3.8, 1.5, 1.5);
     doc.setFontSize(8);
     doc.text("  1       2       3", 0.9, 6.4);
     //cuadros destino
     doc.setLineWidth(0.02);
-    doc.addImage( caja2_despacho, "PNG", 12.75, 2, 1, 1);
+    doc.addImage(caja2_despacho, "PNG", 12.75, 2, 1, 1);
 
     doc.setLineWidth(0.02);
     doc.setFillColor(75, 75, 75);
-    doc.rect( 12.1, 0.49, 2.7, 0.7,"F");
-    doc.setTextColor(255,255,255)
-    doc.text('Canal Operaciones',12.4, 0.9);
+    doc.rect(12.1, 0.49, 2.7, 0.7, "F");
+    doc.setTextColor(255, 255, 255);
+    doc.text("Canal Operaciones", 12.4, 0.9);
 
-    doc.setTextColor(0,0,0);
+    doc.setTextColor(0, 0, 0);
     doc.rect(12.45, 2, 1.5, 1);
     doc.text(`Destino: ${datosPdf9x21.departamento_destino}`, 14.4, 2.35);
     doc.rect(13.95, 2, 6.3, 0.5);
@@ -183,7 +183,7 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
     doc.setFontSize(8);
     doc.text(`Contenido de mercancia`, 16.8, 6.45);
     doc.rect(16, 6.1, 4.25, 0.5);
-    
+
     doc.rect(16, 6.6, 4.25, 1);
     doc.text(`Cantidad:     ${datosPdf9x21.cantidad_mercancia}`, 11.98, 7);
     doc.text(
@@ -215,16 +215,16 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
     doc.setLineDash([0.25]);
     doc.line(11.2, 8.4, 20, 8.4);
     var opts = {
-      errorCorrectionLevel: 'H',
-      type: 'image/jpeg',
+      errorCorrectionLevel: "H",
+      type: "image/jpeg",
       quality: 0.3,
       margin: 1,
       color: {
-        dark:"#000000",
-        light:"#FFFFFF"
-      }
-    }
-    qrcode.toDataURL(`${id}`,opts, function (err, url) {
+        dark: "#000000",
+        light: "#FFFFFF",
+      },
+    };
+    qrcode.toDataURL(`${id}`, opts, function (err, url) {
       if (err) return console.error(err);
       doc.addImage(url, "PNG", 8, 5.55, 1.5, 1.5);
     });
@@ -233,28 +233,27 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
     JsBarcode(canvas, id, {
       format: "CODE128B",
       displayValue: true,
-      textAlign:'center',
-      fontSize:20,
+      textAlign: "center",
+      fontSize: 20,
       textMargin: 3,
-      fontOptions: 'bold',
+      fontOptions: "bold",
     });
     JsBarcode(canvas2, id, {
       format: "CODE128B",
       displayValue: true,
       fontSize: 30,
-      font: 'sans-serif',
-      fontOptions: 'bold',
-      textAlign: 'right',
+      font: "sans-serif",
+      fontOptions: "bold",
+      textAlign: "right",
       textMargin: 4,
-
     });
     const barcodeImage = canvas.toDataURL("image/png");
     const barcodeImage2 = canvas2.toDataURL("image/png");
-    doc.addImage(barcodeImage, 'PNG', 6.3, 7.15, 5, 1.35);
-    doc.addImage(barcodeImage2, 'PNG', 15, 0.2, 5.2, 1.4);
+    doc.addImage(barcodeImage, "PNG", 6.3, 7.15, 5, 1.35);
+    doc.addImage(barcodeImage2, "PNG", 15, 0.2, 5.2, 1.4);
     doc.setFontSize(6);
-    doc.text('CODIGO DE ', 15.5, 1.45);
-    doc.text('TRACKING N° ', 15.4, 1.65);
+    doc.text("CODIGO DE ", 15.5, 1.45);
+    doc.text("TRACKING N° ", 15.4, 1.65);
     //causal de devolucion
     doc.setLineWidth(0.01);
     doc.setLineDash([0.45]);
@@ -274,5 +273,4 @@ export const pdf9x21 = async (cantidadPdf9x21 = 1, id, fechaSeleccionada) => {
     }
   }
   doc.save(`Reporte_${id}.pdf`);
-
 };

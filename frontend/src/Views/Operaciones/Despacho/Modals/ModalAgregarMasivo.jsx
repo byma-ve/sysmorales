@@ -2,6 +2,54 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import SearchServicio from "../Components/SelectBuscador/SearchServicio";
 import SearchAgenteMasivo from "../Components/SelectBuscador/SelectAgenteMasivo";
+import Select from "react-select";
+
+const customStyles3 = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "23px",
+    minHeight: "20px",
+    height: "16px",
+    fontSize: "12px",
+    borderRadius: "5px",
+    backgroundColor: "transparent",
+    border: "none",
+    marginTop: "0px",
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    maxHeight: "120px",
+    overflowY: "auto",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "12px",
+    margin: "6px 0",
+    padding: "2px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "2px 4px",
+    maxHeight: "20px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0px 20px 1px 2px",
+    marginTop: "-8px",
+  }),
+
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    // display: "none", // Oculta el indicador
+    marginTop: "-6px",
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 function ModalAgregarMasivo({
   modalAgregarMasivo,
   setModalAgregarMasivo,
@@ -26,6 +74,7 @@ function ModalAgregarMasivo({
     setSelectedAgente("");
     setSelectedGuiaMasiva("");
     cargarGuiasMasivas();
+    setFormData(resetFormData);
   };
 
   const [formData, setFormData] = useState({
@@ -43,14 +92,11 @@ function ModalAgregarMasivo({
     }));
   }, [selectedTransportista]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (name, value) => {
     let newFormData = { ...formData, [name]: value };
-
     if (name === "id_agente_despacho_envio" && value) {
       newFormData = { ...newFormData, tipo_envio_despacho_envio: "" };
     }
-
     setFormData(newFormData);
   };
 
@@ -159,7 +205,7 @@ function ModalAgregarMasivo({
                           <label className=" text-xs ">O. Servicio</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <SearchServicio
+                          {/* <SearchServicio
                             servicios={selectGuiasMasivas}
                             setSelectedServicio={(servicio) => {
                               handleSelectGuiaMasiva(servicio);
@@ -172,6 +218,31 @@ function ModalAgregarMasivo({
                               });
                             }}
                             selectedServicioId={selectedGuiaMasiva}
+                          /> */}
+                          <Select
+                            styles={customStyles3}
+                            options={selectGuiasMasivas}
+                            className="border rounded-sm  mt-1 w-[90%] "
+                            name="id_num_guia_despacho_envio"
+                            id="id_num_guia_despacho_envio"
+                            onChange={(selectedOption) => {
+                              const value = selectedOption.value;
+                              handleInputChange(
+                                "id_num_guia_despacho_envio",
+                                value
+                              );
+                              handleSelectGuiaMasiva(value);
+                            }}
+                            value={
+                              selectedGuiaMasiva
+                                ? selectGuiasMasivas.find(
+                                    (option) =>
+                                      option.value === selectedGuiaMasiva
+                                  )
+                                : null
+                            }
+                            placeholder="N° Orden"
+                            required
                           />
                         </div>
                       </div>
@@ -184,7 +255,7 @@ function ModalAgregarMasivo({
                           <label className=" text-xs ">Nombre-Agente</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <SearchAgenteMasivo
+                          {/* <SearchAgenteMasivo
                             agentes={selectAgentes}
                             setSelectedAgente={(agente) => {
                               handleSelectAgente(agente);
@@ -196,13 +267,38 @@ function ModalAgregarMasivo({
                               });
                             }}
                             selectedAgenteEnvio={selectedAgente}
+                          /> */}
+                          <Select
+                            name="id_agente_despacho_envio"
+                            id="id_agente_despacho_envio"
+                            styles={customStyles3}
+                            options={selectAgentes}
+                            onChange={(selectedOption) => {
+                              const value = selectedOption.value;
+                              handleInputChange(
+                                "id_agente_despacho_envio",
+                                value
+                              );
+                              handleSelectAgente(value);
+                            }}
+                            value={
+                              selectedAgente
+                                ? selectAgentes.find(
+                                    (option) => option.value === selectedAgente
+                                  )
+                                : null
+                            }
+                            className="border rounded-sm  mt-1 w-[90%] "
                           />
                         </div>
                         <div className="">
                           <label className=" text-xs">Provincia</label>
                         </div>
                         <div className="ml-[-100px]">
-                          <select className="w-[90%] pl-1 text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                          <select
+                            disabled
+                            className="w-[90%] pl-1 text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
                             <option value="">
                               {datosAgente.PROVINCIA
                                 ? datosAgente.PROVINCIA
@@ -229,7 +325,10 @@ function ModalAgregarMasivo({
                           <label className=" text-xs">Distrito</label>
                         </div>
                         <div className="ml-[-100px]">
-                          <select className="w-[90%] text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                          <select
+                            disabled
+                            className="w-[90%] text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                          >
                             <option value="">
                               {datosAgente.DESTINO ? datosAgente.DESTINO : ""}
                             </option>

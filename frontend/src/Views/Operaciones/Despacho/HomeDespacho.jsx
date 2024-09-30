@@ -115,6 +115,7 @@ function HomeDespacho() {
   const [distritos, setDistritos] = useState([]);
   const [departamentoSeleccionado, setDepartamentoSeleccionado] = useState("");
   const [provinciaSeleccionada, setProvinciaSeleccionada] = useState("");
+  const [distritoSeleccionada, setDistritoSeleccionada] = useState("");
 
   useEffect(() => {
     // Obtener departamentos
@@ -122,7 +123,13 @@ function HomeDespacho() {
       "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
-      .then((data) => setDepartamentos(data))
+      .then((data) => {
+        const transformedDepartamentos = data.map((departamento) => ({
+          value: departamento.id,
+          label: departamento.nombre_dep,
+        }));
+        setDepartamentos(transformedDepartamentos);
+      })
       .catch((error) => console.error("Error fetching departamentos:", error));
   }, []);
 
@@ -133,7 +140,13 @@ function HomeDespacho() {
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
-        .then((data) => setProvincias(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.id,
+            label: provincia.nombre_prov,
+          }));
+          setProvincias(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching provincias:", error));
     }
   }, [departamentoSeleccionado]);
@@ -145,7 +158,13 @@ function HomeDespacho() {
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
-        .then((data) => setDistritos(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.ubigeo,
+            label: provincia.nombre_dist,
+          }));
+          setDistritos(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching distritos:", error));
     }
   }, [provinciaSeleccionada]);
@@ -153,12 +172,28 @@ function HomeDespacho() {
   const handleDepartamentoChange = (event) => {
     setDepartamentoSeleccionado(event.target.value);
     setProvinciaSeleccionada("");
+    setDistritoSeleccionada("");
     setDistritos([]);
+    setFormDespachoValues({
+      ...formDespachoValues,
+      ubigeo_despacho: "",
+    });
   };
 
   const handleProvinciaChange = (event) => {
     setProvinciaSeleccionada(event.target.value);
+    setDistritoSeleccionada("");
+    setFormDespachoValues({
+      ...formDespachoValues,
+      ubigeo_despacho: "",
+    });
   };
+
+  const handleDistritoChange = (event) => {
+    const distritoSeleccionado = event.target.value;
+    setDistritoSeleccionada(distritoSeleccionado);
+  };
+
   // UBIGEO
   const [selectConductores, setSelectConductores] = useState([]);
 
@@ -168,7 +203,11 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerConductores.php"
       );
       const data = await response.json();
-      setSelectConductores(data);
+      const transformedConductores = data.map((conductor) => ({
+        value: conductor.id,
+        label: `${conductor.dni_usuario} - ${conductor.colaborador_usuario}`,
+      }));
+      setSelectConductores(transformedConductores);
     } catch (error) {
       console.error("Error fetching data conductores:", error);
     }
@@ -182,7 +221,11 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerAuxiliares.php"
       );
       const data = await response.json();
-      setSelectAuxiliares(data);
+      const transformedAuxiliares = data.map((conductor) => ({
+        value: conductor.id,
+        label: `${conductor.dni_usuario} - ${conductor.colaborador_usuario}`,
+      }));
+      setSelectAuxiliares(transformedAuxiliares);
     } catch (error) {
       console.error("Error fetching data auxiliares:", error);
     }
@@ -196,7 +239,14 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
       );
       const data = await response.json();
-      setSelectTransportistas(data);
+      const transformedTransportistas = [
+        { value: "", label: "Seleccionar Transportista" },
+        ...data.map((transportista) => ({
+          value: transportista.id,
+          label: transportista.razon_social_proveedor,
+        })),
+      ];
+      setSelectTransportistas(transformedTransportistas);
     } catch (error) {
       console.error("Error fetching transportistas:", error);
     }
@@ -210,9 +260,13 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
       );
       const data = await response.json();
-      setSelectVehiculos(data);
+      const transformedVehiculos = data.map((vehiculo) => ({
+        value: vehiculo.id,
+        label: vehiculo.placa_vehiculo,
+      }));
+      setSelectVehiculos(transformedVehiculos);
     } catch (error) {
-      console.error("Error fetching transportistas:", error);
+      console.error("Error fetching vehiculo:", error);
     }
   };
 
@@ -244,7 +298,11 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasUnitarias.php"
       );
       const data = await response.json();
-      setSelectGuiasUnitario(data);
+      const transformedGuiasUnitarias = data.map((guia) => ({
+        value: guia.id_num_guia_registro_carga,
+        label: guia.id_num_guia_registro_carga,
+      }));
+      setSelectGuiasUnitario(transformedGuiasUnitarias);
     } catch (error) {
       console.error("Error fetching guias unitario:", error);
     }
@@ -266,9 +324,9 @@ function HomeDespacho() {
 
   const [selectedGuiaUnitaria, setSelectedGuiaUnitaria] = useState("");
 
-  const handleSelectGuiaUnitaria = (datosSelect) => {
-    setSelectedGuiaUnitaria(datosSelect.id_num_guia_registro_carga);
-    cargarDatosGuiaUnitaria(datosSelect.id_num_guia_registro_carga);
+  const handleSelectGuiaUnitaria = (value) => {
+    setSelectedGuiaUnitaria(value);
+    cargarDatosGuiaUnitaria(value);
   };
 
   // CARGAR AGENTES UNITARIO Y MASIVO
@@ -281,7 +339,11 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
       );
       const data = await response.json();
-      setSelectAgentes(data);
+      const transformedAgentes = data.map((agente) => ({
+        value: agente.id,
+        label: `${agente.razon_social_proveedor} - ${agente.tipo_servicio_proveedor}`,
+      }));
+      setSelectAgentes(transformedAgentes);
     } catch (error) {
       console.error("Error fetching agentes:", error);
     }
@@ -303,9 +365,9 @@ function HomeDespacho() {
 
   const [selectedAgente, setSelectedAgente] = useState("");
 
-  const handleSelectAgente = (datosAgenteSelect) => {
-    setSelectedAgente(datosAgenteSelect.id);
-    cargarDatosAgente(datosAgenteSelect.id);
+  const handleSelectAgente = (value) => {
+    setSelectedAgente(value);
+    cargarDatosAgente(value);
   };
 
   // CARGAR GUIAS MASIVAS
@@ -317,7 +379,11 @@ function HomeDespacho() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasMasivas.php"
       );
       const data = await response.json();
-      setSelectGuiasMasivas(data);
+      const transformedGuiasMasivas= data.map((masiva) => ({
+        value: masiva.id_orden_servicio_registro_carga,
+        label: masiva.id_orden_servicio_registro_carga,
+      }));
+      setSelectGuiasMasivas(transformedGuiasMasivas);
     } catch (error) {
       console.error("Error fetching agentes:", error);
     }
@@ -326,15 +392,15 @@ function HomeDespacho() {
   const [selectedGuiaMasiva, setSelectedGuiaMasiva] = useState("");
 
   const handleSelectGuiaMasiva = (datosGuiasMasivas) => {
-    setSelectedGuiaMasiva(datosGuiasMasivas.id_orden_servicio_registro_carga);
+    setSelectedGuiaMasiva(datosGuiasMasivas);
   };
 
   // TENER DATO DEL TRANSPORTISTA
 
   const [selectedTransportista, setSelectedTransportista] = useState("");
 
-  const handleSelectTransportista = (event) => {
-    setSelectedTransportista(event.target.value);
+  const handleSelectTransportista = (valor) => {
+    setSelectedTransportista(valor);
   };
 
   // LISTA ENVIOS SIN TRANSPORTISTA
@@ -453,10 +519,25 @@ function HomeDespacho() {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let name, value;
+
+    // Verificar si es un evento de formulario normal o un objeto selectedOption
+    if (e && e.target) {
+      // Es un evento normal
+      name = e.target.name;
+      value = e.target.value;
+    } else if (e && e.value !== undefined) {
+      // Es un objeto selectedOption
+      name = "id_transportista_despacho";
+      value = e.value;
+    } else {
+      // Si no es ninguno de los anteriores, salimos de la función
+      console.error("Formato de evento no reconocido", e);
+      return;
+    }
 
     if (name === "id_transportista_despacho") {
-      if (value.trim() === "") {
+      if (value === "" || value === null) {
         setFormDespachoValues({
           ...formDespachoValues,
           [name]: value,
@@ -494,13 +575,17 @@ function HomeDespacho() {
     cargarAuxiliares();
   }, []);
 
+  useEffect(() => {
+    console.log(selectedTransportista);
+  }, [selectedTransportista]);
+
   // useEffect(() => {
   //   console.log(formDespachoValues);
   // }, [formDespachoValues]);
 
   useEffect(() => {
     if (selectedTransportista != "") {
-      cargarListaEnvios(selectedTransportista);
+      cargarListaEnvios(selectedTransportista.target.value);
     } else {
       cargarListaEnvios();
     }
@@ -569,7 +654,7 @@ function HomeDespacho() {
           setProvincias([]);
           setFormDespachoValues(resetFormDespacho);
           setSelectedTransportista("");
-          cargarListaEnvios(selectedTransportista);
+          cargarListaEnvios(selectedTransportista.target.value);
         } else {
           Swal.fire({
             icon: "error",
@@ -599,7 +684,7 @@ function HomeDespacho() {
           <ModalAgregarEnvio
             cargarListaEnvios={cargarListaEnvios}
             cargarGuiasUnitario={cargarGuiasUnitario}
-            selectedTransportista={selectedTransportista}
+            selectedTransportista={selectedTransportista?.target?.value ?? ""}
             setSelectedAgente={setSelectedAgente}
             setDatosAgente={setDatosAgente}
             selectedAgente={selectedAgente}
@@ -618,7 +703,7 @@ function HomeDespacho() {
           <ModalAgregarMasivo
             cargarListaEnvios={cargarListaEnvios}
             cargarGuiasMasivas={cargarGuiasMasivas}
-            selectedTransportista={selectedTransportista}
+            selectedTransportista={selectedTransportista?.target?.value ?? ""}
             setSelectedGuiaMasiva={setSelectedGuiaMasiva}
             selectedGuiaMasiva={selectedGuiaMasiva}
             handleSelectGuiaMasiva={handleSelectGuiaMasiva}
@@ -650,6 +735,8 @@ function HomeDespacho() {
             <div className="Contenedores">
               <div className="1 grid grid-row-2">
                 <DatosManifiesto
+                  handleDistritoChange={handleDistritoChange}
+                  distritoSeleccionada={distritoSeleccionada}
                   distritos={distritos}
                   provinciaSeleccionada={provinciaSeleccionada}
                   provincias={provincias}
@@ -657,7 +744,7 @@ function HomeDespacho() {
                   handleProvinciaChange={handleProvinciaChange}
                   departamentos={departamentos}
                   handleDepartamentoChange={handleDepartamentoChange}
-                  selectedTransportista={selectedTransportista}
+                  selectedTransportista={selectedTransportista?.target?.value ?? ""}
                   handleSelectTransportista={handleSelectTransportista}
                   datosVehiculo={datosVehiculo}
                   handleSelectVehiculo={handleSelectVehiculo}
@@ -690,7 +777,7 @@ function HomeDespacho() {
             <AgregarGuia
               cargarGuiasMasivas={cargarGuiasMasivas}
               cargarGuiasUnitario={cargarGuiasUnitario}
-              selectedTransportista={selectedTransportista}
+              selectedTransportista={selectedTransportista?.target?.value ?? ""}
               cargarListaEnvios={cargarListaEnvios}
               selectListaEnvios={selectListaEnvios}
               formDespachoValues={formDespachoValues}

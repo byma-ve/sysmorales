@@ -38,8 +38,8 @@ function ListaDestinos({ clienteElegido, areaElegida, opcionesSelect, cargarList
       });
 
       if (response.ok) {
-        cargarListaEnvios();
         setDestinoSeleccionado(null);
+        cargarListaEnvios();
         Swal.fire({
           icon: 'success',
           title: 'Destino eliminado con éxito',

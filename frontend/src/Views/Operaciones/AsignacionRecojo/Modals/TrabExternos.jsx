@@ -1,10 +1,54 @@
 import React, { useState, useEffect } from "react";
 import SearchProveedor from "../Components/SearchProveedor";
+import Select from "react-select";
+
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "23px",
+    minHeight: "18px",
+    height: "18px",
+    fontSize: "12px",
+    borderRadius: "5px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "12px",
+    margin: "6px 0",
+    padding: "2px 0px",
+  }),
+
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0px 20px 1px 1px",
+    marginTop: "0px",
+    marginTop: "-10px",
+  }),
+
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //  display: "none", Oculta el indicador
+    marginTop: "-10px",
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 
 function TrabExternos({ formValues, handleChange }) {
   // Proveedores / Select
   const [proveedores, setProveedores] = useState([]);
-  const [selectedProveedor, setSelectedProveedor] = useState(null);
+  const [proveedoresEncontrar, setProveedoresEncontrar] = useState([]);
   const [tipoProveedor, setTipoProveedor] = useState("");
   const [tipoServicio, setTipoServicio] = useState("");
 
@@ -14,17 +58,23 @@ function TrabExternos({ formValues, handleChange }) {
       "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_proveedores.php"
     )
       .then((response) => response.json())
-      .then((data) => setProveedores(data))
+      .then((data) => {
+        const transformedDepartamentos = data.map((proveedor) => ({
+          value: proveedor.id,
+          label: proveedor.razon_social_proveedor,
+        }));
+        setProveedores(transformedDepartamentos);
+        setProveedoresEncontrar(data)
+      })
       .catch((error) => console.error("Error fetching proveedores:", error));
   }, []);
 
   useEffect(() => {
     if (formValues.id_proveedor_recojo) {
-      const selected = proveedores.find(
+      const selected = proveedoresEncontrar.find(
         (p) => p.id === formValues.id_proveedor_recojo
       );
       if (selected) {
-        setSelectedProveedor(selected);
         fetch(
           `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_datos_proveedor.php?id=${selected.id}`
         )
@@ -38,11 +88,10 @@ function TrabExternos({ formValues, handleChange }) {
           );
       }
     } else {
-      setSelectedProveedor(null);
       setTipoProveedor("");
       setTipoServicio("");
     }
-  }, [formValues.id_proveedor_recojo, proveedores]);
+  }, [formValues.id_proveedor_recojo, proveedoresEncontrar]);
 
   return (
     <>
@@ -68,7 +117,7 @@ function TrabExternos({ formValues, handleChange }) {
             <label className=" text-xs">Proveedor:</label>
           </div>
           <div className="ml-[-85px] ">
-            <SearchProveedor
+            {/* <SearchProveedor
               proveedores={proveedores}
               setSelectedProveedor={(proveedor) => {
                 setSelectedProveedor(proveedor);
@@ -80,6 +129,28 @@ function TrabExternos({ formValues, handleChange }) {
                 });
               }}
               selectedProveedorId={formValues.id_proveedor_recojo}
+            /> */}
+            <Select
+              styles={customStyles}
+              options={proveedores}
+              value={
+                formValues.id_proveedor_recojo
+                  ? proveedores.find(
+                      (option) =>
+                        option.value === formValues.id_proveedor_recojo
+                    )
+                  : null
+              }
+              onChange={(proveedor) => {
+                handleChange({
+                  target: {
+                    name: "id_proveedor_recojo",
+                    value: proveedor ? proveedor.value : "",
+                  },
+                });
+              }}
+              placeholder="Seleccione un proveedor"
+              className="w-[90%] text-xs bg-gray-100  mt-1 h-[18px] rounded-sm border  focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
             />
           </div>
           <div className="">

@@ -39,7 +39,13 @@ function ModalAgregar({
       "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
-      .then((data) => setDepartamentos(data))
+      .then((data) => {
+        const transformedDepartamentos = data.map((departamento) => ({
+          value: departamento.id,
+          label: departamento.nombre_dep,
+        }));
+        setDepartamentos(transformedDepartamentos);
+      })
       .catch((error) => console.error("Error fetching departamentos:", error));
   }, []);
 
@@ -50,7 +56,13 @@ function ModalAgregar({
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
-        .then((data) => setProvincias(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.id,
+            label: provincia.nombre_prov,
+          }));
+          setProvincias(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching provincias:", error));
     }
   }, [departamentoSeleccionado]);
@@ -62,7 +74,13 @@ function ModalAgregar({
         `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
-        .then((data) => setDistritos(data))
+        .then((data) => {
+          const transformedDepartamentos = data.map((provincia) => ({
+            value: provincia.ubigeo,
+            label: provincia.nombre_dist,
+          }));
+          setDistritos(transformedDepartamentos);
+        })
         .catch((error) => console.error("Error fetching distritos:", error));
     }
   }, [provinciaSeleccionada]);
@@ -70,11 +88,13 @@ function ModalAgregar({
   const handleDepartamentoChange = (event) => {
     setDepartamentoSeleccionado(event.target.value);
     setProvinciaSeleccionada("");
+    setDistritoSeleccionada("");
     setDistritos([]);
   };
 
   const handleProvinciaChange = (event) => {
     setProvinciaSeleccionada(event.target.value);
+    setDistritoSeleccionada("");
   };
 
   const handleDistritoChange = (event) => {
@@ -331,7 +351,7 @@ function ModalAgregar({
 
   // GUARDAR
 
-  const [formulario, setFormulario] = useState({
+  const initialFormState = {
     consignado_cotizacion_destino: "",
     dni_ruc_cotizacion_destino: "",
     telefono_cotizacion_destino: "",
@@ -362,7 +382,13 @@ function ModalAgregar({
     estiba_desestiba_cotizacion_destino: 0.0,
     transporte_extra_cotizacion_destino: 0.0,
     id_creador: localStorage.getItem("id_usuario"),
-  });
+  };
+
+  const [formulario, setFormulario] = useState(initialFormState);
+
+  const handleReset = () => {
+    setFormulario(initialFormState);
+  };
 
   useEffect(() => {
     if (datosTarifario.length > 0) {
@@ -420,10 +446,11 @@ function ModalAgregar({
     setMontaCarga("");
     setTransporteExtra("");
     setDatosValorizado("");
-
     setOptionSelect("");
-
+    setDepartamentoSeleccionado("");
+    setProvinciaSeleccionada("");
     setResetForm((prevResetForm) => !prevResetForm);
+    handleReset();
   };
 
   const handleSubmit = async (e) => {
@@ -492,9 +519,7 @@ function ModalAgregar({
       });
     }
   };
-
   // FUNCION SELECT
-
   const customStyles = {
     control: (provided, state) => ({
       ...provided,
@@ -553,51 +578,81 @@ function ModalAgregar({
     handleSelectChange(selectedOption);
   };
 
-     const customStyles3 = {
-       control: (provided, state) => ({
-         ...provided,
-         maxHeight: "23px",
-         minHeight: "20px",
-         height: "2px",
-         fontSize: "12px",
-         borderRadius: "5px",
-         backgroundColor: "transparent",
-         border: "none",
-         marginTop: "0",
-       }),
-       menuList: (provided) => ({
-         ...provided,
-         maxHeight: "200px",
-         overflowY: "auto",
-       }),
-       menu: (provided) => ({
-         ...provided,
-         borderRadius: "5px",
-         fontSize: "12px",
-         margin: "6px 0",
-         padding: "2px 0px",
-       }),
-       option: (provided, state) => ({
-         ...provided,
-         borderRadius: "5px",
-         padding: "4px 4px",
-         maxHeight: "20px",
-       }),
-       valueContainer: (provided) => ({
-         ...provided,
-         padding: "0px 20px 1px 2px",
-         marginTop: "-2px",
-       }),
+  const customStyles3 = {
+    control: (provided, state) => ({
+      ...provided,
+      maxHeight: "23px",
+      minHeight: "20px",
+      height: "2px",
+      fontSize: "12px",
+      borderRadius: "5px",
+      backgroundColor: "transparent",
+      border: "none",
+      marginTop: "0",
+    }),
+    menuList: (provided) => ({
+      ...provided,
+      maxHeight: "200px",
+      overflowY: "auto",
+    }),
+    menu: (provided) => ({
+      ...provided,
+      borderRadius: "5px",
+      fontSize: "12px",
+      margin: "6px 0",
+      padding: "2px 0px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      padding: "2px 4px",
+      maxHeight: "20px",
 
-       dropdownIndicator: (provided, state) => ({
-         ...provided,
-         display: "none", // Oculta el indicador
-       }),
-       indicatorSeparator: (provided, state) => ({
-         ...provided,
-         display: "none", // Oculta la barrita al lado del indicador
-       }),
-     };
+      overflow: "hidden", // Evita que el texto se desborde
+      textOverflow: "ellipsis", // Añade los puntos suspensivos
+      whiteSpace: "nowrap",
+    }),
+    valueContainer: (provided) => ({
+      ...provided,
+      padding: "0px 20px 1px 2px",
+      marginTop: "-2px",
+    }),
+
+    dropdownIndicator: (provided, state) => ({
+      ...provided,
+      display: "none", // Oculta el indicador
+    }),
+    indicatorSeparator: (provided, state) => ({
+      ...provided,
+      display: "none", // Oculta la barrita al lado del indicador
+    }),
+  };
+
+  const optionsenvio = [
+    { value: "Elegir Envio", label: "Elegir Envio" },
+    { value: "Courrier", label: "Courrier" },
+    { value: "Aerea", label: "Aerea" },
+    { value: "Carga", label: "Carga" },
+    { value: "Valorizada", label: "Valorizada" },
+  ];
+  const optionsmovimiento = [
+    { value: "Elegir Movimiento", label: "Elegir Movimiento" },
+    { value: "Terrestre", label: "Terrestre" },
+    { value: "Aereo", label: "Aereo" },
+    { value: "Fluvial", label: "Fluvial" },
+  ];
+  const optionslogistica = [
+    { value: "Elegir Logistica", label: "Elegir Logistica" },
+    { value: "Nacional", label: "Nacional" },
+    { value: "Local", label: "Local" },
+    { value: "Inversa", label: "Inversa" },
+    { value: "Transito", label: "Transito" },
+  ];
+
+  // useEffect(() => {
+  //   console.log('Formulario actualizado:', formulario);
+  //   // Aquí puedes realizar otras acciones cuando el formulario cambie
+  // }, [formulario]); // Dependencia para ejecutar el efecto cuando 'formulario cambie'
+
   return (
     <>
       <div
@@ -647,7 +702,7 @@ function ModalAgregar({
                               event.target.value =
                                 event.target.value.toUpperCase();
                             }}
-                            className="uppercase w-[100%]  text-xs  px-1 rounded-sm-sm border h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                            className="uppercase w-[100%]  text-xs  px-1 rounded-sm border h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
                           />
                         </div>
                         <div className="">
@@ -656,7 +711,7 @@ function ModalAgregar({
                           </label>
                         </div>
                         <div className="ml-[-25px] mr-[20px]">
-                          <select
+                          {/* <select
                             name="tarifario_cotizacion_destino"
                             id="tarifario_cotizacion_destino"
                             onChange={(e) => {
@@ -671,7 +726,33 @@ function ModalAgregar({
                             <option value="Aerea">Aerea</option>
                             <option value="Carga">Carga</option>
                             <option value="Valorizada">Valorizada</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            name="tarifario_cotizacion_destino"
+                            id="tarifario_cotizacion_destino"
+                            options={optionsenvio}
+                            styles={customStyles3}
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tarifario_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                              handleTipoTarifarioChange(event);
+                            }}
+                            placeholder="Elegir Envio"
+                            className="border rounded-sm"
+                            required
+                            value={
+                              formulario.tarifario_cotizacion_destino
+                                ? optionsenvio.find(
+                                    (option) => option.value === formulario.tarifario_cotizacion_destino
+                                  )
+                                : null
+                            }
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">RUC/DNI</label>
@@ -698,10 +779,7 @@ function ModalAgregar({
                             styles={customStyles3}
                             className="text-xs ScrollTableVertical "
                             placeholder="Elegir Departamento"
-                            options={departamentos.map((departamento) => ({
-                              value: departamento.id,
-                              label: departamento.nombre_dep,
-                            }))}
+                            options={departamentos}
                             onChange={(selectedOption) =>
                               handleDepartamentoChange({
                                 target: {
@@ -711,6 +789,14 @@ function ModalAgregar({
                               })
                             }
                             required
+                            value={
+                              departamentoSeleccionado
+                                ? departamentos.find(
+                                    (option) =>
+                                      option.value === departamentoSeleccionado
+                                  )
+                                : null
+                            }
                           />
                         </div>
                         <div className="">
@@ -733,8 +819,34 @@ function ModalAgregar({
                             Provincia
                           </label>
                         </div>
-                        <div className="ml-[-25px] mr-[20px]">
-                          <select
+                        <div className="ml-[-25px] mr-[20px] mt-1">
+                          <Select
+                            styles={customStyles3}
+                            options={provincias}
+                            placeholder="Elegir Provincia"
+                            onChange={(selectedOption) =>
+                              handleProvinciaChange({
+                                target: {
+                                  name: "provincia",
+                                  value: selectedOption.value,
+                                },
+                              })
+                            }
+                            name="provincia"
+                            id="provincia"
+                            isDisabled={!departamentoSeleccionado}
+                            className="border rounded-sm"
+                            value={
+                              provinciaSeleccionada
+                                ? provincias.find(
+                                    (option) =>
+                                      option.value === provinciaSeleccionada
+                                  )
+                                : null
+                            }
+                            required
+                          ></Select>
+                          {/* <select
                             className="w-[100%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
                             name="provincia"
                             id="provincia"
@@ -752,7 +864,7 @@ function ModalAgregar({
                                 {provincia.nombre_prov}
                               </option>
                             ))}
-                          </select>
+                          </select> */}
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
@@ -774,8 +886,8 @@ function ModalAgregar({
                         <div className="">
                           <label className="text-black text-xs">Distrito</label>
                         </div>
-                        <div className="ml-[-25px] mr-[20px]">
-                          <select
+                        <div className="ml-[-25px] mr-[20px] mt-1">
+                          {/* <select
                             className="w-[100%] text-xs h-5 border  px-1 rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500 focus:shadow-md"
                             name="ubigeo_cotizacion_destino"
                             id="ubigeo_cotizacion_destino"
@@ -796,7 +908,35 @@ function ModalAgregar({
                                 {distrito.nombre_dist}
                               </option>
                             ))}
-                          </select>
+                          </select> */}
+                          <Select
+                            name="ubigeo_cotizacion_destino"
+                            id="ubigeo_cotizacion_destino"
+                            styles={customStyles3}
+                            className="border rounded-sm"
+                            isDisabled={!provinciaSeleccionada}
+                            options={distritos}
+                            placeholder="Elegir Distrito"
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "ubigeo_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                              handleDistritoChange(event);
+                            }}
+                            value={
+                              distritoSeleccionada
+                                ? distritos.find(
+                                    (option) =>
+                                      option.value === distritoSeleccionada
+                                  )
+                                : null
+                            }
+                            required
+                          ></Select>
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
@@ -890,8 +1030,8 @@ function ModalAgregar({
                             Tipo-Movimiento
                           </label>
                         </div>
-                        <div className="ml-[-25px]">
-                          <select
+                        <div className="ml-[-25px] mr-[17.5px]">
+                          {/* <select
                             name="tipo_envio_cotizacion_destino"
                             id="tipo_envio_cotizacion_destino"
                             required
@@ -902,15 +1042,41 @@ function ModalAgregar({
                             <option value="Terrestre">Terrestre</option>
                             <option value="Aereo">Aereo</option>
                             <option value="Fluvial">Fluvial</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            options={optionsmovimiento}
+                            styles={customStyles3}
+                            placeholder="Elegir Movimiento"
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tipo_envio_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            className="border rounded-sm "
+                            name="tipo_envio_cotizacion_destino"
+                            id="tipo_envio_cotizacion_destino"
+                            value={
+                              formulario.tipo_envio_cotizacion_destino
+                                ? optionsmovimiento.find(
+                                    (option) =>
+                                      option.value === formulario.tipo_envio_cotizacion_destino
+                                  )
+                                : null
+                            }
+                            required
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">
                             Tipo-Logística
                           </label>
                         </div>
-                        <div className="ml-[-25px]">
-                          <select
+                        <div className="ml-[-25px] mr-[17px]">
+                          {/* <select
                             name="tipo_logistica_cotizacion_destino"
                             id="tipo_logistica_cotizacion_destino"
                             required
@@ -922,7 +1088,33 @@ function ModalAgregar({
                             <option value="Local">Local</option>
                             <option value="Inversa">Inversa</option>
                             <option value="Transito">Transito</option>
-                          </select>
+                          </select> */}
+                          <Select
+                            name="tipo_logistica_cotizacion_destino"
+                            id="tipo_logistica_cotizacion_destino"
+                            options={optionslogistica}
+                            styles={customStyles3}
+                            onChange={(selectedOption) => {
+                              const event = {
+                                target: {
+                                  name: "tipo_logistica_cotizacion_destino",
+                                  value: selectedOption.value,
+                                },
+                              };
+                              handleChange(event);
+                            }}
+                            placeholder="Elegir Logistica"
+                            className="border rounded-sm "
+                            required
+                            value={
+                              formulario.tipo_logistica_cotizacion_destino
+                                ? optionslogistica.find(
+                                    (option) =>
+                                      option.value === formulario.tipo_logistica_cotizacion_destino
+                                  )
+                                : null
+                            }
+                          />
                         </div>
                         <div className="">
                           <label className="text-black text-xs">

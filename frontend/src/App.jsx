@@ -2,25 +2,6 @@ import React, { useState, useEffect } from "react";
 import MyRoutes from "./Routes/MyRoutes";
 
 function App() {
-
-  // MENSAJITO CUANDO SALES DE LA PAGE
-  useEffect(() => {
-    const handleVisibilityChange = () => {
-      if (document.hidden) {
-        document.title = "¡No te vayas como ella 💔!";
-      } else {
-        document.title = "Demo";
-      }
-    };
-
-    // Agregar el listener para el evento de visibilidad
-    document.addEventListener("visibilitychange", handleVisibilityChange);
-
-    // Limpiar el listener cuando el componente se desmonte
-    return () => {
-      document.removeEventListener("visibilitychange", handleVisibilityChange);
-    };
-  }, []);
   const [loggedIn, setLoggedIn] = useState(
     localStorage.getItem("login") === "true"
   );

@@ -4,9 +4,8 @@ import {
   IconoHamburguesa,
   IconoComentario,
 } from "../../../../Iconos/Iconos-NavBar";
-import ModalComentario2 from "../Modals/ModalComentario2";
+import ModalComentario2 from "../Modals/ModalComentario";
 import CAgente from "../Modals/CompletarAgente";
-import ModalComentario from "../Modals/ModalComentario";
 
 const Tooltip = ({ children, content }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -56,7 +55,6 @@ export const Table = ({
   };
   return (
     <>
-      <ModalComentario open={open} setOpen={setOpen} />
       <CAgente
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

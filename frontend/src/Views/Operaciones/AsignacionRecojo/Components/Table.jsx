@@ -135,6 +135,12 @@ function Table({
                         ? asignacion.nombre_auxiliar_recojo
                         : ""}
                     </td>
+                    <td className="px-10 py-4 w-full">
+                      {asignacion.id_proveedor_recojo === null &&
+                      asignacion.id_conductor_recojo !== null
+                        ? asignacion.nombre_placa
+                        : ""}
+                    </td>
                   </tr>
                 ))}
             </tbody>

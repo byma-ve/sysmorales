@@ -3,7 +3,44 @@ import { IconoExcel, Calendario } from "../../../../Iconos/Iconos-NavBar";
 import Fechas from "../Modals/Fechas";
 import SearchAgente from "./SearchAgente";
 import ExcelJS from "exceljs";
+import Select from "react-select";
 
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "30px",
+    minHeight: "37px",
+    height: "10px",
+    fontSize: "16px",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "14px",
+    margin: "6px 0",
+    padding: "8px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //display: "none", Oculta el indicador
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 function Filtrado({ onSearch }) {
   // Estados para controlar la habilitación de los botones
   const [calendarioButtonDisabled, setCalendarioButtonDisabled] =
@@ -68,7 +105,13 @@ function Filtrado({ onSearch }) {
       "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
     )
       .then((response) => response.json())
-      .then((data) => setAgentes(data));
+      .then((data) => {
+        const transformedAgentes = data.map((agente) => ({
+          value: agente.id,
+          label: agente.razon_social_proveedor,
+        }));
+        setAgentes(transformedAgentes);
+      });
   }, []);
 
   const [idAgente, setIdAgente] = useState("");
@@ -202,10 +245,23 @@ function Filtrado({ onSearch }) {
             />
           </div>
 
-          <div className="cont-fecha flex justify-between">
-            <SearchAgente
+          <div className="cont-fecha flex justify-between ">
+            {/* <SearchAgente
               agentes={agentes}
               handleSelectAgente={handleSelectAgente}
+            /> */}
+            <Select
+              options={agentes}
+              styles={customStyles}
+              placeholder="Filtrar Agente"
+              className="w-[350px] h-[38px] bg-white rounded-lg mr-4"
+              onChange={(selectedOption) =>
+                handleSelectAgente({
+                  id: selectedOption.value,
+                  razon_social_proveedor: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                })
+              }
+              isClearable
             />
 
             <button

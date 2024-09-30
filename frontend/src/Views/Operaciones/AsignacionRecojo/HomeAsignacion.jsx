@@ -20,6 +20,7 @@ function HomeAsignacion() {
     "Asignación de proceso": true,
     "Conductor asignado": true,
     "Auxiliar asignado": true,
+    "Vehiculo asignado": true,
   });
 
   const handleGuardarColumnas = (columnas) => {

@@ -399,8 +399,7 @@ function NavBar({ handleMenuHover, handleMenuLeave }) {
                       </p>
                       {minimizar3 && (
                         <>
-                          {permisos.comprobantes_panel_permiso ===
-                            1 && (
+                          {permisos.comprobantes_panel_permiso === 1 && (
                             <p className="items-hover">
                               <Link to="/home-panel">Panel</Link>
                             </p>
@@ -435,8 +434,7 @@ function NavBar({ handleMenuHover, handleMenuLeave }) {
                               <Link to="/homeDocdeBaja">Documento de baja</Link>
                             </p>
                           )}
-                          {permisos.comprobantes_reportes_permiso ===
-                            1 && (
+                          {permisos.comprobantes_reportes_permiso === 1 && (
                             <p className="items-hover">
                               <Link to="/homereportes">Reportes</Link>
                             </p>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { IconoEditorLapiz } from "../../../../Iconos/Iconos-NavBar";
 import DateComponent from "./components/DateComponent";
 import Select from "react-select";
@@ -7,11 +7,14 @@ import ModalIgv from "./modals/ModalIgv";
 import Tabla from "./components/tabla";
 import Swal from "sweetalert2";
 import Buscador from "./modals/Buscador";
-import { PDFViewer, BlobProvider } from "@react-pdf/renderer";
-import DocuPDF from "./components/DocuPDF";
+import { PDFViewer } from "@react-pdf/renderer";
+import DocuPDFFactura from "../Components/DocuPDFFactura";
+import { ColorContext } from "../../../../Context/ColorProvider";
 import { pilares } from "../../../../Data/data";
 import BuscadorServicio from "./modals/BuscadorServicio";
 const HomeFactura = () => {
+  const { color } = useContext(ColorContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [igvValue, setIgvValue] = useState("18.00");
   const [tipoFactura, setTipoFactura] = useState("nacional");
@@ -746,7 +749,7 @@ const HomeFactura = () => {
                             height: "550px",
                           }}
                         >
-                          <DocuPDF pilares={pilares} />
+                          <DocuPDFFactura pilares={pilares} color={color} />
                         </PDFViewer>
                       </div>
                       <div className="text-black w-full gap-x-10  mt-4 flex justify-center">

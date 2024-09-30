@@ -83,13 +83,27 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
     }));
   };
 
-  const handleGuardar = () => {
+  const handleGuardar = async () => {
     const checkboxSeleccionadosConValores = checkboxSeleccionados.map((id) => ({
       id,
       value: inputValues[id] || 1,
     }));
 
-    if (opcionImprimir == "10x7.5") {
+    try {
+      const response = await fetch("https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/guardarPiezas.php", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(checkboxSeleccionadosConValores),
+      });
+      const resultado = await response.json();
+      console.log(resultado.message);
+    } catch (error) {
+      console.error("Error:", error);
+    }
+
+    if (opcionImprimir === "10x7.5") {
       checkboxSeleccionadosConValores.forEach(async (item) => {
         await sticker(item.value, item.id, fechaSeleccionada);
       });
@@ -110,7 +124,7 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
         <div
           className={`side-panel-cont-container ${
             modalVisible1 ? "translate-y-0" : "translate-y-[600%]"
-          } w-[45%] block absolute transition-transform duration-500`}
+          } w-[50%] block absolute transition-transform duration-500`}
         >
           <div className="side-panel-content-container p-3">
             <div className="side-panel-iframe h-full ">
@@ -218,12 +232,12 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
                     </div>
                     <div
                       id="countries_multiple"
-                      className="bg-white pl-1 pt-8 border mx-auto my-1 focus:outline-none focus:ring-2 overflow-y ScrollTable overflow-ellipsis text-sm ring-1 rounded text-gray-400 cont-checkbox-items w-full h-full grid grid-cols-3 gap-1 place-content-center max-h-52 overflow-y-auto "
+                      className="bg-white p-4 border mx-auto my-1 focus:outline-none focus:ring-2 overflow-y-auto ScrollTable text-sm ring-1 rounded text-gray-400 w-full max-h-52 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3  gap-2"
                     >
                       {registrosCarga.map((estado) => (
                         <div
                           key={estado.id}
-                          className="checkbox-item flex items-center p-3"
+                          className="checkbox-item flex items-center p-2"
                         >
                           <input
                             type="checkbox"
@@ -240,13 +254,13 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
                           />
                           <label
                             htmlFor="countries_multiple"
-                            className="pl-1 w-[70%] xl:w-[60%] text-gray-400"
+                            className="pl-1 text-gray-600"
                           >
                             {estado.id_num_guia_registro_carga}
                           </label>
                           <input
                             type="text"
-                            className="items-center ps-1 outline-none w-[26px] bg-gray-100 focus:bg-gray-300 h-4 ml-1 border text-[12px] rounded-sm text-gray-400"
+                            className="items-center  outline-none bg-gray-100 focus:bg-gray-300 h-4 ml-2 border text-[12px] rounded-sm text-gray-600 w-[16px]"
                             value={
                               inputValues[estado.id_num_guia_registro_carga] ||
                               ""

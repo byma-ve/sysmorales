@@ -573,14 +573,14 @@ function HomeEstados() {
                         <td className="px-6 py-3">
                           {datosIntento3?.fecha_proceso_estado_guia || ""}
                         </td>
-                        <td className="px-6 py-3  flex  justify-center">
+                        <td className="px-6 py-3 text-center">
                           {(datosIntento3?.imagen_1_estado_guia ||
                             datosIntento3?.imagen_2_estado_guia ||
                             datosIntento3?.imagen_3_estado_guia) && (
                             <ModalImagenes datos={datosIntento3} />
                           )}
                         </td>
-                        <td className="px-6 py-3  flex  justify-center">
+                        <td className="px-6 py-3    text-center">
                           {(datosIntento3?.imagen_4_estado_guia ||
                             datosIntento3?.imagen_5_estado_guia ||
                             datosIntento3?.imagen_6_estado_guia) && (

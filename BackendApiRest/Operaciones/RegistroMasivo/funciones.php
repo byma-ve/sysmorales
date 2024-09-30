@@ -551,7 +551,7 @@ function guardarDestino($id_cliente, $id_area, $datos, $id_usuario)
                 ];
 
                 foreach ($validarLongitud as $campo => $longitudMaxima) {
-                    if (strlen($dato[$campo]) > $longitudMaxima) {
+                    if (isset($dato[$campo]) && strlen($dato[$campo]) > $longitudMaxima) {
                         return ['success' => false, 'message' => 'Error: El campo ' . $campo . ' en la fila ' . ($fila + 2) . ' debe tener ' . $longitudMaxima . ' dígitos o menos.'];
                     }
                 }
@@ -825,10 +825,10 @@ function guardarDestino($id_cliente, $id_area, $datos, $id_usuario)
                     "retorno_registro_masivo_destino" => 0,
                     "estiba_desestiba_registro_masivo_destino" => 0,
                     "transporte_extra_registro_masivo_destino" => 0,
-                    "guia_transportista_registro_masivo_destino" => isset($dato['G-TRANSPORTISTA']) && !empty($dato['G-TRANSPORTISTA']) ? $dato['G-TRANSPORTISTA'] : '-',
-                    "guia_remision_registro_masivo_destino" => isset($dato['G-REMISIÓN']) && !empty($dato['G-REMISIÓN']) ? $dato['G-REMISIÓN'] : '-',
-                    "documento_1_registro_masivo_destino" => isset($dato['NRO. PEDIDO']) && !empty($dato['NRO. PEDIDO']) ? $dato['NRO. PEDIDO'] : '-',
-                    "documento_2_registro_masivo_destino" => isset($dato['DOC-ADICIONAL']) && !empty($dato['DOC-ADICIONAL']) ? $dato['DOC-ADICIONAL'] : '-',
+                    "guia_transportista_registro_masivo_destino" => empty($dato['G-TRANSPORTISTA']) ? '-' : $dato['G-TRANSPORTISTA'],
+                    "guia_remision_registro_masivo_destino" => empty($dato['G-REMISIÓN']) ? '-' : $dato['G-REMISIÓN'],
+                    "documento_1_registro_masivo_destino" => empty($dato['NRO. PEDIDO']) ? '-' : $dato['NRO. PEDIDO'],
+                    "documento_2_registro_masivo_destino" => empty($dato['DOC-ADICIONAL']) ? '-' : $dato['DOC-ADICIONAL'],
                     "id_creador_registro_masivo_destino" => $id_usuario,
                     "fecha_creado" => $fecha_actual
                 );
@@ -873,6 +873,7 @@ function guardarDestino($id_cliente, $id_area, $datos, $id_usuario)
         return ['success' => false, 'message' => 'Debe tener al menos 1 registro para guardar.'];
     }
 }
+
 
 function totalAdicionales($valorMercancia, $packing, $costoRetorno, $estibaDesestiba, $montaCarga, $transporteExtra)
 {

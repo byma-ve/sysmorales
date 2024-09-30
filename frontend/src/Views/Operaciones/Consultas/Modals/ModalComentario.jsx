@@ -27,14 +27,17 @@ export default function ModalComentario({ dato }) {
               </ModalHeader>
               {dato && (
                 <ModalBody>
-                  <p>
-                    {dato}
-                  </p>
+                  <p>{dato}</p>
                 </ModalBody>
               )}
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
-                  Close
+                <Button
+                  color="danger"
+                  variant="light"
+                  onPress={onClose}
+                  className="px-6 py-2 text-white bg-gradient-to-t   from-gray-400 via-gray-500 to-gray-500 hover:bg-gradient-to-br rounded-md "
+                >
+                  Cerrar
                 </Button>
               </ModalFooter>
             </>

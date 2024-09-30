@@ -11,7 +11,11 @@ function HomeConsultas() {
         "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerConsultas.php"
       );
       const data = await response.json();
-      setRegistros(data);
+      const transformedRegistros= data.map((guia) => ({
+        value: guia.id_num_guia_registro_carga,
+        label: guia.id_num_guia_registro_carga,
+      }));
+      setRegistros(transformedRegistros);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -43,7 +47,7 @@ function HomeConsultas() {
         `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerInstancia.php?id_num_guia=${value}`
       );
       const data = await response.json();
-      setInformacionInstancia(data.info);
+      setInformacionInstancia(data);
     } catch (error) {
       console.error("Error cargar datos consulta:", error);
     }
@@ -841,8 +845,9 @@ function HomeConsultas() {
                       <div>
                         <input
                           value={
-                            informacionInstancia.manifiesto
-                              ? informacionInstancia.manifiesto
+                            informacionInstancia.Despacho &&
+                            informacionInstancia.Despacho.manifiesto
+                              ? informacionInstancia.Despacho.manifiesto
                               : ""
                           }
                           type="text"
@@ -862,8 +867,9 @@ function HomeConsultas() {
                       <div>
                         <input
                           value={
-                            informacionInstancia.agente
-                              ? informacionInstancia.agente
+                            informacionInstancia.Despacho &&
+                            informacionInstancia.Despacho.agente
+                              ? informacionInstancia.Despacho.agente
                               : ""
                           }
                           type="text"

@@ -2,6 +2,54 @@ import { useState, useEffect } from "react";
 import Swal from "sweetalert2";
 import SearchTracking from "../Components/SelectBuscador/SearchTracking";
 import SearchAgente from "../Components/SelectBuscador/SearchAgente";
+import Select from "react-select";
+
+const customStyles3 = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "23px",
+    minHeight: "20px",
+    height: "2px",
+    fontSize: "12px",
+    borderRadius: "5px",
+    backgroundColor: "transparent",
+    border: "none",
+    marginTop: "-3px",
+  }),
+  menuList: (provided) => ({
+    ...provided,
+    maxHeight: "120px",
+    overflowY: "auto",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "12px",
+    margin: "6px 0",
+    padding: "2px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "2px 4px",
+    maxHeight: "20px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0px 20px 1px 2px",
+    marginTop: "-6px",
+  }),
+
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    // display: "none", // Oculta el indicador
+    marginTop: "-6px",
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 function ModalAgregarEnvio({
   modalAgregarEnvio,
   setModalAgregarEnvios,
@@ -28,6 +76,7 @@ function ModalAgregarEnvio({
     setDatosAgente([]);
     setSelectedAgente("");
     cargarGuiasUnitario();
+    setFormData(resetFormData);
   };
 
   const [formData, setFormData] = useState({
@@ -45,14 +94,11 @@ function ModalAgregarEnvio({
     }));
   }, [selectedTransportista]);
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
+  const handleInputChange = (name, value) => {
     let newFormData = { ...formData, [name]: value };
-
     if (name === "id_agente_despacho_envio" && value) {
       newFormData = { ...newFormData, tipo_envio_despacho_envio: "" };
     }
-
     setFormData(newFormData);
   };
 
@@ -161,7 +207,7 @@ function ModalAgregarEnvio({
                           <label className=" text-xs ">N° Tracking</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <SearchTracking
+                          {/* <SearchTracking
                             selectedGuiaUnitaria={selectedGuiaUnitaria}
                             trackings={selectGuiasUnitario}
                             setSelectedTracking={(tracking) => {
@@ -173,6 +219,31 @@ function ModalAgregarEnvio({
                                 },
                               });
                             }}
+                          /> */}
+
+                          <Select
+                            name="id_num_guia_despacho_envio"
+                            id="id_num_guia_despacho_envio"
+                            styles={customStyles3}
+                            options={selectGuiasUnitario}
+                            onChange={(selectedOption) => {
+                              const value = selectedOption.value;
+                              handleInputChange(
+                                "id_num_guia_despacho_envio",
+                                value
+                              );
+                              handleSelectGuiaUnitaria(value);
+                            }}
+                            value={
+                              selectedGuiaUnitaria
+                                ? selectGuiasUnitario.find(
+                                    (option) =>
+                                      option.value === selectedGuiaUnitaria
+                                  )
+                                : null
+                            }
+                            className="border rounded-sm  mt-1 w-[90%] "
+                            required
                           />
                         </div>
                         <div className="">
@@ -242,7 +313,10 @@ function ModalAgregarEnvio({
                           <label className=" text-xs">Provincia</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <select className="w-[90%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md">
+                          <select
+                            disabled
+                            className="w-[90%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                          >
                             <option value="">
                               {datosGuiaUnitaria.PROVINCIA
                                 ? datosGuiaUnitaria.PROVINCIA
@@ -270,7 +344,10 @@ function ModalAgregarEnvio({
                           <label className=" text-xs">Distrito</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <select className="w-[90%] text-xs h-5 border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md">
+                          <select
+                            disabled
+                            className="w-[90%] text-xs h-5 border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                          >
                             <option value="">
                               {datosGuiaUnitaria.DESTINO
                                 ? datosGuiaUnitaria.DESTINO
@@ -336,7 +413,7 @@ function ModalAgregarEnvio({
                           <label className=" text-xs ">Nombre-Agente</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <SearchAgente
+                          {/* <SearchAgente
                             agentes={selectAgentes}
                             setSelectedAgente={(agente) => {
                               handleSelectAgente(agente);
@@ -348,13 +425,57 @@ function ModalAgregarEnvio({
                               });
                             }}
                             selectedAgenteEnvio={selectedAgente}
+                          /> */}
+                          {/* <select
+                            name="id_agente_despacho_envio"
+                            onChange={(e) => {
+                              handleSelectAgente(e);
+                              handleInputChange(e);
+                            }}
+                            id="id_agente_despacho_envio"
+                            value={selectedAgente}
+                            className="w-[90%] border  px-1  rounded-sm text-xs -md h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                          >
+                            <option value="">Elegir Agente</option>
+                            {selectAgentes.map((agente) => (
+                              <option key={agente.id} value={agente.id}>
+                                {agente.razon_social_proveedor} -{" "}
+                                {agente.tipo_servicio_proveedor}
+                              </option>
+                            ))}
+                          </select> */}
+                          <Select
+                            name="id_agente_despacho_envio"
+                            id="id_agente_despacho_envio"
+                            styles={customStyles3}
+                            options={selectAgentes}
+                            onChange={(selectedOption) => {
+                              const value = selectedOption.value;
+                              handleInputChange(
+                                "id_agente_despacho_envio",
+                                value
+                              );
+                              handleSelectAgente(value);
+                            }}
+                            value={
+                              selectedAgente
+                                ? selectAgentes.find(
+                                    (option) =>
+                                      option.value === selectedAgente
+                                  )
+                                : null
+                            }
+                            className="border rounded-sm  mt-1 w-[90%] "
                           />
                         </div>
                         <div className="">
                           <label className=" text-xs">Provincia</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <select className="w-[90%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md">
+                          <select
+                            disabled
+                            className="w-[90%] text-xs h-5  border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                          >
                             <option value="">
                               {datosAgente.PROVINCIA
                                 ? datosAgente.PROVINCIA
@@ -381,7 +502,10 @@ function ModalAgregarEnvio({
                           <label className=" text-xs">Distrito</label>
                         </div>
                         <div className="ml-[-60px]">
-                          <select className="w-[90%] text-xs h-5 border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md">
+                          <select
+                            disabled
+                            className="w-[90%] text-xs h-5 border  px-1  rounded-sm focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                          >
                             <option value="">
                               {datosAgente.DESTINO ? datosAgente.DESTINO : ""}
                             </option>

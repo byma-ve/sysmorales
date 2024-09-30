@@ -2,50 +2,50 @@ import React, { Fragment, useState, useEffect } from "react";
 import { Combobox, Transition } from "@headlessui/react";
 import { IconoAbajo } from "../../../../Iconos/Iconos-NavBar";
 
-export default function SearchConductor({
-  conductores,
-  setSelectedConductor,
-  selectedConductorId,
+export default function SearchVehiculo({
+  vehiculos,
+  setSelectedVehiculo,
+  selectedVehiculoId,
 }) {
   const [query, setQuery] = useState("");
-  const [selectedConductor, setSelectedConductorLocal] = useState(null);
+  const [selectedVehiculo, setSelectedVehiculoLocal] = useState(null);
 
   // Opción por defecto
   const defaultOption = {
     id: null,
-    dni_usuario: "Elegir Conductor",
+    placa_vehiculo: "Elegir Placa",
   };
   useEffect(() => {
-    if (selectedConductorId) {
-      const selected = conductores.find((c) => c.id === selectedConductorId);
-      setSelectedConductorLocal(selected);
-      setSelectedConductor(selected);
+    if (selectedVehiculoId) {
+      const selected = vehiculos.find((c) => c.id === selectedVehiculoId);
+      setSelectedVehiculoLocal(selected);
+      setSelectedVehiculo(selected);
     } else {
-      setSelectedConductorLocal(null);
-      setSelectedConductor(null);
+      setSelectedVehiculoLocal(null);
+      setSelectedVehiculo(null);
     }
-  }, [selectedConductorId, conductores]);
+  }, [selectedVehiculoId, vehiculos]);
 
-  const handleSelectConductor = (conductor) => {
-    setSelectedConductorLocal(conductor);
-    setSelectedConductor(conductor);
+  const handleSelectVehiculo = (vehiculo) => {
+    setSelectedVehiculoLocal(vehiculo);
+    setSelectedVehiculo(vehiculo);
   };
 
-  const filteredConductores =
+  const filteredVehiculos =
     query === ""
-      ? [defaultOption, ...conductores]
+      ? [defaultOption, ...vehiculos]
       : [
-          conductores.filter((conductor) =>
-            conductor.dni_usuario.toLowerCase().includes(query.toLowerCase())
+        vehiculos.filter((vehiculo) =>
+          vehiculo.placa_vehiculo.toLowerCase().includes(query.toLowerCase())
           ),
         ];
 
   return (
-    <Combobox value={selectedConductor} onChange={handleSelectConductor}>
+    <Combobox value={selectedVehiculo} onChange={handleSelectVehiculo}>
       <div className="w-[90%] mt-1 h-5 text-xs bg-gray-100 ps-1 rounded-sm border focus:outline-none focus:ring-0 focus:border-blue-500 focus:shadow-md flex truncate">
         <Combobox.Input
           className="w-[100%] py-0  bg-gray-100 text-xs leading-5 text-black focus:ring-0 focus:outline-none"
-          displayValue={(conductor) => (conductor ? conductor.dni_usuario : "")}
+          displayValue={(vehiculo) => (vehiculo ? vehiculo.placa_vehiculo : "")}
           onChange={(event) => setQuery(event.target.value)}
           placeholder="Buscar por DNI"
         />
@@ -63,21 +63,21 @@ export default function SearchConductor({
         leaveTo="opacity-0"
         afterLeave={() => setQuery("")}
       >
-        {filteredConductores.length > 0 ? (
+        {filteredVehiculos.length > 0 ? (
           <Combobox.Options className="absolute mt-1 max-h-20 overflow-auto  w-[217px] rounded-sm bg-gray-100 py-1 text-base shadow-lg focus:outline-none sm:text-sm">
-            {filteredConductores.map((conductor) => (
+            {filteredVehiculos.map((vehiculo) => (
               <Combobox.Option
-                key={conductor.id ?? "default"}
+                key={vehiculo.id ?? "default"}
                 className={({ active }) =>
                   `relative cursor-default text-xs select-none ps-1 pr-4 ${
                     active ? "bg-blue-300 text-white" : "text-gray-900"
                   } ${
-                    selectedConductor && selectedConductor.id === conductor.id
+                    selectedVehiculo && selectedVehiculo.id === vehiculo.id
                       ? ""
                       : ""
                   }`
                 }
-                value={conductor}
+                value={vehiculo}
               >
                 {({ selected, active }) => (
                   <>
@@ -86,7 +86,7 @@ export default function SearchConductor({
                         selected ? "font-medium" : "font-normal"
                       }`}
                     >
-                      {conductor.dni_usuario}
+                      {vehiculo.placa_vehiculo}
                     </span>
                   </>
                 )}

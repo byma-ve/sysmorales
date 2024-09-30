@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconoExcel } from "../../../../Iconos/Iconos-NavBar";
 import ExcelJS from "exceljs";
 
@@ -7,12 +7,50 @@ import ElegirAreaTarif from "../Modals/ElegirAreaTarif";
 import ElegirTarifario from "../Modals/ElegirTarifario";
 import { ImportarPlantilla } from "../Modals/ImportarPlantilla";
 
+import Select from "react-select";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "30px",
+    minHeight: "40px",
+    height: "10px",
+    fontSize: "14px",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "14px",
+    margin: "6px 0",
+    padding: "8px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //display: "none", Oculta el indicador
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 const SearchTarifario = ({
   onOptionChange,
   onSearch,
   onOptionCliente,
   onOptionArea,
   actualizarTabla,
+  setcourriers
 }) => {
   const [mostrarExportar, setMostrarModalExportar] = useState(false);
   const modalExportar = () => {
@@ -73,15 +111,11 @@ const SearchTarifario = ({
 
   // Cliente Seleccionado
   const seleccionarCliente = (cliente) => {
+    setcourriers([]);
     setClienteSeleccionado(cliente);
     setAreaSeleccionada(null);
     setTarifaSeleccionada(null);
 
-    // Aquí es donde haces que mostrarElegirArea y mostrarElegirTarifa sean false
-    setMostrarElegirArea(false);
-    setMostrarElegirTarifa(false);
-
-    toggleElegirCliente();
     setAreaButtonDisabled(false);
     setTarifarioButtonDisabled(true);
     setExportarButtonDisabled(true);
@@ -240,7 +274,68 @@ const SearchTarifario = ({
       console.error("Error al descargar el archivo Excel:", error);
     }
   }
+  const [clientes, setClientes] = useState([]);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+        );
+        if (!response.ok) {
+          throw new Error("Error al obtener datos de la API");
+        }
+        const data = await response.json();
+        const transformedClientes = data.map((cliente) => ({
+          value: cliente.id,
+          label: cliente.razon_social_cliente,
+        }));
+        setClientes(transformedClientes);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const handleSeleccionarCliente = (cliente) => {
+    seleccionarCliente(cliente);
+  };
+
+  const [areas, setAreas] = useState([]);
+
+  useEffect(() => {
+    if (clienteSeleccionado?.id || "") {
+      fetch(
+        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtener_area.php?id_cliente=${encodeURIComponent(
+          clienteSeleccionado?.id || ""
+        )}`
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          const transformedAreas = data.map((area) => ({
+            value: area.id,
+            label: area.nombre_area,
+          }));
+          setAreas(transformedAreas);
+        })
+        .catch((error) => {
+          console.error("Error al obtener datos del area:", error);
+        });
+    }
+  }, [clienteSeleccionado?.id || ""]);
+
+  const handleSeleccionarArea = (area) => {
+    seleccionarArea(area);
+  };
+
+ const options = [
+    { value: "Courier", label: "Courier" },
+    { value: "Aereo", label: "Aereo" },
+    { value: "Valorizado", label: "Valorizado" },
+    { value: "Carga", label: "Carga" },
+  ]
+  
   return (
     <>
       <div className="ml-1  px-4 pb-4 w-full">
@@ -253,8 +348,7 @@ const SearchTarifario = ({
             onChange={handleSearchChange}
           />
           <div className="flex ">
-            <div>
-              <input
+            {/* <input
                 className=" h-10 w-[350px] px-6 mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 
                 border-none rounded-xl  outline-none cursor-pointer"
                 onClick={toggleElegirCliente}
@@ -263,15 +357,34 @@ const SearchTarifario = ({
                 readOnly
               ></input>
               {/* Modal de Clientes */}
-              {mostrarElegirCliente && (
-                <ElegirClienteTarif
-                  toggleElegirCliente={toggleElegirCliente}
-                  seleccionarCliente={seleccionarCliente}
-                />
-              )}
-            </div>
+            {/* {mostrarElegirCliente && ( */}
+            {/* <ElegirClienteTarif */}
+            {/* toggleElegirCliente={toggleElegirCliente} */}
+            {/* seleccionarCliente={seleccionarCliente} */}
+            {/* /> */}
+            {/* )}  */}
+            <Select
+              styles={customStyles}
+              options={clientes}
+              placeholder="Elegir Cliente"
+              className="w-[350px]   mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 rounded-lg"
+              onChange={(selectedOption) =>
+                handleSeleccionarCliente({
+                  id: selectedOption.value,
+                  razon_social_cliente: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                })
+              }
+              value={
+                clienteSeleccionado
+                  ? clientes.find(
+                      (option) => option.value === clienteSeleccionado
+                    )
+                  : null
+              }
+            />
+
             <div>
-              <input
+              {/* <input
                 className=" h-10  px-6 mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 
                 border-none rounded-xl  outline-none cursor-pointer"
                 onClick={toggleElegirArea}
@@ -279,18 +392,38 @@ const SearchTarifario = ({
                 value={areaSeleccionada?.nombre_area || ""}
                 readOnly
                 disabled={areaButtonDisabled} // Desactivar el botón si areaButtonDisabled es true
-              ></input>
+              ></input> */}
               {/* Modal de Area */}
-              {mostrarElegirArea && (
-                <ElegirAreaTarif
-                  toggleElegirArea={toggleElegirArea}
-                  seleccionarArea={seleccionarArea}
-                  id_cliente={clienteSeleccionado?.id || ""}
-                />
-              )}
+              {/* {mostrarElegirArea && ( */}
+              {/* <ElegirAreaTarif */}
+              {/* toggleElegirArea={toggleElegirArea} */}
+              {/* seleccionarArea={seleccionarArea} */}
+              {/* id_cliente={clienteSeleccionado?.id || ""} */}
+              {/* /> */}
+              {/* )} */}
+              <Select
+                styles={customStyles}
+                options={areas}
+                isDisabled={areaButtonDisabled}
+                onChange={(selectedOption) =>
+                  handleSeleccionarArea({
+                    id: selectedOption.value,
+                    nombre_area: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                  })
+                }
+                value={
+                  areaSeleccionada
+                    ? areas.find(
+                        (option) => option.value === areaSeleccionada
+                      )
+                    : null
+                }
+                placeholder="Elegir Area"
+                className="w-[220px]   mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 rounded-lg"
+              />
             </div>
             <div>
-              <input
+              {/* <input
                 className=" h-10  px-6 mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 
                 border-none rounded-xl  outline-none cursor-pointer"
                 onClick={toggleElegirTarifa}
@@ -298,14 +431,30 @@ const SearchTarifario = ({
                 value={tarifaSeleccionada || ""}
                 readOnly
                 disabled={tarifarioButtonDisabled} // Desactivar el botón si tarifarioButtonDisabled es true
-              ></input>
+              ></input> */}
               {/* Modal de Tarifa */}
-              {mostrarElegirTarifa && (
-                <ElegirTarifario
-                  toggleElegirTarifa={toggleElegirTarifa}
-                  seleccionarTarifa={seleccionarTarifa}
-                />
-              )}
+              {/* {mostrarElegirTarifa && ( */}
+              {/* <ElegirTarifario */}
+              {/* toggleElegirTarifa={toggleElegirTarifa} */}
+              {/* seleccionarTarifa={seleccionarTarifa} */}
+              {/* /> */}
+              {/* )} */}
+              <Select
+                styles={customStyles}
+                options={options}
+                onChange={(e) => seleccionarTarifa(e.value)}
+                isDisabled={tarifarioButtonDisabled} // Desactivar el botón si
+                placeholder="Elegir Tarifario"
+                value={
+                  tarifaSeleccionada
+                    ? options.find(
+                        (option) =>
+                          option.value === tarifaSeleccionada
+                      )
+                    : null
+                }
+                className="w-[220px]   mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 rounded-lg"
+              />
             </div>
             <div className="flex">
               {mostrarExportar && (

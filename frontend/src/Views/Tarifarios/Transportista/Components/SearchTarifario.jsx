@@ -1,10 +1,46 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconoExcel } from "../../../../Iconos/Iconos-NavBar";
 import ExcelJS from "exceljs";
-
+import Select from "react-select";
 import ElegirClienteTarif from "../Modals/ElegirClienteTarif";
 import ElegirTarifario from "../Modals/ElegirTarifario";
 import { ImportarPlantilla } from "../Modals/ImportarPlantilla";
+const customStyles = {
+  control: (provided, state) => ({
+    ...provided,
+    maxHeight: "30px",
+    minHeight: "40px",
+    height: "10px",
+    fontSize: "14px",
+    borderRadius: "10px",
+    backgroundColor: "transparent",
+    border: "none",
+  }),
+  menu: (provided) => ({
+    ...provided,
+    borderRadius: "5px",
+    fontSize: "14px",
+    margin: "6px 0",
+    padding: "8px 0px",
+  }),
+  option: (provided, state) => ({
+    ...provided,
+    borderRadius: "5px",
+    padding: "4px 12px",
+  }),
+  valueContainer: (provided) => ({
+    ...provided,
+    padding: "0 8px",
+  }),
+  dropdownIndicator: (provided, state) => ({
+    ...provided,
+    //display: "none", Oculta el indicador
+  }),
+  indicatorSeparator: (provided, state) => ({
+    ...provided,
+    display: "none", // Oculta la barrita al lado del indicador
+  }),
+};
 
 const SearchTarifario = ({
   onOptionChange,
@@ -185,6 +221,38 @@ const SearchTarifario = ({
     }
   }
 
+  const [agentes, setAgentes] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
+        );
+        if (!response.ok) {
+          throw new Error("Error al obtener datos de la API");
+        }
+        const data = await response.json();
+        const transformedAgentes = data.map((agente) => ({
+          value: agente.id,
+          label: agente.razon_social_proveedor,
+        }));
+        setAgentes(transformedAgentes);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchData();
+  }, []);
+
+  const options = [
+    { value: "Carga", label: "Carga" },
+  ];
+
+  const handleSeleccionarCliente = (agente) => {
+    seleccionarCliente(agente);
+  };
+
   return (
     <>
       <div className="ml-1  px-4 pb-4 w-full">
@@ -198,25 +266,45 @@ const SearchTarifario = ({
           />
           <div className="flex ">
             <div>
-              <input
+              {/* <input
                 className=" h-10  px-6 mx-2 text-sm font-semibold  text-slate-700  bg-white w-[370px]  hover:bg-slate-200 
               border-none rounded-xl  outline-none cursor-pointer"
                 onClick={toggleElegirCliente}
                 placeholder="Elegir Transportista"
                 value={clienteSeleccionado?.razon_social_proveedor || ""}
                 readOnly
-              ></input>
+              ></input> */}
               {/* Modal de Clientes */}
-              {mostrarElegirCliente && (
-                <ElegirClienteTarif
-                  toggleElegirCliente={toggleElegirCliente}
-                  seleccionarCliente={seleccionarCliente}
-                />
-              )}
+              {/* {mostrarElegirCliente && ( */}
+              {/* <ElegirClienteTarif */}
+              {/* toggleElegirCliente={toggleElegirCliente} */}
+              {/* seleccionarCliente={seleccionarCliente} */}
+              {/* /> */}
+              {/* )} */}
+
+              <Select
+                styles={customStyles}
+                options={agentes}
+                placeholder="Elegir Transportista"
+                className="w-[220px]   mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 rounded-lg"
+                onChange={(selectedOption) =>
+                  handleSeleccionarCliente({
+                    id: selectedOption.value,
+                    razon_social_proveedor: selectedOption.label, // Asegúrate de que `label` sea el nombre que necesitas
+                  })
+                }
+                value={
+                  clienteSeleccionado
+                    ? agentes.find(
+                        (option) => option.value === clienteSeleccionado
+                      )
+                    : null
+                }
+              />
             </div>
 
             <div>
-              <input
+              {/* <input
                 className=" h-10  px-6 mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 
               border-none rounded-xl  outline-none cursor-pointer"
                 onClick={toggleElegirTarifa}
@@ -224,14 +312,29 @@ const SearchTarifario = ({
                 value={tarifaSeleccionada || ""}
                 disabled={tarifarioButtonDisabled} // Desactivar el botón si tarifarioButtonDisabled es true
                 readOnly
-              ></input>
+              ></input> */}
               {/* Modal de Tarifa */}
-              {mostrarElegirTarifa && (
-                <ElegirTarifario
-                  toggleElegirTarifa={toggleElegirTarifa}
-                  seleccionarTarifa={seleccionarTarifa}
-                />
-              )}
+              {/* {mostrarElegirTarifa && ( */}
+              {/* <ElegirTarifario */}
+              {/* toggleElegirTarifa={toggleElegirTarifa} */}
+              {/* seleccionarTarifa={seleccionarTarifa} */}
+              {/* /> */}
+              {/* )} */}
+              <Select
+                styles={customStyles}
+                options={options}
+                onChange={(e) => seleccionarTarifa(e.value)}
+                isDisabled={tarifarioButtonDisabled} // Desactivar el botón si
+                placeholder="Elegir Tarifario"
+                value={
+                  tarifaSeleccionada
+                    ? options.find(
+                        (option) => option.value === tarifaSeleccionada
+                      )
+                    : null
+                }
+                className="w-[220px]   mx-2 text-sm font-semibold  text-slate-700  bg-white hover:bg-slate-200 rounded-lg"
+              />
             </div>
             <div className="flex">
               {mostrarExportar && (

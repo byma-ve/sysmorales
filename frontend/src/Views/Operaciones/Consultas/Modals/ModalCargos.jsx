@@ -13,11 +13,41 @@ import {
 } from "@nextui-org/react";
 import ImgPDF from "../../../../Static/Img_Pred/PDF.webp";
 
-import { IconoCargo } from "../../../../Iconos/Iconos-NavBar";
+import { IconoCargo, IconoView } from "../../../../Iconos/Iconos-NavBar";
 
-export default function ModalCargos({datos}) {
+export default function ModalCargos({ datos }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const getModalSize = () => {
+    const imageCount = [
+      datos.imagen_1_estado_guia,
+      datos.imagen_2_estado_guia,
+      datos.imagen_3_estado_guia,
+    ].filter(Boolean).length;
+    switch (imageCount) {
+      case 1:
+        return "sm:max-w-[186px]";
+      case 2:
+        return "sm:max-w-[332px]";
+      default:
+        return "sm:max-w-[480px]";
+    }
+  };
 
+  const getGridCols = () => {
+    const imageCount = [
+      datos.imagen_1_estado_guia,
+      datos.imagen_2_estado_guia,
+      datos.imagen_3_estado_guia,
+    ].filter(Boolean).length;
+    switch (imageCount) {
+      case 1:
+        return "grid-cols-1";
+      case 2:
+        return "grid-cols-2";
+      default:
+        return "grid-cols-3";
+    }
+  };
   return (
     <>
       <Button
@@ -26,29 +56,36 @@ export default function ModalCargos({datos}) {
       >
         <IconoCargo className="  " />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        className={getModalSize()}
+      >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">Cargos</ModalHeader>
               <ModalBody>
-                <div className="max-w-[900px] gap-2 grid grid-cols-12 grid-rows-1px-8 ">
+                <div className={`gap-2 grid ${getGridCols()}`}>
                   {datos?.imagen_4 && (
-                    <Card className="col-span-12 sm:col-span-4 h-[200px]">
-                      <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+                    <Card className="h-[200px]">
+                      <CardHeader className="absolute z-10 -top-3 right-8 flex-col !items-start">
                         <a target="_blank" href={datos.imagen_4}>
                           <Button
-                            className="text-base px- text-white bg-black/75"
+                            className="bg-transparent"
                             variant="flat"
                             color="default"
-                            radius="lg"
-                            size="sm"
+                            radius="sm"
+                            size="xl"
                           >
-                            <h4 className="text-white font-medium text-large">
-                              Global
-                            </h4>
+                            <IconoView className="text-white text-3xl" />
                           </Button>
                         </a>
+                      </CardHeader>
+                      <CardHeader className="absolute z-10 top-[150px] flex-col !items-center">
+                        <h4 className="text-white font-medium text-large">
+                          Global
+                        </h4>
                       </CardHeader>
                       <Image
                         removeWrapper
@@ -59,21 +96,24 @@ export default function ModalCargos({datos}) {
                     </Card>
                   )}
                   {datos?.imagen_5 && (
-                    <Card className="col-span-12 sm:col-span-4 h-[200px]">
-                      <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+                    <Card className="h-[200px]">
+                      <CardHeader className="absolute z-10 -top-3 right-8 flex-col !items-start">
                         <a target="_blank" href={datos.imagen_5}>
                           <Button
-                            className="text-base px- text-white bg-black/75"
+                            className="bg-transparent"
                             variant="flat"
                             color="default"
-                            radius="lg"
-                            size="sm"
+                            radius="sm"
+                            size="xl"
                           >
-                            <h4 className="text-white font-medium text-large">
-                              Remitente
-                            </h4>
+                            <IconoView className="text-white text-3xl" />
                           </Button>
                         </a>
+                      </CardHeader>
+                      <CardHeader className="absolute z-10 top-[150px] flex-col !items-center">
+                        <h4 className="text-white font-medium text-large">
+                          Remitente
+                        </h4>
                       </CardHeader>
                       <Image
                         removeWrapper
@@ -84,21 +124,24 @@ export default function ModalCargos({datos}) {
                     </Card>
                   )}
                   {datos?.imagen_6 && (
-                    <Card className="col-span-12 sm:col-span-4 h-[200px]">
-                      <CardHeader className="absolute z-10 top-1 flex-col !items-start">
+                    <Card className="h-[200px]">
+                      <CardHeader className="absolute z-10 -top-3 right-8 flex-col !items-start">
                         <a target="_blank" href={datos.imagen_6}>
                           <Button
-                            className="text-base px- text-white bg-black/75"
+                            className="bg-transparent"
                             variant="flat"
                             color="default"
-                            radius="lg"
-                            size="sm"
+                            radius="sm"
+                            size="xl"
                           >
-                            <h4 className="text-white font-medium text-large">
-                            Factura
-                            </h4>
+                            <IconoView className="text-white text-3xl" />
                           </Button>
                         </a>
+                      </CardHeader>
+                      <CardHeader className="absolute z-10 top-[150px] flex-col !items-center">
+                        <h4 className="text-white font-medium text-large">
+                          Factura
+                        </h4>
                       </CardHeader>
                       <Image
                         removeWrapper
@@ -111,7 +154,12 @@ export default function ModalCargos({datos}) {
                 </div>
               </ModalBody>
               <ModalFooter>
-                <Button color="danger" variant="light" onPress={onClose}>
+                <Button
+                  color="danger"
+                  variant="light"
+                  onPress={onClose}
+                  className="px-6 py-2 text-white bg-gradient-to-t   from-gray-400 via-gray-500 to-gray-500 hover:bg-gradient-to-br rounded-md "
+                >
                   Cerrar
                 </Button>
               </ModalFooter>

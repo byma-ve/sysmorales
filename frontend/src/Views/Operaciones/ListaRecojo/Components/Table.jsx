@@ -88,7 +88,7 @@ function Table({
                         //   target="_blank"
                         //   className=" "
                         // >
-                        <ModalImagen className=" mx-auto" />
+                        <ModalImagen dato={cotizacion.imagen_estado_recojo} className=" mx-auto" />
                       ) : (
                         // </a>
                         "(Falta Imagen)"

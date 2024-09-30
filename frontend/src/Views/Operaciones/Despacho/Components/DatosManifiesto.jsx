@@ -23,6 +23,8 @@ export const DatosManifiesto = ({
   handleProvinciaChange,
   departamentos,
   handleDepartamentoChange,
+  distritoSeleccionada,
+  handleDistritoChange,
 }) => {
   const [selectedTransportistaState, setSelectedTransportistaState] = useState(
     selectedTransportista
@@ -55,11 +57,11 @@ export const DatosManifiesto = ({
       borderRadius: "5px",
       backgroundColor: "transparent",
       border: "none",
-      marginTop: "0",
+      marginTop: "0px",
     }),
     menuList: (provided) => ({
       ...provided,
-      maxHeight: "200px",
+      maxHeight: "120px",
       overflowY: "auto",
     }),
     menu: (provided) => ({
@@ -72,18 +74,19 @@ export const DatosManifiesto = ({
     option: (provided, state) => ({
       ...provided,
       borderRadius: "5px",
-      padding: "4px 4px",
+      padding: "2px 4px",
       maxHeight: "20px",
     }),
     valueContainer: (provided) => ({
       ...provided,
       padding: "0px 20px 1px 2px",
-      marginTop: "-2px",
+      marginTop: "-8px",
     }),
 
     dropdownIndicator: (provided, state) => ({
       ...provided,
-      display: "none", // Oculta el indicador
+      // display: "none", // Oculta el indicador
+      marginTop: "-6px",
     }),
     indicatorSeparator: (provided, state) => ({
       ...provided,
@@ -129,15 +132,12 @@ export const DatosManifiesto = ({
                     Departamento
                   </label>
                 </div>
-                <div className="border w-[90%] ">
+                <div className=" w-[90%] ">
                   <Select
                     styles={customStyles3}
-                    className="text-xs ScrollTableVertical "
+                    className="border rounded-sm  mt-1"
                     placeholder="Elegir Departamento"
-                    options={departamentos.map((departamento) => ({
-                      value: departamento.id,
-                      label: departamento.nombre_dep,
-                    }))}
+                    options={departamentos}
                     onChange={(selectedOption) =>
                       handleDepartamentoChange({
                         target: {
@@ -147,6 +147,14 @@ export const DatosManifiesto = ({
                       })
                     }
                     required
+                    value={
+                      departamentoSeleccionado
+                        ? departamentos.find(
+                            (option) =>
+                              option.value === departamentoSeleccionado
+                          )
+                        : null
+                    }
                   />
                 </div>
                 <div className="">
@@ -177,7 +185,7 @@ export const DatosManifiesto = ({
                   </label>
                 </div>
                 <div>
-                  <select
+                  {/* <select
                     name="provincia"
                     id="provincia"
                     value={provinciaSeleccionada}
@@ -191,7 +199,32 @@ export const DatosManifiesto = ({
                         {provincia.nombre_prov}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
+                  <Select
+                    styles={customStyles3}
+                    options={provincias}
+                    placeholder="Elegir Provincia"
+                    onChange={(selectedOption) =>
+                      handleProvinciaChange({
+                        target: {
+                          name: "provincia",
+                          value: selectedOption.value,
+                        },
+                      })
+                    }
+                    name="provincia"
+                    id="provincia"
+                    isDisabled={!departamentoSeleccionado}
+                    className="border rounded-sm w-[90%] mt-1"
+                    value={
+                      provinciaSeleccionada
+                        ? provincias.find(
+                            (option) => option.value === provinciaSeleccionada
+                          )
+                        : null
+                    }
+                    required
+                  ></Select>
                 </div>
                 <div className="">
                   <label
@@ -202,11 +235,39 @@ export const DatosManifiesto = ({
                   </label>
                 </div>
                 <div>
-                  <SearchTransportista
+                  {/* <SearchTransportista
                     transportistas={selectTransportistas}
                     selectedTransportista={selectedTransportistaState}
                     setSelectedTransportista={setSelectedTransportistaState}
                     className="w-[90%] pl-1 border px-1  rounded-sm text-xs -md h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
+                  /> */}
+
+                  <Select
+                    name="id_transportista_despacho"
+                    id="id_transportista_despacho"
+                    styles={customStyles3}
+                    className="border rounded-sm w-[90%] mt-1"
+                    placeholder="Elegir Transportista"
+                    options={selectTransportistas}
+                    onChange={(selectedOption) => {
+                      const event = {
+                        target: {
+                          name: "id_transportista_despacho",
+                          value: selectedOption.value,
+                        },
+                      };
+                      handleSelectTransportista(event);
+                      handleChange(event);
+                    }}
+                    value={
+                      formDespachoValues.id_transportista_despacho
+                        ? selectTransportistas.find(
+                            (option) =>
+                              option.value ===
+                              formDespachoValues.id_transportista_despacho
+                          )
+                        : null
+                    }
                   />
                 </div>
                 <div></div>
@@ -219,7 +280,7 @@ export const DatosManifiesto = ({
                   </label>
                 </div>
                 <div>
-                  <select
+                  {/* <select
                     id="ubigeo_despacho"
                     name="ubigeo_despacho"
                     onChange={handleChange}
@@ -237,7 +298,34 @@ export const DatosManifiesto = ({
                         {distrito.nombre_dist}
                       </option>
                     ))}
-                  </select>
+                  </select> */}
+                  <Select
+                    name="ubigeo_despacho"
+                    id="ubigeo_despacho"
+                    styles={customStyles3}
+                    className="border rounded-sm w-[90%] mt-1"
+                    isDisabled={!provinciaSeleccionada}
+                    options={distritos}
+                    placeholder="Elegir Distrito"
+                    onChange={(selectedOption) => {
+                      const event = {
+                        target: {
+                          name: "ubigeo_despacho",
+                          value: selectedOption.value,
+                        },
+                      };
+                      handleChange(event);
+                      handleDistritoChange(event);
+                    }}
+                    value={
+                      distritoSeleccionada
+                        ? distritos.find(
+                            (option) => option.value === distritoSeleccionada
+                          )
+                        : null
+                    }
+                    required
+                  ></Select>
                 </div>
 
                 <div className="">
@@ -294,7 +382,7 @@ export const DatosManifiesto = ({
                   </div>
                 ) : (
                   <div>
-                    <SearchPlaca
+                    {/* <SearchPlaca
                       vehiculos={selectVehiculos}
                       selectedVehiculoId={
                         formDespachoValues.id_vehiculo_despacho
@@ -310,6 +398,33 @@ export const DatosManifiesto = ({
                           },
                         });
                       }}
+                    /> */}
+                    <Select
+                      name="id_vehiculo_despacho"
+                      id="id_vehiculo_despacho"
+                      styles={customStyles3}
+                      className="border rounded-sm w-[90%] mt-1"
+                      placeholder="Elegir Placa"
+                      options={selectVehiculos}
+                      onChange={(selectedOption) => {
+                        const event = {
+                          target: {
+                            name: "id_vehiculo_despacho",
+                            value: selectedOption.value,
+                          },
+                        };
+                        handleSelectVehiculo(event);
+                        handleChange(event);
+                      }}
+                      value={
+                        formDespachoValues.id_vehiculo_despacho
+                          ? distritos.find(
+                              (option) =>
+                                option.value ===
+                                formDespachoValues.id_vehiculo_despacho
+                            )
+                          : null
+                      }
                     />
                   </div>
                 )}
@@ -342,7 +457,7 @@ export const DatosManifiesto = ({
                   </div>
                 ) : (
                   <div>
-                    <SearchConductor
+                    {/* <SearchConductor
                       conductores={selectConductores}
                       selectedConductorId={
                         formDespachoValues.id_conductor_despacho
@@ -354,6 +469,31 @@ export const DatosManifiesto = ({
                             value: conductor ? conductor.id : "",
                           },
                         })
+                      }
+                    /> */}
+                    <Select
+                      name="id_conductor_despacho"
+                      id="id_conductor_despacho"
+                      styles={customStyles3}
+                      className="border rounded-sm w-[90%] mt-1"
+                      placeholder="Elegir Conductor"
+                      options={selectConductores}
+                      onChange={(selectedOption) =>
+                        handleChange({
+                          target: {
+                            name: "id_conductor_despacho",
+                            value: selectedOption.value,
+                          },
+                        })
+                      }
+                      value={
+                        formDespachoValues.id_conductor_despacho
+                          ? distritos.find(
+                              (option) =>
+                                option.value ===
+                                formDespachoValues.id_conductor_despacho
+                            )
+                          : null
                       }
                     />
                   </div>
@@ -428,7 +568,7 @@ export const DatosManifiesto = ({
                   </div>
                 ) : (
                   <div className="">
-                    <SearchAuxiliar
+                    {/* <SearchAuxiliar
                       className="w-[90%] pl-1 border px-1  rounded-sm text-xs -md h-5 focus:outline-none focus:ring-0  focus:border-blue-500  focus:shadow-md"
                       auxiliares={selectAuxiliares}
                       selectedAuxiliarId={
@@ -441,6 +581,31 @@ export const DatosManifiesto = ({
                             value: auxiliar ? auxiliar.id : "",
                           },
                         })
+                      }
+                    /> */}
+                    <Select
+                      name="id_auxiliar_despacho"
+                      id="id_auxiliar_despacho"
+                      styles={customStyles3}
+                      className="border rounded-sm w-[90%] mt-1"
+                      placeholder="Elegir Auxiliar"
+                      options={selectAuxiliares}
+                      onChange={(selectedOption) =>
+                        handleChange({
+                          target: {
+                            name: "id_auxiliar_despacho",
+                            value: selectedOption.value,
+                          },
+                        })
+                      }
+                      value={
+                        formDespachoValues.id_auxiliar_despacho
+                          ? distritos.find(
+                              (option) =>
+                                option.value ===
+                                formDespachoValues.id_auxiliar_despacho
+                            )
+                          : null
                       }
                     />
                   </div>

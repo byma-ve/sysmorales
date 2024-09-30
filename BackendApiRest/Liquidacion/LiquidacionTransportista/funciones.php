@@ -1,6 +1,6 @@
 <?php
 require_once('../../services/api_google_drive/api-google/vendor/autoload.php');
-putenv('GOOGLE_APPLICATION_CREDENTIALS=../../services/api_google_drive/bymavearchivos-f8c2d3d5790f.json');
+putenv('GOOGLE_APPLICATION_CREDENTIALS=/etc/google/bymavearchivos-79d38d06a262.json');
 function exportarLiquidacionTransportista($id_transportista, $fechaDesde, $fechaHasta)
 {
     $bd = obtenerConexion();
@@ -213,7 +213,7 @@ function reemplazarArchivoSiExiste($service, $idCarpeta, $nombreArchivo) {
 function guardarImagen($pdf_liquidacion_transportista, $nombreArchivo, $cliente, $fechaCreado, $tipoArchivo)
 {
     require_once('../../services/api_google_drive/api-google/vendor/autoload.php');
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=../../services/api_google_drive/bymavearchivos-f8c2d3d5790f.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=/etc/google/bymavearchivos-79d38d06a262.json');
     $idCarpetaPadre = obtenerVariableDelEntorno("ID_CARPETA_PADRE_DRIVE");
     $client = new Google_Client();
     $client->useApplicationDefaultCredentials();

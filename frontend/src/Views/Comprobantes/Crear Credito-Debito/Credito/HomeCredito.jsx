@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { IconoEditorLapiz } from "../../../../Iconos/Iconos-NavBar";
 import Select from "react-select";
 import HeaderFac from "./Components/HeaderFac";
@@ -7,8 +7,9 @@ import Buscador from "./modals/Buscador";
 import ModalIgv from "./modals/ModalIgv";
 import Tabla from "./Components/Tabla";
 import Swal from "sweetalert2";
-import DocuPDF from "../../Crear Factura-Boleta/Factura/components/DocuPDF";
+import DocuPDFNotaCredito from "../Components/DocuPDFNotaCredito";
 import { pilares } from "../../../../Data/data";
+import { ColorContext } from "../../../../Context/ColorProvider";
 import { PDFViewer } from "@react-pdf/renderer";
 const optionsTraslado = [
   { value: "RUC", label: "RUC" },
@@ -21,6 +22,8 @@ const optionsTraslado = [
   },
 ];
 const HomeCredito = () => {
+  const { color } = useContext(ColorContext);
+
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalBuscador, setIsModalBuscador] = useState(false);
   const [documentType, setDocumentType] = useState("Factura");
@@ -753,7 +756,10 @@ const HomeCredito = () => {
                               height: "550px",
                             }}
                           >
-                            <DocuPDF pilares={pilares} />
+                            <DocuPDFNotaCredito
+                              pilares={pilares}
+                              color={color}
+                            />
                           </PDFViewer>
                         </div>
                         <div className="text-black w-full gap-x-10 mt-4  flex justify-center">

@@ -75,7 +75,7 @@ function reemplazarArchivoSiExiste($service, $idCarpeta, $nombreArchivo) {
 function guardarImagen($imagen_estado_recojo, $id_orden_servicio_estado_recojo, $cliente, $fechaCreado)
 {
     require_once('../../services/api_google_drive/api-google/vendor/autoload.php');
-    putenv('GOOGLE_APPLICATION_CREDENTIALS=../../services/api_google_drive/bymavearchivos-f8c2d3d5790f.json');
+    putenv('GOOGLE_APPLICATION_CREDENTIALS=/etc/google/bymavearchivos-79d38d06a262.json');
     $idCarpetaPadre = obtenerVariableDelEntorno("ID_CARPETA_PADRE_DRIVE");
     $imagen_temporal = $imagen_estado_recojo['tmp_name'];
     $imagen = imagecreatefromstring(file_get_contents($imagen_temporal));

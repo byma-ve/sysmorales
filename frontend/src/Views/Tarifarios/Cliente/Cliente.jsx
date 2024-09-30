@@ -25,6 +25,7 @@ const HomeFiltrarCliente = () => {
   const [selectedCliente, setSelectedCliente] = useState(1);
   const handleOptionCliente = (option) => {
     setSelectedCliente(option);
+    setSelectedArea("");
   };
 
   //Elegir Area
@@ -174,6 +175,7 @@ const HomeFiltrarCliente = () => {
       const response = await fetch(apiUrl);
       const data = await response.json();
       setcourriers(data);
+      console.log("se mando");
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -299,6 +301,7 @@ const HomeFiltrarCliente = () => {
             <NavBarTarifario />
 
             <SearchTarifario
+              setcourriers={setcourriers}
               onOptionChange={handleOptionChange}
               onOptionCliente={handleOptionCliente}
               onOptionArea={handleOptionArea}
