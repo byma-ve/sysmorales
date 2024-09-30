@@ -16,5 +16,14 @@ COPY . .
 # Ejecutamos el build de la aplicación con Vite
 RUN npm run build
 
-# Exponemos el build generado
-EXPOSE 3000
+# Fase para servir con Nginx
+FROM nginx:alpine
+
+# Copiamos los archivos estáticos del build generado por Vite a Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+
+# Exponemos el puerto 80 para servir el frontend
+EXPOSE 80
+
+# Arrancamos Nginx
+CMD ["nginx", "-g", "daemon off;"]

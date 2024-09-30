@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     image: bymave/frontend-morales-systeam:latest
     ports:
-      - "3000:3000"  # Mapea el puerto 3000 en el contenedor al 3000 en el host
+      - "80:80"  # El frontend se servirá en el puerto 80 a través de Nginx dentro del contenedor
     networks:
       - sysmorales-network
 
@@ -14,10 +14,8 @@ services:
       context: ./BackendApiRest
       dockerfile: Dockerfile
     image: bymave/backend-morales-systeam:latest
-    ports:
-      - "9000:9000"  # El backend correrá en el puerto 9000 para comunicarse con PHP-FPM
     environment:
-      MYSQL_HOST: 192.168.x.x  # Dirección IP del VPS (puede ser 'localhost' si está en el mismo servidor)
+      MYSQL_HOST: 192.168.x.x  # Cambia a la IP de tu VPS o 'localhost' si es el mismo servidor
       MYSQL_DATABASE: nombre_base_datos
       MYSQL_USER: usuario
       MYSQL_PASSWORD: contraseña
@@ -25,5 +23,5 @@ services:
       - sysmorales-network
 
 networks:
-  app-network:
+  sysmorales-network:
     driver: bridge
