@@ -43,14 +43,14 @@ pipeline {
         stage('Deploy on VPS') {
             steps {
                 script {
+                    // Asegúrate de que el plugin SSH Agent esté instalado
                     sshagent (credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
                         ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@${SSH_HOST} << EOF
-                            # Verificar si el repositorio sysmorales ya existe
                             if [ -d "/var/www/sysmorales" ]; then
                                 echo "El repositorio sysmorales ya existe, haciendo git pull..."
                                 cd /var/www/sysmorales
-                                git reset --hard   # Asegura que no haya cambios locales
+                                git reset --hard
                                 git pull origin main
                             else
                                 echo "El repositorio sysmorales no existe, clonándolo..."
@@ -59,14 +59,9 @@ pipeline {
                                 cd sysmorales
                             fi
 
-                            # Detener los contenedores actuales si están corriendo
                             docker compose -f /var/www/sysmorales/docker-compose.yml down
-
-                            # Actualizar las imágenes desde Docker Hub
                             docker pull bymave/backend-morales-systeam:latest
                             docker pull bymave/frontend-morales-systeam:latest
-
-                            # Levantar los contenedores con las últimas imágenes
                             docker compose -f /var/www/sysmorales/docker-compose.yml up -d
                         EOF
                         '''
