@@ -4,15 +4,30 @@ pipeline {
         DOCKER_CREDENTIALS_ID = 'dockerhub_credentials'   // Credenciales de Docker Hub
         SSH_CREDENTIALS_ID = 'ssh_vps_credentials'        // Credenciales SSH para el VPS
         GOOGLE_CREDENTIALS = credentials('GOOGLE_CREDENTIALS')  // Credenciales de Google
-        MYSQL_HOST = credentials('MYSQL_HOST')
-        MYSQL_DATABASE = credentials('MYSQL_DATABASE')
-        MYSQL_USER = credentials('MYSQL_USER')
-        MYSQL_PASSWORD = credentials('MYSQL_PASSWORD')
-        SSH_PORT = credentials('SSH_PORT')
-        SSH_HOST = credentials('SSH_HOST')
+        MYSQL_HOST = credentials('MYSQL_HOST')            // Host de la base de datos MySQL
+        MYSQL_DATABASE = credentials('MYSQL_DATABASE')    // Nombre de la base de datos
+        MYSQL_USER = credentials('MYSQL_USER')            // Usuario de MySQL
+        MYSQL_PASSWORD = credentials('MYSQL_PASSWORD')    // Contraseña de MySQL
+        SSH_PORT = credentials('SSH_PORT')                // Puerto SSH
+        SSH_HOST = credentials('SSH_HOST')                // Host del VPS
     }
 
     stages {
+        stage('Check Variables') {
+            steps {
+                script {
+                    // Verificar si las variables están cargando correctamente
+                    echo "DEBUG: Verificando si las variables se cargan correctamente"
+                    echo "MYSQL_HOST: ${MYSQL_HOST}"
+                    echo "MYSQL_DATABASE: ${MYSQL_DATABASE}"
+                    echo "MYSQL_USER: ${MYSQL_USER}"
+                    echo "GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}"
+                    echo "SSH_PORT: ${SSH_PORT}"
+                    echo "SSH_HOST: ${SSH_HOST}"
+                }
+            }
+        }
+
         stage('Build Backend') {
             steps {
                 script {
@@ -43,7 +58,6 @@ pipeline {
         stage('Deploy on VPS') {
             steps {
                 script {
-                    // Asegúrate de que el plugin SSH Agent esté instalado
                     sshagent (credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
                         ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@${SSH_HOST} << EOF
