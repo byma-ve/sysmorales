@@ -109,7 +109,7 @@ export function ModalDatosColaboradores({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoRecojos/guardarRecojo.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoRecojos/guardarRecojo.php",
         {
           method: "POST",
           body: formDataWithImage,

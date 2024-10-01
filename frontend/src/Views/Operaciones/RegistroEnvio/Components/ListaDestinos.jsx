@@ -32,7 +32,7 @@ function ListaDestinos({ clienteElegido, areaElegida, opcionesSelect, cargarList
 
   const eliminarDestino = async (id) => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/eliminarDestino.php?id=${id}`, {
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/eliminarDestino.php?id=${id}`, {
         method: 'DELETE',
       });
 
@@ -79,7 +79,7 @@ function ListaDestinos({ clienteElegido, areaElegida, opcionesSelect, cargarList
   const [datos, setDatos] = useState({});
   const obtenerValoresDestino = async (destinoSeleccionado) => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerDestino.php?id_destino_cotizacion=${destinoSeleccionado}`);
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerDestino.php?id_destino_cotizacion=${destinoSeleccionado}`);
       const data = await response.json();
       setDatos(data);
     } catch (error) {

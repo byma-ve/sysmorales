@@ -82,7 +82,7 @@ const Area = () => {
   const exportarAreas = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/exportar_areas.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/exportar_areas.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -104,7 +104,7 @@ const Area = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtener_areas.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtener_areas.php"
       );
       const data = await response.json();
       setAreas(data);
@@ -158,7 +158,7 @@ const Area = () => {
   const eliminarArea = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/eliminar_area.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/eliminar_area.php?id=${id}`,
         {
           method: "DELETE",
         }

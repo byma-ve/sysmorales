@@ -88,7 +88,7 @@ const CrearProveedor = () => {
   const exportarProveedores = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/exportar_proveedores.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/exportar_proveedores.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -110,7 +110,7 @@ const CrearProveedor = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_proveedores.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_proveedores.php"
       );
       const data = await response.json();
       setProveedores(data);
@@ -171,7 +171,7 @@ const CrearProveedor = () => {
   const eliminarProveedor = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/eliminar_proveedor.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/eliminar_proveedor.php?id=${id}`,
         {
           method: "DELETE",
         }

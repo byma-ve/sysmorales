@@ -36,7 +36,7 @@ function ListaDestinos({ clienteElegido, areaElegida, onFetchData, opcionesSelec
 
   const eliminarDestino = async (id) => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Comercial/PuntoVenta/eliminarDestino.php?id=${id}`, {
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/PuntoVenta/eliminarDestino.php?id=${id}`, {
         method: 'DELETE',
       });
 
@@ -84,7 +84,7 @@ function ListaDestinos({ clienteElegido, areaElegida, onFetchData, opcionesSelec
   const [datos, setDatos] = useState({});
   const obtenerValoresDestino = async (destinoSeleccionado) => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Comercial/PuntoVenta/obtenerDestino.php?id_destino_cotizacion=${destinoSeleccionado}`);
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/PuntoVenta/obtenerDestino.php?id_destino_cotizacion=${destinoSeleccionado}`);
       const data = await response.json();
       setDatos(data);
     } catch (error) {

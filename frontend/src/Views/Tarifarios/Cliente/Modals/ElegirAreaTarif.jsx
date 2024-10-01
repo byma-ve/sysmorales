@@ -7,7 +7,7 @@ function ElegirAreaTarif({ seleccionarArea, id_cliente }) {
   useEffect(() => {
     if (id_cliente) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtener_area.php?id_cliente=${encodeURIComponent(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtener_area.php?id_cliente=${encodeURIComponent(
           id_cliente
         )}`
       )

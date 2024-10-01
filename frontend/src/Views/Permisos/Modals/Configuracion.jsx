@@ -16,7 +16,7 @@ export const Configuracion = ({
 
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Permisos/obtenerPermisos.php?dni_usuario=${dni_usuario}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Permisos/obtenerPermisos.php?dni_usuario=${dni_usuario}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -143,7 +143,7 @@ export const Configuracion = ({
         ajustes,
       };
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Permisos/editarPermisos.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Permisos/editarPermisos.php",
         {
           method: "POST",
           headers: {

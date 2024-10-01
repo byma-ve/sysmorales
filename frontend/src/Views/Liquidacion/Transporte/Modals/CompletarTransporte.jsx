@@ -113,7 +113,7 @@ function CTransporte({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionTransportista/guardarLiquidacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionTransportista/guardarLiquidacion.php",
         {
           method: "POST",
           body: formDataWithImage,

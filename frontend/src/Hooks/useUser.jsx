@@ -21,7 +21,7 @@ export const useUser = () => {
     const fetchData = () => {
       if (user) {
         fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_usuario.php?usuario=${encodeURIComponent(
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtener_usuario.php?usuario=${encodeURIComponent(
             user
           )}`
         )

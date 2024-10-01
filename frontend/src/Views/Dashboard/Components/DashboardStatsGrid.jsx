@@ -13,7 +13,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
   const [totalRecojos, setTotalRecojos] = useState([]);
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/totalRecojos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/totalRecojos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setTotalRecojos(data))
@@ -23,7 +23,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
   const [totalGuias, setTotalGuias] = useState([]);
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/totalGuias.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/totalGuias.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setTotalGuias(data))
@@ -33,7 +33,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
   const [totalDespachos, setTotalDespachos] = useState([]);
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/totalDespachos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/totalDespachos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setTotalDespachos(data))
@@ -43,7 +43,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
   const [totalMotivados, setTotalMotivados] = useState([]);
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/totalMotivados.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/totalMotivados.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setTotalMotivados(data))
@@ -53,7 +53,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
   const [totalEntregados, setTotalEntregados] = useState([]);
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/totalEntregados.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/totalEntregados.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setTotalEntregados(data))
@@ -86,7 +86,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
 
       worksheet.getCell("D6").value = fechaHoraActual;
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/exportarGuias.php`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/exportarGuias.php`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });
@@ -112,7 +112,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
         }
       }
 
-      const apiUrl2 = `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/exportarGuiasTotales.php`;
+      const apiUrl2 = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/exportarGuiasTotales.php`;
       const apiResponse2 = await fetch(apiUrl2, {
         method: "GET",
       });
@@ -178,7 +178,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
       worksheet.getCell("D6").value = fechaHoraActual;
       worksheet.getCell("B7").value = "";
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/ListaRecojos/obtenerListaRecojos.php`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/ListaRecojos/obtenerListaRecojos.php`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });
@@ -260,7 +260,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
       worksheet.getCell("B8").value = "";
       worksheet.getCell("B9").value = "";
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/exportarDespachos.php`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/exportarDespachos.php`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });
@@ -358,7 +358,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
       worksheet.getCell("B8").value = "";
       worksheet.getCell("B9").value = "";
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/exportarMotivados.php`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/exportarMotivados.php`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });
@@ -456,7 +456,7 @@ export default function DashboardStatsGrid({ idArea, idCliente, idYear }) {
       worksheet.getCell("B8").value = "";
       worksheet.getCell("B9").value = "";
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/exportarEntregados.php`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/exportarEntregados.php`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });

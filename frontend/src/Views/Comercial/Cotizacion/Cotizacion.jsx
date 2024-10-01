@@ -63,7 +63,7 @@ const Cotizacion = () => {
   const cargarListaEnvios = async () => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
       );
       const data = await response.json();
       setOpcionesSelect(data);
@@ -78,7 +78,7 @@ const Cotizacion = () => {
     if (clienteElegido && areaElegida) {
       try {
         const response = await fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/obtenerCalculoTotal.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/obtenerCalculoTotal.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
         );
         const data = await response.json();
         setDataEnvio(data);
@@ -103,7 +103,7 @@ const Cotizacion = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/obtenerCotizaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/obtenerCotizaciones.php"
       );
       const data = await response.json();
       setCotizaciones(data);
@@ -161,7 +161,7 @@ const Cotizacion = () => {
   const eliminarCotizacion = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/eliminarCotizacion.php?id_cotizacion=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/eliminarCotizacion.php?id_cotizacion=${id}`,
         {
           method: "GET",
         }
@@ -232,7 +232,7 @@ const Cotizacion = () => {
     });
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Validacion/enviarValidacion.php?id_cotizacion=${id}&id_creador=${localStorage.getItem(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Validacion/enviarValidacion.php?id_cotizacion=${id}&id_creador=${localStorage.getItem(
           "id_usuario"
         )}`,
         {

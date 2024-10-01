@@ -94,7 +94,7 @@ function HomeDespacho() {
 
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerAgentesManifiesto.php?num_manifiesto=${selectedDespacho}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerAgentesManifiesto.php?num_manifiesto=${selectedDespacho}`
     )
       .then((response) => response.json())
       .then((data) => {
@@ -120,7 +120,7 @@ function HomeDespacho() {
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -137,7 +137,7 @@ function HomeDespacho() {
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -155,7 +155,7 @@ function HomeDespacho() {
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -200,7 +200,7 @@ function HomeDespacho() {
   const cargarConductores = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerConductores.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtenerConductores.php"
       );
       const data = await response.json();
       const transformedConductores = data.map((conductor) => ({
@@ -218,7 +218,7 @@ function HomeDespacho() {
   const cargarAuxiliares = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerAuxiliares.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtenerAuxiliares.php"
       );
       const data = await response.json();
       const transformedAuxiliares = data.map((conductor) => ({
@@ -236,7 +236,7 @@ function HomeDespacho() {
   const cargarTransportistas = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
       );
       const data = await response.json();
       const transformedTransportistas = [
@@ -257,7 +257,7 @@ function HomeDespacho() {
   const cargarVehiculos = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
       );
       const data = await response.json();
       const transformedVehiculos = data.map((vehiculo) => ({
@@ -275,7 +275,7 @@ function HomeDespacho() {
   const cargarDatosVehiculo = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/obtenerVehiculo.php?id=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/obtenerVehiculo.php?id=${value}`
       );
       const data = await response.json();
       setDatosVehiculo(data);
@@ -295,7 +295,7 @@ function HomeDespacho() {
   const cargarGuiasUnitario = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasUnitarias.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasUnitarias.php"
       );
       const data = await response.json();
       const transformedGuiasUnitarias = data.map((guia) => ({
@@ -313,7 +313,7 @@ function HomeDespacho() {
   const cargarDatosGuiaUnitaria = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerGuiaUnitaria.php?id_num_guia_registro_carga=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerGuiaUnitaria.php?id_num_guia_registro_carga=${value}`
       );
       const data = await response.json();
       setDatosGuiaUnitaria(data);
@@ -336,7 +336,7 @@ function HomeDespacho() {
   const cargarAgentes = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
       );
       const data = await response.json();
       const transformedAgentes = data.map((agente) => ({
@@ -354,7 +354,7 @@ function HomeDespacho() {
   const cargarDatosAgente = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_datos_proveedor.php?id=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_datos_proveedor.php?id=${value}`
       );
       const data = await response.json();
       setDatosAgente(data);
@@ -376,7 +376,7 @@ function HomeDespacho() {
   const cargarGuiasMasivas = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasMasivas.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerGuiasMasivas.php"
       );
       const data = await response.json();
       const transformedGuiasMasivas= data.map((masiva) => ({
@@ -410,10 +410,10 @@ function HomeDespacho() {
     try {
       let url;
       if (valorExtra) {
-        url = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerListaTransportista.php?id=${valorExtra}`;
+        url = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerListaTransportista.php?id=${valorExtra}`;
       } else {
         url =
-          "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerListaEnvios.php";
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerListaEnvios.php";
       }
       const response = await fetch(url);
       const data = await response.json();
@@ -433,7 +433,7 @@ function HomeDespacho() {
   const cargarDespachos = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/obtenerDespachos.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/obtenerDespachos.php"
       );
       const data = await response.json();
       setDatosDespachos(data);
@@ -627,7 +627,7 @@ function HomeDespacho() {
 
       try {
         const response = await fetch(
-          "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/guardarDespacho.php",
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/guardarDespacho.php",
           {
             method: "POST",
             headers: {

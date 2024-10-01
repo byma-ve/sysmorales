@@ -74,7 +74,7 @@ function Asignar({ modalAsignar, setModalAsignar, datosAsignacion, actualizarTab
       },
     });
     try {
-      const response = await fetch("https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/AsignacionRecojos/guardarAsignacion.php", {
+      const response = await fetch("https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/AsignacionRecojos/guardarAsignacion.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

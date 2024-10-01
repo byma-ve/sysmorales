@@ -138,12 +138,12 @@ const HomeFiltrarTransportista = () => {
     try {
       let apiUrl;
       if (selectedOption === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Transportista/obtenerCourrier.php?id_transportista=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Transportista/obtenerCourrier.php?id_transportista=${encodeURIComponent(
           selectedAgente
         )}`;
       }
       if (selectedOption === "Carga") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Transportista/obtenerCarga.php?id_transportista=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Transportista/obtenerCarga.php?id_transportista=${encodeURIComponent(
           selectedAgente
         )}`;
       }

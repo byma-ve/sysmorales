@@ -95,7 +95,7 @@ function ModalEditarUsuario({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/actualizar_usuario.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/actualizar_usuario.php",
         {
           method: "POST",
           body: formDataWithImage,

@@ -10,7 +10,7 @@ function DatosRemitente({ onClienteElegido, onAreaElegida }) {
   // Cargar los datos del cliente al montar el componente
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtenerClientesTarifarios.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtenerClientesTarifarios.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -29,7 +29,7 @@ function DatosRemitente({ onClienteElegido, onAreaElegida }) {
   useEffect(() => {
     if (clienteElegido) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${clienteElegido}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${clienteElegido}`
       )
         .then((response) => response.json())
         .then((data) => {

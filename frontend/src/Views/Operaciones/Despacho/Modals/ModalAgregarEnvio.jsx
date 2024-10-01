@@ -137,7 +137,7 @@ function ModalAgregarEnvio({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/guardarEnvioUnitario.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/guardarEnvioUnitario.php",
         {
           method: "POST",
           headers: {

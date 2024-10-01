@@ -6,7 +6,7 @@ import LogoHorizontal from "../../../../Static/Img_Pred/LogoOscuro.webp";
 const obtenerDatosSticker = async (id) => {
   try {
     const response = await fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerConsulta.php?id_num_guia=${id}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Consultas/obtenerConsulta.php?id_num_guia=${id}`
     );
     const data = await response.json();
     return data;

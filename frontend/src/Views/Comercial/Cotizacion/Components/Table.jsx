@@ -26,7 +26,7 @@ function Table({
   useEffect(() => {
     if (registroSeleccionado != null) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/imprimirPdf.php?id_cotizacion=${registroSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/imprimirPdf.php?id_cotizacion=${registroSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => {

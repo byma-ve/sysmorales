@@ -53,7 +53,7 @@ const AjustarGuias = () => {
   const obtenerDatos = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/AjustarGuias/obtenerAjustes.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/AjustarGuias/obtenerAjustes.php"
       );
       const result = await response.json();
 
@@ -167,7 +167,7 @@ const AjustarGuias = () => {
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/AjustarGuias/guardarAjuste.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/AjustarGuias/guardarAjuste.php",
         {
           method: "POST",
           body: formData,

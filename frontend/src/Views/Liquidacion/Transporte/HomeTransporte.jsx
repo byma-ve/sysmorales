@@ -91,7 +91,7 @@ function Transporte() {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionTransportista/obtenerLiquidaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionTransportista/obtenerLiquidaciones.php"
       );
       const data = await response.json();
       setLiquidaciones(data);

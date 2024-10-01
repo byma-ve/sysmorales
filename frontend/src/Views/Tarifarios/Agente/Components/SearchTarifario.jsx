@@ -125,12 +125,12 @@ const SearchTarifario = ({
     try {
       let apiUrl;
       if (tarifaSeleccionada === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Agente/exportarCourrier.php?id_agente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Agente/exportarCourrier.php?id_agente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}`;
       }
       if (tarifaSeleccionada === "Aereo") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Agente/exportarAereo.php?id_agente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Agente/exportarAereo.php?id_agente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}`;
       }
@@ -180,7 +180,7 @@ const SearchTarifario = ({
   async function descargarUbigeo() {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/exportarUbigeo.php`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/exportarUbigeo.php`
       );
       const datos = await response.json();
 
@@ -216,7 +216,7 @@ const SearchTarifario = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
         );
         if (!response.ok) {
           throw new Error("Error al obtener datos de la API");

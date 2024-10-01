@@ -16,7 +16,7 @@ export const Clientes = ({
   const cargarUsuarios = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerUsuarioNotificaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtenerUsuarioNotificaciones.php"
       );
       const data = await response.json();
       setClientesData(data);

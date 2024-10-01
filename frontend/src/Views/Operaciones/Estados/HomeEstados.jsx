@@ -78,7 +78,7 @@ function HomeEstados() {
   const cargarSelect = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoRecojos/obtenerRecojos.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoRecojos/obtenerRecojos.php"
       );
       const data = await response.json();
       setDatosSelect(data);
@@ -99,7 +99,7 @@ function HomeEstados() {
   useEffect(() => {
     if (opcionRecojoSeleccionado) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoRecojos/obtenerRecojo.php?id_orden_servicio=${opcionRecojoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoRecojos/obtenerRecojo.php?id_orden_servicio=${opcionRecojoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -122,7 +122,7 @@ function HomeEstados() {
   const cargarSelectGuia = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoGuias/obtenerGuias.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoGuias/obtenerGuias.php"
       );
       const data = await response.json();
       setDatosSelectGuias(data);
@@ -139,7 +139,7 @@ function HomeEstados() {
   useEffect(() => {
     if (opcionRecojoSeleccionadoGuia) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento1.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento1.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -153,7 +153,7 @@ function HomeEstados() {
   useEffect(() => {
     if (opcionRecojoSeleccionadoGuia) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento2.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento2.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -167,7 +167,7 @@ function HomeEstados() {
   useEffect(() => {
     if (opcionRecojoSeleccionadoGuia) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento3.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoGuias/obtenerIntento3.php?id_registro_carga=${opcionRecojoSeleccionadoGuia}`
       )
         .then((response) => response.json())
         .then((data) => {

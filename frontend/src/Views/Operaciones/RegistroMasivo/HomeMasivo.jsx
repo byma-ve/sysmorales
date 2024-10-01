@@ -57,7 +57,7 @@ function HomeMasivo() {
   const cargarListaEnvios = async () => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroMasivo/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroMasivo/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`
       );
       const data = await response.json();
       setOpcionesSelect(data);
@@ -81,7 +81,7 @@ function HomeMasivo() {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroMasivo/obtenerCotizaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroMasivo/obtenerCotizaciones.php"
       );
       const data = await response.json();
       setCotizaciones(data);
@@ -139,7 +139,7 @@ function HomeMasivo() {
   const eliminarCotizacion = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroMasivo/eliminarCotizacion.php?id_cotizacion=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroMasivo/eliminarCotizacion.php?id_cotizacion=${id}`,
         {
           method: "GET",
         }

@@ -186,7 +186,7 @@ function AgregarMasivo({ modalMasivo, setModalMasivo, id_cliente, id_area, carga
         });
     try {
       let apiUrl;
-      apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroMasivo/guardarDestino.php`;
+      apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroMasivo/guardarDestino.php`;
       const payload = {
         id_usuario: localStorage.getItem('id_usuario'),
         id_cliente,

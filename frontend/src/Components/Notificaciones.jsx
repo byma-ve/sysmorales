@@ -22,7 +22,7 @@ export const Notificaciones = ({
   const cargarNotificaciones = async () => {
     if (id_usuario) {
       try {
-        const urlBase = "https://sysdemo.byma-ve.com/BackendApiRest/Notificaciones/";
+        const urlBase = "https://sistema.transportesmorales-logistik.com/BackendApiRest/Notificaciones/";
         const url =
           opcionSeleccionada === "recibidos"
             ? `${urlBase}mostrarNotificaciones.php?id_usuario=${encodeURIComponent(
@@ -102,7 +102,7 @@ export const Notificaciones = ({
       selectedNotification?.visto_notificacion !== "1"
     ) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Notificaciones/actualizarVisto.php?id=${encodeURIComponent(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Notificaciones/actualizarVisto.php?id=${encodeURIComponent(
           selectedNotification?.id
         )}`
       )
@@ -139,7 +139,7 @@ export const Notificaciones = ({
         selectedNotification?.visto_notificacion !== "1"
       ) {
         fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Notificaciones/actualizarVisto.php?id=${encodeURIComponent(
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Notificaciones/actualizarVisto.php?id=${encodeURIComponent(
             selectedNotification?.id
           )}`
         )

@@ -61,7 +61,7 @@ function ModalEditarVehiculo({ modalEditar, setModalEditar, selectedVehiculoData
     formDataWithImage.append("tarjeta_propiedad_vehiculo", formValues.tarjeta_propiedad_vehiculo);
 
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/actualizar_vehiculo.php', {
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/actualizar_vehiculo.php', {
         method: 'POST',
         body: formDataWithImage,
       });

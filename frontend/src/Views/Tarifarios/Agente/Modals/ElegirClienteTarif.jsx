@@ -8,7 +8,7 @@ function ElegirClienteTarif({ seleccionarCliente }) {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_agentes.php"
         );
         if (!response.ok) {
           throw new Error("Error al obtener datos de la API");

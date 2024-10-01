@@ -86,7 +86,7 @@ const CrearVehiculo = () => {
   const exportarVehiculos = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/exportar_vehiculos.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/exportar_vehiculos.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -108,7 +108,7 @@ const CrearVehiculo = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
       );
       const data = await response.json();
       setVehiculos(data);
@@ -169,7 +169,7 @@ const CrearVehiculo = () => {
   const eliminarVehiculo = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/eliminar_vehiculo.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/eliminar_vehiculo.php?id=${id}`,
         {
           method: "DELETE",
         }

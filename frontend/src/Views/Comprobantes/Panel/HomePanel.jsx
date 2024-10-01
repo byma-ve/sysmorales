@@ -13,7 +13,7 @@ const HomePanel = () => {
 
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Permisos/obtenerPermisos.php?dni_usuario=${localStorage.getItem(
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Permisos/obtenerPermisos.php?dni_usuario=${localStorage.getItem(
         "user"
       )}`
     )

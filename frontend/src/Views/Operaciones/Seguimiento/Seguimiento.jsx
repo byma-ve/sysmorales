@@ -54,7 +54,7 @@ function Seguimiento() {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/obtenerSeguimiento.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/obtenerSeguimiento.php"
       );
       const data = await response.json();
       setCotizaciones(data);

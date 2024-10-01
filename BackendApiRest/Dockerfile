@@ -1,19 +1,22 @@
-# Utilizamos PHP 8.2 con FPM (FastCGI Process Manager) como imagen base
+# Dockerfile para BackendApiRest
 FROM php:8.2-fpm
 
 # Instalamos las extensiones de PHP necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Establecemos el directorio de trabajo en el contenedor
+# Establecemos el directorio de trabajo
 WORKDIR /var/www/html
 
-# Copiamos los archivos del backend al contenedor
+# Copiamos el código de la API al contenedor
 COPY . /var/www/html
 
-# Exponemos el puerto 9000, donde PHP-FPM estará escuchando
+# Copiamos el script de inicialización para Google Credentials
+COPY ./init-google-credentials.sh /usr/local/bin/init-google-credentials.sh
+RUN chmod +x /usr/local/bin/init-google-credentials.sh
+
+# Exponemos el puerto 9000
 EXPOSE 9000
 
-# Arrancamos PHP-FPM
-CMD ["php-fpm"]
-
+# Arrancamos PHP-FPM y ejecutamos el script para las credenciales de Google
+CMD ["/bin/sh", "-c", "/usr/local/bin/init-google-credentials.sh && php-fpm"]
 

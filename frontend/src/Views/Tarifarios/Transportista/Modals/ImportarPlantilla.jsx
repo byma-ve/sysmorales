@@ -136,10 +136,10 @@ export const ImportarPlantilla = ({ modalMasivo, setModalMasivo, id_transportist
 
       let apiUrl;
       if (tarifario === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Transportista/guardarCourrier.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Transportista/guardarCourrier.php`;
       }
       if (tarifario === "Carga") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Transportista/guardarCarga.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Transportista/guardarCarga.php`;
       }
 
       const payload = {

@@ -37,7 +37,7 @@ const HomePermisos = () => {
 
   const cargarTabla = async () => {
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_usuarios.php');
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtener_usuarios.php');
       const data = await response.json();
       setUsuarios(data);
     } catch (error) {

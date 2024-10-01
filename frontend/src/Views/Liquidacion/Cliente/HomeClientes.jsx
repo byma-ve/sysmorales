@@ -87,7 +87,7 @@ function Clientes() {
 
   const cargarTabla = async () => {
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionCliente/obtenerLiquidaciones.php');
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionCliente/obtenerLiquidaciones.php');
       const data = await response.json();
       setLiquidaciones(data);
     } catch (error) {

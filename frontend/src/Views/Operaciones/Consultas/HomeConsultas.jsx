@@ -8,7 +8,7 @@ function HomeConsultas() {
   const cargarRegistros = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerConsultas.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Consultas/obtenerConsultas.php"
       );
       const data = await response.json();
       const transformedRegistros= data.map((guia) => ({
@@ -30,7 +30,7 @@ function HomeConsultas() {
   const cargarDatosConsulta = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerConsulta.php?id_num_guia=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Consultas/obtenerConsulta.php?id_num_guia=${value}`
       );
       const data = await response.json();
       setDatosConsulta(data);
@@ -44,7 +44,7 @@ function HomeConsultas() {
   const cargarDatosInstancia = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Consultas/obtenerInstancia.php?id_num_guia=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Consultas/obtenerInstancia.php?id_num_guia=${value}`
       );
       const data = await response.json();
       setInformacionInstancia(data);

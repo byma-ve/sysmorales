@@ -5,7 +5,7 @@ const ListTop = ({ idCliente, idArea, idYear }) => {
 
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/topDestinos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/topDestinos.php?id_cliente=${idCliente}&id_area=${idArea}&id_year=${idYear}`
     )
       .then((response) => response.json())
       .then((data) => setData(data))

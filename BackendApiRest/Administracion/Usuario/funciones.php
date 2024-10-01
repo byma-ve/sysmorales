@@ -284,7 +284,7 @@ function guardarUsuario($usuario)
                 $rutaDB = guardarImagen($usuario->foto_usuario, $usuario->colaborador_usuario, $usuario->dni_usuario);
             } else {
                 // Si no hay imagen, establece una imagen por defecto
-                $rutaDB = 'https://sysdemo.byma-ve.com/BackendApiRest/img/Predeterminado/predeterminado.webp';
+                $rutaDB = 'https://sistema.transportesmorales-logistik.com/BackendApiRest/img/Predeterminado/predeterminado.webp';
             }
             $sentencia = $bd->prepare("UPDATE usuarios SET id_creador_usuario = ?, clave_usuario = ?, colaborador_usuario = ?, brevete_usuario = ?, telefono_usuario = ?, email_usuario = ?, area_usuario = ?, foto_usuario = ?, fecha_creado = ?, estado = '1' WHERE dni_usuario = ?");
 
@@ -308,7 +308,7 @@ function guardarUsuario($usuario)
         $rutaDB = guardarImagen($usuario->foto_usuario, $usuario->colaborador_usuario, $usuario->dni_usuario);
     } else {
         // Si no hay imagen, establece una imagen por defecto
-        $rutaDB = 'https://sysdemo.byma-ve.com/BackendApiRest/img/Predeterminado/predeterminado.webp';
+        $rutaDB = 'https://sistema.transportesmorales-logistik.com/BackendApiRest/img/Predeterminado/predeterminado.webp';
     }
 
     $sentenciaPermiso = $bd->prepare("INSERT INTO permisos(id_usuario_permiso, fecha_creado) VALUES (?, ?)");
@@ -355,7 +355,7 @@ function obtenerConexion()
     $password = obtenerVariableDelEntorno("MYSQL_PASSWORD");
     $user = obtenerVariableDelEntorno("MYSQL_USER");
     $dbName = obtenerVariableDelEntorno("MYSQL_DATABASE_NAME");
-    $database = new PDO('mysql:host=161.132.42.146;dbname=' . $dbName, $user, $password);
+    $database = new PDO('mysql:host=161.132.42.147;dbname=' . $dbName, $user, $password);
     $database->query("set names utf8;");
     $database->setAttribute(PDO::ATTR_EMULATE_PREPARES, FALSE);
     $database->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

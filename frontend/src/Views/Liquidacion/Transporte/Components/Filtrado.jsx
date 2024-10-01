@@ -100,7 +100,7 @@ function Filtrado({ onSearch }) {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_transportistas.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -170,7 +170,7 @@ function Filtrado({ onSearch }) {
       worksheet.getCell("D9").value = `Desde: ${formatearFecha(fechaDesde)}`;
       worksheet.getCell("D10").value = `Hasta: ${formatearFecha(fechaHasta)}`;
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionTransportista/exportarLiquidacionTransportista.php?id_transportista=${idAgente}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionTransportista/exportarLiquidacionTransportista.php?id_transportista=${idAgente}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });

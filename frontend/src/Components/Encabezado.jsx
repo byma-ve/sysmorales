@@ -26,7 +26,7 @@ function Encabezado() {
 
   function logoutSubmit() {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/estadoDesconectado.php?id=${encodeURIComponent(
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/estadoDesconectado.php?id=${encodeURIComponent(
         localStorage.getItem("id_usuario")
       )}`
     )
@@ -49,7 +49,7 @@ function Encabezado() {
   useEffect(() => {
     if (localStorage.getItem("id_usuario")) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/estadoConectado.php?id=${encodeURIComponent(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/estadoConectado.php?id=${encodeURIComponent(
           localStorage.getItem("id_usuario")
         )}`
       )
@@ -66,7 +66,7 @@ function Encabezado() {
   const cargarConteoNotificaciones = async () => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Notificaciones/obtenerConteoNotificaciones.php?id_usuario=${encodeURIComponent(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Notificaciones/obtenerConteoNotificaciones.php?id_usuario=${encodeURIComponent(
           localStorage.getItem("id_usuario")
         )}`
       );

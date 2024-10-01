@@ -71,7 +71,7 @@ function HomeAsignacion() {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/AsignacionRecojos/obtenerAsignaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/AsignacionRecojos/obtenerAsignaciones.php"
       );
       const data = await response.json();
       setAsignaciones(data);

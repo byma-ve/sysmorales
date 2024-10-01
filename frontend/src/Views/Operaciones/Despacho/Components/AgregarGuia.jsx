@@ -78,7 +78,7 @@ export const AgregarGuia = ({
     if (confirmacion.isConfirmed) {
       try {
         const response = await fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/eliminarGuia.php?valorSeleccionado=${valorSeleccionado}`,
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/eliminarGuia.php?valorSeleccionado=${valorSeleccionado}`,
           {
             method: "GET",
             headers: {

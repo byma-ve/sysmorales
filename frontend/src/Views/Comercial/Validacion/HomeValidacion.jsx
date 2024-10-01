@@ -51,7 +51,7 @@ function HomeValidacion() {
   const exportarValidaciones = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Validacion/exportarValidaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Validacion/exportarValidaciones.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -71,7 +71,7 @@ function HomeValidacion() {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Validacion/obtenerValidaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Validacion/obtenerValidaciones.php"
       );
       const data = await response.json();
       setValidaciones(data);
@@ -132,7 +132,7 @@ function HomeValidacion() {
   const desaprobarValidacion = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Validacion/desaprobarValidacion.php?id_cotizacion=${id}&id_usuario=${localStorage.getItem(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Validacion/desaprobarValidacion.php?id_cotizacion=${id}&id_usuario=${localStorage.getItem(
           "id_usuario"
         )}`,
         {
@@ -184,7 +184,7 @@ function HomeValidacion() {
   const aprobarValidacion = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Validacion/aprobarValidacion.php?id_cotizacion=${id}&id_usuario=${localStorage.getItem(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Validacion/aprobarValidacion.php?id_cotizacion=${id}&id_usuario=${localStorage.getItem(
           "id_usuario"
         )}`,
         {

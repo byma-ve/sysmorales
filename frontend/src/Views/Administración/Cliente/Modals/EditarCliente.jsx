@@ -74,7 +74,7 @@ function ModalEditarCliente({
   const [vendedores, setVendedores] = useState([]);
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_vendedores.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtener_vendedores.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -97,7 +97,7 @@ function ModalEditarCliente({
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => setDepartamentos(data))
@@ -108,7 +108,7 @@ function ModalEditarCliente({
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => setProvincias(data))
@@ -120,7 +120,7 @@ function ModalEditarCliente({
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => setDistritos(data))
@@ -194,7 +194,7 @@ function ModalEditarCliente({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/actualizar_cliente.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/actualizar_cliente.php",
         {
           method: "POST",
           body: formDataWithImage,

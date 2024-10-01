@@ -54,7 +54,7 @@ function HomeEnvio() {
 
   const cargarListaEnvios = async () => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`);
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerListaDestinos.php?id_cliente=${clienteElegido}&id_area=${areaElegida}`);
       const data = await response.json();
       setOpcionesSelect(data);
     } catch (error) {
@@ -76,7 +76,7 @@ function HomeEnvio() {
 
   const cargarTabla = async () => {
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerCotizaciones.php');
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/obtenerCotizaciones.php');
       const data = await response.json();
       setCotizaciones(data);
     } catch (error) {
@@ -125,7 +125,7 @@ function HomeEnvio() {
 
   const eliminarCotizacion = async (id) => {
     try {
-      const response = await fetch(`https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/eliminarCotizacion.php?id_cotizacion=${id}`, {
+      const response = await fetch(`https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/eliminarCotizacion.php?id_cotizacion=${id}`, {
         method: 'GET',
       });
 

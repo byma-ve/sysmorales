@@ -112,7 +112,7 @@ function ModalCrearCliente({ modalNuevo, setModalNuevo, actualizarTabla }) {
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/guardar_cliente.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/guardar_cliente.php",
         {
           method: "POST",
           body: formDataWithImage,
@@ -158,7 +158,7 @@ function ModalCrearCliente({ modalNuevo, setModalNuevo, actualizarTabla }) {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_vendedores.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtener_vendedores.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -181,7 +181,7 @@ function ModalCrearCliente({ modalNuevo, setModalNuevo, actualizarTabla }) {
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => setDepartamentos(data))
@@ -192,7 +192,7 @@ function ModalCrearCliente({ modalNuevo, setModalNuevo, actualizarTabla }) {
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => setProvincias(data))
@@ -204,7 +204,7 @@ function ModalCrearCliente({ modalNuevo, setModalNuevo, actualizarTabla }) {
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => setDistritos(data))

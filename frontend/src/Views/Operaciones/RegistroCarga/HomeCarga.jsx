@@ -15,7 +15,7 @@ function HomeCarga() {
   const cargarOpciones = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistrosCarga.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistrosCarga.php"
       );
       const data = await response.json();
       setOpcionesRegistro(data);
@@ -33,7 +33,7 @@ function HomeCarga() {
   const cargarDatosRegistro = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistro.php?id_orden_servicio_id_destino=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistro.php?id_orden_servicio_id_destino=${value}`
       );
       const data = await response.json();
       setDatosRegistro(data);
@@ -47,7 +47,7 @@ function HomeCarga() {
   const cargarDatosNumeroRegistro = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/obtenerDatosNumeroRegistro.php?id_orden_servicio_id_destino=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/obtenerDatosNumeroRegistro.php?id_orden_servicio_id_destino=${value}`
       );
       const data = await response.json();
       setDatosNumeroRegistro(data);
@@ -166,7 +166,7 @@ function HomeCarga() {
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroEnvio/totalTarifa.php`,
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroEnvio/totalTarifa.php`,
           {
             method: "POST",
             headers: {
@@ -315,7 +315,7 @@ function HomeCarga() {
     });
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/guardarRegistro.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/guardarRegistro.php",
         {
           method: "POST",
           headers: {
@@ -378,7 +378,7 @@ function HomeCarga() {
     });
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/guardarRegistrosMasivo.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/guardarRegistrosMasivo.php",
         {
           method: "POST",
           headers: {

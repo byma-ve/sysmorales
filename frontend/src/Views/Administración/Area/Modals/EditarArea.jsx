@@ -59,7 +59,7 @@ function ModalEditarArea({
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
     )
       .then((response) => response.json())
       .then((data) => setClientes(data))
@@ -92,7 +92,7 @@ function ModalEditarArea({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/actualizar_area.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/actualizar_area.php",
         {
           method: "POST",
           body: formDataWithImage,

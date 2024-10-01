@@ -52,7 +52,7 @@ function TrabPropios({ formValues, handleChange }) {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerConductores.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtenerConductores.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -71,7 +71,7 @@ function TrabPropios({ formValues, handleChange }) {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtenerAuxiliares.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtenerAuxiliares.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -95,7 +95,7 @@ function TrabPropios({ formValues, handleChange }) {
       );
       if (selected) {
         fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/datosConductor.php?id=${selected.id}`
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/datosConductor.php?id=${selected.id}`
         )
           .then((response) => response.json())
           .then((data) => {
@@ -117,7 +117,7 @@ function TrabPropios({ formValues, handleChange }) {
       );
       if (selected) {
         fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/datosAuxiliar.php?id=${selected.id}`
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/datosAuxiliar.php?id=${selected.id}`
         )
           .then((response) => response.json())
           .then((data) => {
@@ -136,7 +136,7 @@ function TrabPropios({ formValues, handleChange }) {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/obtener_vehiculos.php"
     )
       .then((response) => response.json())
       .then((data) => {

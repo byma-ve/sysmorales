@@ -85,7 +85,7 @@ const CrearUsuario = () => {
   const exportarUsuarios = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/exportar_usuario.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/exportar_usuario.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -105,7 +105,7 @@ const CrearUsuario = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/obtener_usuarios.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/obtener_usuarios.php"
       );
       const data = await response.json();
       setUsuarios(data);
@@ -162,7 +162,7 @@ const CrearUsuario = () => {
   const eliminarUsuario = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Usuario/eliminar_usuario.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Usuario/eliminar_usuario.php?id=${id}`,
         {
           method: "DELETE",
         }

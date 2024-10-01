@@ -26,7 +26,7 @@ function FormDatos({
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -43,7 +43,7 @@ function FormDatos({
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -61,7 +61,7 @@ function FormDatos({
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -108,7 +108,7 @@ function FormDatos({
   const cargarTotales = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/totalesProgramacion.php?id_orden_servicio=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/totalesProgramacion.php?id_orden_servicio=${value}`
       );
       const data = await response.json();
       setTotalesProgramacion(data);

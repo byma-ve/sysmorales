@@ -55,7 +55,7 @@ function HomeLista() {
 
   const cargarTabla = async () => {
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/ListaRecojos/obtenerListaRecojos.php');
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/ListaRecojos/obtenerListaRecojos.php');
       const data = await response.json();
       setCotizaciones(data);
     } catch (error) {

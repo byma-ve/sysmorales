@@ -14,7 +14,7 @@ function DashBoard() {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
     )
       .then((response) => response.json())
       .then((data) => setClientes(data));
@@ -38,7 +38,7 @@ function DashBoard() {
   useEffect(() => {
     if (idCliente) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${idCliente}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${idCliente}`
       )
         .then((response) => response.json())
         .then((data) => setAreas(data));
@@ -56,7 +56,7 @@ function DashBoard() {
 
   useEffect(() => {
     fetch(
-      `https://sysdemo.byma-ve.com/BackendApiRest/Dashboard/selectYear.php?id_cliente=${idCliente}&id_area=${idArea}`
+      `https://sistema.transportesmorales-logistik.com/BackendApiRest/Dashboard/selectYear.php?id_cliente=${idCliente}&id_area=${idArea}`
     )
       .then((response) => response.json())
       .then((data) => setYears(data));

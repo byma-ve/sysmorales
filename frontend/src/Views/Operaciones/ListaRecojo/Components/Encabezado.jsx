@@ -72,7 +72,7 @@ function Encabezado({ titlle, onSearch }) {
       worksheet.getCell("D7").value = `Desde: ${formatearFecha(fechaDesde)}`;
       worksheet.getCell("D8").value = `Hasta: ${formatearFecha(fechaHasta)}`;
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/ListaRecojos/exportarListaRecojos.php?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/ListaRecojos/exportarListaRecojos.php?fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });

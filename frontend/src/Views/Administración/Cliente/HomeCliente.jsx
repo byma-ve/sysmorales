@@ -87,7 +87,7 @@ const CrearCliente = () => {
   const exportarClientes = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/exportar_clientes.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/exportar_clientes.php"
       );
       const data = await response.json();
       setExportarData(data);
@@ -109,7 +109,7 @@ const CrearCliente = () => {
   const cargarTabla = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
       );
       const data = await response.json();
       setClientes(data);
@@ -166,7 +166,7 @@ const CrearCliente = () => {
   const eliminarCliente = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/eliminar_cliente.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/eliminar_cliente.php?id=${id}`,
         {
           method: "DELETE",
         }

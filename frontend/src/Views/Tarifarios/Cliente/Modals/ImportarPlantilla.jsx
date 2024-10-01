@@ -157,16 +157,16 @@ export const ImportarPlantilla = ({ modalMasivo, setModalMasivo, id_cliente, id_
       
       let apiUrl;
       if (tarifario === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/guardarCourrier.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/guardarCourrier.php`;
       }
       if (tarifario === "Aereo") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/guardarAereo.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/guardarAereo.php`;
       }
       if (tarifario === "Valorizado") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/guardarValorizado.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/guardarValorizado.php`;
       }
       if (tarifario === "Carga") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/guardarCarga.php`;
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/guardarCarga.php`;
       }
 
       const payload = {

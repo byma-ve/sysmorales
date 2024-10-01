@@ -36,7 +36,7 @@ function ModalAgregar({
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -53,7 +53,7 @@ function ModalAgregar({
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -71,7 +71,7 @@ function ModalAgregar({
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -113,7 +113,7 @@ function ModalAgregar({
 
     if (distritoSeleccionada || tipoTarifario) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -138,7 +138,7 @@ function ModalAgregar({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/totalTarifa.php`,
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/totalTarifa.php`,
           {
             method: "POST",
             headers: {
@@ -196,7 +196,7 @@ function ModalAgregar({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/cargosAdicionales.php`,
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/cargosAdicionales.php`,
           {
             method: "POST",
             headers: {
@@ -335,7 +335,7 @@ function ModalAgregar({
   useEffect(() => {
     if (tipoTarifario === "Valorizada") {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtenerTarifarioUbigeo.php?id_cliente=${id_cliente}&id_area=${id_area}&ubigeo=${distritoSeleccionada}&tarifario=${tipoTarifario}`
       )
         .then((response) => response.json())
         // .then((data) => setDatosValorizado(data));
@@ -480,7 +480,7 @@ function ModalAgregar({
       });
       try {
         const response = await fetch(
-          "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/guardarDestino.php",
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/guardarDestino.php",
           {
             method: "POST",
             headers: {

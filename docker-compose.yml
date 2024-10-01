@@ -1,24 +1,19 @@
 services:
   frontend:
-    build: 
-      context: ./Frontend
-      dockerfile: Dockerfile
     image: bymave/frontend-morales-systeam:latest
     ports:
-      - "80:80"  # El frontend se servirá en el puerto 80 a través de Nginx dentro del contenedor
+      - "8080:80"
     networks:
       - sysmorales-network
 
   backend:
-    build: 
-      context: ./BackendApiRest
-      dockerfile: Dockerfile
     image: bymave/backend-morales-systeam:latest
     environment:
-      MYSQL_HOST: 192.168.x.x  # Cambia a la IP de tu VPS o 'localhost' si es el mismo servidor
-      MYSQL_DATABASE: nombre_base_datos
-      MYSQL_USER: usuario
-      MYSQL_PASSWORD: contraseña
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}  # Inyectamos las credenciales de Google
     networks:
       - sysmorales-network
 

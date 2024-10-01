@@ -90,7 +90,7 @@ const SearchSeguimiento = ({ titlle, onSearch }) => {
 
   useEffect(() => {
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
     )
       .then((response) => response.json())
       .then((data) => setClientes(data));
@@ -127,7 +127,7 @@ const SearchSeguimiento = ({ titlle, onSearch }) => {
   useEffect(() => {
     if (idCliente) {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${idCliente}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtenerAreasTarifario.php?id_cliente=${idCliente}`
       )
         .then((response) => response.json())
         .then((data) => setAreas(data));
@@ -179,7 +179,7 @@ const SearchSeguimiento = ({ titlle, onSearch }) => {
       worksheet.getCell("D9").value = `Desde: ${formatearFecha(fechaDesde)}`;
       worksheet.getCell("D10").value = `Hasta: ${formatearFecha(fechaHasta)}`;
 
-      const apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/exportarSeguimiento.php?id_cliente=${idCliente}&id_area=${idArea}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
+      const apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/exportarSeguimiento.php?id_cliente=${idCliente}&id_area=${idArea}&fechaDesde=${fechaDesde}&fechaHasta=${fechaHasta}`;
       const apiResponse = await fetch(apiUrl, {
         method: "GET",
       });

@@ -15,7 +15,7 @@ function HomeProg() {
   const cargarProgramaciones = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/obtenerProgramaciones.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/obtenerProgramaciones.php"
       );
       const data = await response.json();
       setProgramaciones(data);
@@ -33,7 +33,7 @@ function HomeProg() {
   const cargarDatosProgramacion = async (value) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/datosProgramacion.php?id_orden_servicio=${value}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/datosProgramacion.php?id_orden_servicio=${value}`
       );
       const data = await response.json();
       setDatosProgramacion(data);
@@ -55,7 +55,7 @@ function HomeProg() {
   const cargarSelect = async () => {
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/obtenerOrdenServicio.php"
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/obtenerOrdenServicio.php"
       );
       const data = await response.json();
       setOrdenerServicio(data);
@@ -144,7 +144,7 @@ function HomeProg() {
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/guardarProgramacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/guardarProgramacion.php",
         {
           method: "POST",
           headers: {
@@ -199,7 +199,7 @@ function HomeProg() {
   const eliminarProgramacion = async (id) => {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Programacion/eliminarProgramacion.php?id=${id}`,
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Programacion/eliminarProgramacion.php?id=${id}`,
         {
           method: "DELETE",
         }

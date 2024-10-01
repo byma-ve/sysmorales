@@ -106,7 +106,7 @@ function ModalCrearProveedor({ modalNuevo, setModalNuevo, actualizarTabla }) {
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/guardar_proveedor.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/guardar_proveedor.php",
         {
           method: "POST",
           body: formDataWithImage,
@@ -156,7 +156,7 @@ function ModalCrearProveedor({ modalNuevo, setModalNuevo, actualizarTabla }) {
   useEffect(() => {
     // Obtener departamentos
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=departamentos"
     )
       .then((response) => response.json())
       .then((data) => setDepartamentos(data))
@@ -167,7 +167,7 @@ function ModalCrearProveedor({ modalNuevo, setModalNuevo, actualizarTabla }) {
     if (departamentoSeleccionado) {
       // Obtener provincias por departamento
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=provincias&id=${departamentoSeleccionado}`
       )
         .then((response) => response.json())
         .then((data) => setProvincias(data))
@@ -179,7 +179,7 @@ function ModalCrearProveedor({ modalNuevo, setModalNuevo, actualizarTabla }) {
     if (provinciaSeleccionada) {
       // Obtener distritos por provincia
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/select_ubigeo.php?action=distritos&id=${provinciaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => setDistritos(data))

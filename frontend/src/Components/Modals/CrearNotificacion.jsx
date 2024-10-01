@@ -58,7 +58,7 @@ export const CrearNotificacion = ({
     });
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Notificaciones/guardarNotificacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Notificaciones/guardarNotificacion.php",
         {
           method: "POST",
           headers: {

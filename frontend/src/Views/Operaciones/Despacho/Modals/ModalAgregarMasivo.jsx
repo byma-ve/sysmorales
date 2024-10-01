@@ -135,7 +135,7 @@ function ModalAgregarMasivo({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Despacho/guardarEnvioMasivo.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Despacho/guardarEnvioMasivo.php",
         {
           method: "POST",
           headers: {

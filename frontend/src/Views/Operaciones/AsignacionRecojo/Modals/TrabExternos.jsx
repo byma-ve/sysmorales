@@ -55,7 +55,7 @@ function TrabExternos({ formValues, handleChange }) {
   useEffect(() => {
     // Obtener proveedores al cargar el componente
     fetch(
-      "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_proveedores.php"
+      "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_proveedores.php"
     )
       .then((response) => response.json())
       .then((data) => {
@@ -76,7 +76,7 @@ function TrabExternos({ formValues, handleChange }) {
       );
       if (selected) {
         fetch(
-          `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Proveedor/obtener_datos_proveedor.php?id=${selected.id}`
+          `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Proveedor/obtener_datos_proveedor.php?id=${selected.id}`
         )
           .then((response) => response.json())
           .then((data) => {

@@ -50,7 +50,7 @@ const SearchPuntosventa = ({
         return;
       }
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/PuntoVenta/guardarCotizacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/PuntoVenta/guardarCotizacion.php",
         {
           method: "POST",
           headers: {

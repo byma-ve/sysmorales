@@ -201,7 +201,7 @@ export function ModalInstancia2({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/EstadoGuias/guardarIntento2.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/EstadoGuias/guardarIntento2.php",
         {
           method: "POST",
           body: formDataWithImage,

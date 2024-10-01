@@ -115,7 +115,7 @@ function CAgente({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionAgente/guardarLiquidacionAgente.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionAgente/guardarLiquidacionAgente.php",
         {
           method: "POST",
           body: formDataWithImage,

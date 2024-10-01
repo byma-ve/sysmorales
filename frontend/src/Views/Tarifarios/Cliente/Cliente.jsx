@@ -153,22 +153,22 @@ const HomeFiltrarCliente = () => {
     try {
       let apiUrl;
       if (selectedOption === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_courrier.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_courrier.php?id_cliente=${encodeURIComponent(
           selectedCliente
         )}&id_area=${encodeURIComponent(selectedArea)}`;
       }
       if (selectedOption === "Aereo") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_aereo.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_aereo.php?id_cliente=${encodeURIComponent(
           selectedCliente
         )}&id_area=${encodeURIComponent(selectedArea)}`;
       }
       if (selectedOption === "Valorizado") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_valorizado.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_valorizado.php?id_cliente=${encodeURIComponent(
           selectedCliente
         )}&id_area=${encodeURIComponent(selectedArea)}`;
       }
       if (selectedOption === "Carga") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_carga.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/obtener_tarifario_carga.php?id_cliente=${encodeURIComponent(
           selectedCliente
         )}&id_area=${encodeURIComponent(selectedArea)}`;
       }

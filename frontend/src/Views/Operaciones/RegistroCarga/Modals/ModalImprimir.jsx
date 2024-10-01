@@ -8,7 +8,7 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
   useEffect(() => {
     if (fechaSeleccionada != "") {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistrosImprimir.php?fecha=${fechaSeleccionada}`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/obtenerRegistrosImprimir.php?fecha=${fechaSeleccionada}`
       )
         .then((response) => response.json())
         .then((data) => {
@@ -90,7 +90,7 @@ function ModalImprimir({ modalVisible1, setModalVisible1 }) {
     }));
 
     try {
-      const response = await fetch("https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroCarga/guardarPiezas.php", {
+      const response = await fetch("https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroCarga/guardarPiezas.php", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

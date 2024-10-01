@@ -68,7 +68,7 @@ function CCliente({ modalVisible, setModalVisible, selectedData, actualizarTabla
     });
 
     try {
-      const response = await fetch('https://sysdemo.byma-ve.com/BackendApiRest/Liquidacion/LiquidacionCliente/guardarLiquidacion.php', {
+      const response = await fetch('https://sistema.transportesmorales-logistik.com/BackendApiRest/Liquidacion/LiquidacionCliente/guardarLiquidacion.php', {
         method: 'POST',
         body: formDataWithImage,
       });

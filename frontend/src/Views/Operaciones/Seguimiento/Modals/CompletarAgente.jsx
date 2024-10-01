@@ -63,7 +63,7 @@ function CAgente({
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/Seguimiento/guardarSeguimiento.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/Seguimiento/guardarSeguimiento.php",
         {
           method: "POST",
           headers: {

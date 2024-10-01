@@ -53,7 +53,7 @@ const SearchComercial = ({
         return;
       }
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Comercial/Cotizacion/guardarCotizacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Comercial/Cotizacion/guardarCotizacion.php",
         {
           method: "POST",
           headers: {

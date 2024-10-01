@@ -142,12 +142,12 @@ const HomeFiltrarAgente = () => {
     try {
       let apiUrl;
       if (selectedOption === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Agente/obtenerCourrier.php?id_agente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Agente/obtenerCourrier.php?id_agente=${encodeURIComponent(
           selectedAgente
         )}`;
       }
       if (selectedOption === "Aereo") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Agente/obtenerAereo.php?id_agente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Agente/obtenerAereo.php?id_agente=${encodeURIComponent(
           selectedAgente
         )}`;
       }

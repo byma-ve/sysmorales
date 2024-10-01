@@ -51,7 +51,7 @@ function Encabezado({
         return;
       }
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Operaciones/RegistroMasivo/guardarCotizacion.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Operaciones/RegistroMasivo/guardarCotizacion.php",
         {
           method: "POST",
           headers: {

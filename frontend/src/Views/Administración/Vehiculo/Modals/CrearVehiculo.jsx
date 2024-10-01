@@ -99,7 +99,7 @@ function ModalCrearVehiculo({ modalNuevo, setModalNuevo, actualizarTabla }) {
 
     try {
       const response = await fetch(
-        "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Vehiculo/guardar_vehiculo.php",
+        "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Vehiculo/guardar_vehiculo.php",
         {
           method: "POST",
           body: formDataWithImage,

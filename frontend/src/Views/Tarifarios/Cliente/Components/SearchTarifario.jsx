@@ -156,22 +156,22 @@ const SearchTarifario = ({
     try {
       let apiUrl;
       if (tarifaSeleccionada === "Courier") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/exportarCourrier.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/exportarCourrier.php?id_cliente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}&id_area=${encodeURIComponent(areaSeleccionada?.id)}`;
       }
       if (tarifaSeleccionada === "Aereo") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/exportarAereo.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/exportarAereo.php?id_cliente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}&id_area=${encodeURIComponent(areaSeleccionada?.id)}`;
       }
       if (tarifaSeleccionada === "Valorizado") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/exportarValorizado.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/exportarValorizado.php?id_cliente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}&id_area=${encodeURIComponent(areaSeleccionada?.id)}`;
       }
       if (tarifaSeleccionada === "Carga") {
-        apiUrl = `https://sysdemo.byma-ve.com/BackendApiRest/Tarifarios/Cliente/exportarCarga.php?id_cliente=${encodeURIComponent(
+        apiUrl = `https://sistema.transportesmorales-logistik.com/BackendApiRest/Tarifarios/Cliente/exportarCarga.php?id_cliente=${encodeURIComponent(
           clienteSeleccionado?.id
         )}&id_area=${encodeURIComponent(areaSeleccionada?.id)}`;
       }
@@ -245,7 +245,7 @@ const SearchTarifario = ({
   async function descargarUbigeo() {
     try {
       const response = await fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Ubigeo/exportarUbigeo.php`
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Ubigeo/exportarUbigeo.php`
       );
       const datos = await response.json();
 
@@ -280,7 +280,7 @@ const SearchTarifario = ({
     const fetchData = async () => {
       try {
         const response = await fetch(
-          "https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
+          "https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Cliente/obtener_clientes.php"
         );
         if (!response.ok) {
           throw new Error("Error al obtener datos de la API");
@@ -307,7 +307,7 @@ const SearchTarifario = ({
   useEffect(() => {
     if (clienteSeleccionado?.id || "") {
       fetch(
-        `https://sysdemo.byma-ve.com/BackendApiRest/Administracion/Area/obtener_area.php?id_cliente=${encodeURIComponent(
+        `https://sistema.transportesmorales-logistik.com/BackendApiRest/Administracion/Area/obtener_area.php?id_cliente=${encodeURIComponent(
           clienteSeleccionado?.id || ""
         )}`
       )
