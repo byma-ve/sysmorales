@@ -60,7 +60,7 @@ pipeline {
                 script {
                     sshagent (credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@${SSH_HOST} << EOF
+                        ssh -o StrictHostKeyChecking=no -tt -p ${SSH_PORT} root@${SSH_HOST} << EOF
                             if [ -d "/var/www/sysmorales" ]; then
                                 echo "El repositorio sysmorales ya existe, haciendo git pull..."
                                 cd /var/www/sysmorales
@@ -72,6 +72,13 @@ pipeline {
                                 git clone git@github.com:byma-ve/sysmorales.git
                                 cd sysmorales
                             fi
+
+                            # Exportar variables de entorno necesarias para Docker Compose
+                            export MYSQL_HOST=${MYSQL_HOST}
+                            export MYSQL_DATABASE=${MYSQL_DATABASE}
+                            export MYSQL_USER=${MYSQL_USER}
+                            export MYSQL_PASSWORD=${MYSQL_PASSWORD}
+                            export GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}
 
                             docker compose -f /var/www/sysmorales/docker-compose.yml down
                             docker pull bymave/backend-morales-systeam:latest
