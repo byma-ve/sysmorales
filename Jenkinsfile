@@ -16,9 +16,14 @@ pipeline {
         stage('Check Variables') {
             steps {
                 script {
+                    // Verificar si las variables están cargando correctamente
                     echo "DEBUG: Verificando si las variables se cargan correctamente"
-                    echo "Verificación de host SSH: ${SSH_HOST}"  // Solo una variable no sensible
-                    // Eliminar los 'echo' de las variables sensibles para evitar advertencias
+                    echo "MYSQL_HOST: ${MYSQL_HOST}"
+                    echo "MYSQL_DATABASE: ${MYSQL_DATABASE}"
+                    echo "MYSQL_USER: ${MYSQL_USER}"
+                    echo "GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}"
+                    echo "SSH_PORT: ${SSH_PORT}"
+                    echo "SSH_HOST: ${SSH_HOST}"
                 }
             }
         }
@@ -55,7 +60,7 @@ pipeline {
                 script {
                     sshagent (credentials: [SSH_CREDENTIALS_ID]) {
                         sh '''
-                        ssh -o StrictHostKeyChecking=no -tt -p ${SSH_PORT} root@${SSH_HOST} << EOF
+                        ssh -o StrictHostKeyChecking=no -p ${SSH_PORT} root@${SSH_HOST} 'bash -s' <<EOF
                             if [ -d "/var/www/sysmorales" ]; then
                                 echo "El repositorio sysmorales ya existe, haciendo git pull..."
                                 cd /var/www/sysmorales
@@ -69,16 +74,17 @@ pipeline {
                             fi
 
                             # Exportar variables de entorno necesarias para Docker Compose
-                            export MYSQL_HOST="${MYSQL_HOST}"
-                            export MYSQL_DATABASE="${MYSQL_DATABASE}"
-                            export MYSQL_USER="${MYSQL_USER}"
-                            export MYSQL_PASSWORD="${MYSQL_PASSWORD}"
-                            export GOOGLE_CREDENTIALS="${GOOGLE_CREDENTIALS}"
+                            export MYSQL_HOST=${MYSQL_HOST}
+                            export MYSQL_DATABASE=${MYSQL_DATABASE}
+                            export MYSQL_USER=${MYSQL_USER}
+                            export MYSQL_PASSWORD=${MYSQL_PASSWORD}
+                            export GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}
 
                             docker compose -f /var/www/sysmorales/docker-compose.yml down
                             docker pull bymave/backend-morales-systeam:latest
                             docker pull bymave/frontend-morales-systeam:latest
                             docker compose -f /var/www/sysmorales/docker-compose.yml up -d
+                            exit
                         EOF
                         '''
                     }
@@ -93,4 +99,3 @@ pipeline {
         }
     }
 }
-
