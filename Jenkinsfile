@@ -16,14 +16,9 @@ pipeline {
         stage('Check Variables') {
             steps {
                 script {
-                    // Verificar si las variables están cargando correctamente
                     echo "DEBUG: Verificando si las variables se cargan correctamente"
-                    echo "MYSQL_HOST: ${MYSQL_HOST}"
-                    echo "MYSQL_DATABASE: ${MYSQL_DATABASE}"
-                    echo "MYSQL_USER: ${MYSQL_USER}"
-                    echo "GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}"
-                    echo "SSH_PORT: ${SSH_PORT}"
-                    echo "SSH_HOST: ${SSH_HOST}"
+                    echo "Verificación de host SSH: ${SSH_HOST}"  // Solo una variable no sensible
+                    // Eliminar los 'echo' de las variables sensibles para evitar advertencias
                 }
             }
         }
@@ -74,11 +69,11 @@ pipeline {
                             fi
 
                             # Exportar variables de entorno necesarias para Docker Compose
-                            export MYSQL_HOST=${MYSQL_HOST}
-                            export MYSQL_DATABASE=${MYSQL_DATABASE}
-                            export MYSQL_USER=${MYSQL_USER}
-                            export MYSQL_PASSWORD=${MYSQL_PASSWORD}
-                            export GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}
+                            export MYSQL_HOST="${MYSQL_HOST}"
+                            export MYSQL_DATABASE="${MYSQL_DATABASE}"
+                            export MYSQL_USER="${MYSQL_USER}"
+                            export MYSQL_PASSWORD="${MYSQL_PASSWORD}"
+                            export GOOGLE_CREDENTIALS="${GOOGLE_CREDENTIALS}"
 
                             docker compose -f /var/www/sysmorales/docker-compose.yml down
                             docker pull bymave/backend-morales-systeam:latest
@@ -98,3 +93,4 @@ pipeline {
         }
     }
 }
+
