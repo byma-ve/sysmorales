@@ -11,7 +11,7 @@ WORKDIR /var/www/html
 COPY . /var/www/html
 
 # Copiamos el script de inicialización para Google Credentials
-COPY ./init-google-credentials.sh /usr/local/bin/init-google-credentials.sh
+COPY init-google-credentials.sh /usr/local/bin/init-google-credentials.sh
 RUN chmod +x /usr/local/bin/init-google-credentials.sh
 
 # Exponemos el puerto 9000
