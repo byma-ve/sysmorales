@@ -4,14 +4,14 @@ FROM php:8.2-fpm
 # Instalamos las extensiones de PHP necesarias
 RUN docker-php-ext-install mysqli pdo pdo_mysql
 
+# Modificar PHP-FPM para que escuche en todas las interfaces
+RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf
+
 # Establecemos el directorio de trabajo
 WORKDIR /var/www/BackendApiRest
 
 # Copiamos el código de la API al contenedor (dentro de BackendApiRest)
 COPY . /var/www/BackendApiRest
-
-# Ajustamos los permisos para que PHP-FPM pueda acceder a los archivos correctamente
-RUN chmod -R 755 /var/www/BackendApiRest
 
 # Copiamos el script de inicialización para Google Credentials
 COPY init-google-credentials.sh /usr/local/bin/init-google-credentials.sh
