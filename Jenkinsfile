@@ -60,6 +60,14 @@ pipeline {
                                     cd sysmorales
                                 fi
 
+                                # Crear el directorio /etc/google si no existe
+                                if [ ! -d "/etc/google" ]; then
+                                    mkdir -p /etc/google
+                                fi
+
+                                # Copiar el contenido de GOOGLE_CREDENTIALS en un archivo JSON
+                                echo "$GOOGLE_CREDENTIALS" > /etc/google/bymavearchivos-79d38d06a262.json
+
                                 # Exportar variables de entorno necesarias para Docker Compose
                                 export MYSQL_HOST=$MYSQL_HOST
                                 export MYSQL_DATABASE=$MYSQL_DATABASE
@@ -87,3 +95,4 @@ pipeline {
         }
     }
 }
+
