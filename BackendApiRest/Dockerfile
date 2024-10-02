@@ -1,5 +1,11 @@
 # Dockerfile para BackendApiRest
 FROM php:8.2-fpm
+RUN apt-get update && apt-get install -y \
+		libfreetype-dev \
+		libjpeg62-turbo-dev \
+		libpng-dev \
+	&& docker-php-ext-configure gd --with-freetype --with-jpeg \
+	&& docker-php-ext-install -j$(nproc) gd
 
 # Instalar herramientas necesarias, incluyendo software-properties-common
 RUN apt-get update && apt-get install -y \
@@ -15,9 +21,6 @@ RUN apt-get update && apt-get install -y \
 
 # Modificar la configuración de PHP-FPM para que escuche en todas las interfaces
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf
-
-# Modificar configuración de PHP (cgi.fix_pathinfo=0)
-RUN sed -i 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/' /usr/local/etc/php/php.ini
 
 # Establecer el directorio de trabajo
 WORKDIR /var/www/BackendApiRest
