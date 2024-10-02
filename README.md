@@ -1,7 +1,7 @@
 # sysmorales
 
 
-## Índice
+## Índice Aplicativo web
 
 1. [Configuracion Ruta Api Rest](#configuracion-ruta-api-rest)
 2. [Configuracion de Host MySQL](#configuracion-de-host-mysql)
