@@ -44,3 +44,4 @@ EXPOSE 9000
 # Iniciar PHP-FPM y ejecutar script de credenciales
 CMD ["/bin/sh", "-c", "/usr/local/bin/init-google-credentials.sh && php-fpm"]
 
+

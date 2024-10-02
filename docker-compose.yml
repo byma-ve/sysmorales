@@ -5,6 +5,8 @@ services:
       - "8080:80"  # Mapea el puerto 80 del contenedor al 8080 del host
     networks:
       - app_network
+    depends_on:
+      - backend  # Asegura que backend esté corriendo antes que frontend
     restart: always  # Asegura que el contenedor reinicie automáticamente si falla
 
   backend:
