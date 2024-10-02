@@ -6,17 +6,12 @@ RUN apt-get update && apt-get install -y \
     lsb-release \
     apt-transport-https \
     ca-certificates \
-    software-properties-common \
     procps \
     iputils-ping \
     net-tools \
     curl \
     zip \
     unzip
-
-# Agregar el repositorio de PHP Ondrej y actualizar los paquetes
-RUN add-apt-repository ppa:ondrej/php \
-    && apt-get update
 
 # Instalar extensiones de PHP necesarias
 RUN apt-get install -y \
