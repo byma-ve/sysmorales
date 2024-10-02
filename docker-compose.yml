@@ -2,12 +2,14 @@ services:
   frontend:
     image: bymave/frontend-morales-systeam:latest
     ports:
-      - "8080:80"
+      - "8080:80"  # Mapea el puerto 80 del contenedor al 8080 del host
     networks:
-      - app_network  # Referencia a la red
+      - app_network
 
   backend:
     image: bymave/backend-morales-systeam:latest
+    ports:
+      - "9000:9000"  # Mapea el puerto 9000 del contenedor al 9000 del host
     environment:
       - MYSQL_HOST=${MYSQL_HOST}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
@@ -15,9 +17,10 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}  # Inyectamos las credenciales de Google
     networks:
-      - app_network  # Referencia a la red
+      - app_network
 
 networks:
   app_network:
     name: app_sysmorales-network  # Nombre personalizado de la red
     driver: bridge
+
