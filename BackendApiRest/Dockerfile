@@ -1,19 +1,23 @@
-# Dockerfile para BackendApiRest
 FROM php:8.2-fpm
 
-# Instalar herramientas necesarias, incluyendo software-properties-common
+# Actualizar paquetes y agregar repositorios
 RUN apt-get update && apt-get install -y \
     lsb-release \
     apt-transport-https \
     ca-certificates \
-    procps \
-    iputils-ping \
-    net-tools \
+    software-properties-common \
     curl \
     zip \
-    unzip
+    unzip \
+    procps \
+    iputils-ping \
+    net-tools
 
-# Instalar extensiones de PHP necesarias
+# Agregar el PPA de PHP Ondřej y actualizar paquetes
+RUN add-apt-repository ppa:ondrej/php \
+    && apt-get update
+
+# Instalar extensiones de PHP
 RUN apt-get install -y \
     php8.2-mysql \
     php8.2-sqlite3 \
@@ -23,6 +27,9 @@ RUN apt-get install -y \
     php8.2-xml \
     php8.2-xmlrpc \
     php8.2-zip
+
+# Elimina los archivos innecesarios después de la instalación para reducir el tamaño de la imagen
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Modificar la configuración de PHP-FPM para que escuche en todas las interfaces
 RUN sed -i 's/listen = 127.0.0.1:9000/listen = 0.0.0.0:9000/' /usr/local/etc/php-fpm.d/www.conf
