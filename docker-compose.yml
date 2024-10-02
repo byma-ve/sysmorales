@@ -4,7 +4,7 @@ services:
     ports:
       - "8080:80"
     networks:
-      - sysmorales-network
+      - app_network  # Referencia a la red
 
   backend:
     image: bymave/backend-morales-systeam:latest
@@ -15,8 +15,9 @@ services:
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}  # Inyectamos las credenciales de Google
     networks:
-      - sysmorales-network
+      - app_network  # Referencia a la red
 
 networks:
-  sysmorales-network:
+  app_network:
+    name: app_sysmorales-network  # Nombre personalizado de la red
     driver: bridge

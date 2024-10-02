@@ -6,32 +6,6 @@ pipeline {
     }
 
     stages {
-        stage('Check Variables') {
-            steps {
-                script {
-                    // Utilizar withCredentials para manejar credenciales de forma segura
-                    withCredentials([
-                        string(credentialsId: 'MYSQL_HOST', variable: 'MYSQL_HOST'),
-                        string(credentialsId: 'MYSQL_DATABASE', variable: 'MYSQL_DATABASE'),
-                        string(credentialsId: 'MYSQL_USER', variable: 'MYSQL_USER'),
-                        string(credentialsId: 'MYSQL_PASSWORD', variable: 'MYSQL_PASSWORD'),
-                        string(credentialsId: 'GOOGLE_CREDENTIALS', variable: 'GOOGLE_CREDENTIALS'),
-                        string(credentialsId: 'SSH_PORT', variable: 'SSH_PORT'),
-                        string(credentialsId: 'SSH_HOST', variable: 'SSH_HOST')
-                    ]) {
-                        // Verificar si las variables están cargando correctamente
-                        echo "DEBUG: Verificando si las variables se cargan correctamente"
-                        echo "MYSQL_HOST: ${MYSQL_HOST}"
-                        echo "MYSQL_DATABASE: ${MYSQL_DATABASE}"
-                        echo "MYSQL_USER: ${MYSQL_USER}"
-                        echo "GOOGLE_CREDENTIALS: ${GOOGLE_CREDENTIALS}"
-                        echo "SSH_PORT: ${SSH_PORT}"
-                        echo "SSH_HOST: ${SSH_HOST}"
-                    }
-                }
-            }
-        }
-
         stage('Build Backend') {
             steps {
                 script {
