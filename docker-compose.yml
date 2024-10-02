@@ -5,6 +5,7 @@ services:
       - "8080:80"  # Mapea el puerto 80 del contenedor al 8080 del host
     networks:
       - app_network
+    restart: always  # Asegura que el contenedor reinicie automáticamente si falla
 
   backend:
     image: bymave/backend-morales-systeam:latest
@@ -18,9 +19,9 @@ services:
       - GOOGLE_CREDENTIALS=${GOOGLE_CREDENTIALS}  # Inyectamos las credenciales de Google
     networks:
       - app_network
+    restart: always  # Reinicia automáticamente si falla
 
 networks:
   app_network:
     name: app_sysmorales-network  # Nombre personalizado de la red
     driver: bridge
-

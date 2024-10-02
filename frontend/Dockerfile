@@ -7,8 +7,8 @@ WORKDIR /app
 # Copiamos los archivos necesarios y las dependencias de Node.js
 COPY package.json package-lock.json ./
 
-# Instalamos las dependencias
-RUN npm ci
+# Instalamos las dependencias usando cache
+RUN npm ci --cache /tmp/empty-cache --prefer-offline
 
 # Copiamos el resto del código fuente del frontend
 COPY . .
