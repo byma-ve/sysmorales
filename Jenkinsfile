@@ -68,6 +68,17 @@ pipeline {
                                 # Copiar el contenido de GOOGLE_CREDENTIALS en un archivo JSON
                                 echo "$GOOGLE_CREDENTIALS" > /etc/google/bymavearchivos-79d38d06a262.json
 
+                                # Detener y eliminar los contenedores existentes
+                                docker compose -f /var/www/sysmorales/docker-compose.yml down
+
+                                # Eliminar las imágenes antiguas
+                                docker rmi bymave/backend-morales-systeam:latest -f
+                                docker rmi bymave/frontend-morales-systeam:latest -f
+
+                                # Descargar las nuevas imágenes
+                                docker pull bymave/backend-morales-systeam:latest
+                                docker pull bymave/frontend-morales-systeam:latest
+
                                 # Exportar variables de entorno necesarias para Docker Compose
                                 export MYSQL_HOST=$MYSQL_HOST
                                 export MYSQL_DATABASE=$MYSQL_DATABASE
@@ -75,9 +86,7 @@ pipeline {
                                 export MYSQL_PASSWORD=$MYSQL_PASSWORD
                                 export GOOGLE_CREDENTIALS=$GOOGLE_CREDENTIALS
 
-                                docker compose -f /var/www/sysmorales/docker-compose.yml down
-                                docker pull bymave/backend-morales-systeam:latest
-                                docker pull bymave/frontend-morales-systeam:latest
+                                # Levantar los contenedores con las nuevas imágenes
                                 docker compose -f /var/www/sysmorales/docker-compose.yml up -d
                                 exit
                             EOF
@@ -95,4 +104,3 @@ pipeline {
         }
     }
 }
-
